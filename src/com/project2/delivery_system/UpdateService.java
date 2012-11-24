@@ -8,7 +8,7 @@ import android.os.IBinder;
 public class UpdateService extends Service {
 	
 	private DeliveryApplication delivery;
-	private static int DELAY = 60000;
+	private static int DELAY = 10000;
 	
 	@Override
 	public void onCreate() {
