@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+  <LinearLayout 
+ 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="30px"
+    >  
+<TextView 
+     android:text="合计" 
+     android:gravity="center"
+
+    android:textSize="15px"
+     android:id="@+id/tvRootCount" 
+     android:layout_width="30px" 
+     android:layout_height="fill_parent">
+</TextView>
+
+<TextView 
+     android:text="--" 
+    android:gravity="center"
+
+     android:textSize="15px"
+     android:id="@+id/tvRootFoodName" 
+     android:layout_width="120px" 
+     android:layout_height="fill_parent">
+</TextView>
+<TextView 
+     android:text="--" 
+    android:gravity="center"
+    android:textSize="15px"
+  
+     android:id="@+id/tvRootFoodPrice" 
+     android:layout_width="50px" 
+     android:layout_height="fill_parent">
+</TextView>
+
+<TextView 
+     android:text="--" 
+     android:gravity="center"
+
+     android:textSize="15px"
+     android:id="@+id/tvRootFoodNum" 
+     android:layout_width="50px" 
+     android:layout_height="fill_parent">
+</TextView>
+
+<TextView 
+     android:text="总金额" 
+   android:textSize="15px"
+      android:gravity="center"
+
+     android:id="@+id/tvRootFoodTotalPrice" 
+     android:layout_width="60px" 
+     android:layout_height="fill_parent">
+</TextView>
+</LinearLayout>
+
+  <LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="40px"
+    >  
+<TextView 
+     android:text="" 
+     android:id="@+id/tvBlank" 
+     android:gravity="left"
+     android:layout_width="20px" 
+     android:layout_height="fill_parent">
+</TextView>
+
+<Button 
+   android:text="清空购物车" 
+   android:id="@+id/btClearShopCart" 
+   android:layout_width="120px" 
+   android:layout_height="fill_parent">
+</Button>
+<Button 
+   android:text="继续购物" 
+   android:id="@+id/btContinueShop" 
+   android:layout_width="80px" 
+   android:layout_height="fill_parent">
+</Button>
+<Button 
+   android:text="生成订单" 
+   android:id="@+id/btProduceOrder" 
+   android:layout_width="80px" 
+   android:layout_height="fill_parent">
+</Button>
+</LinearLayout>
+</LinearLayout>
