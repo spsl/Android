@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="2px"
+   
+    >
+	<ImageView android:id="@+id/ivimg"
+		android:layout_width="100px"
+		android:layout_height="80px"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		
+	></ImageView>
+	
+	<TextView android:id="@+id/tvno"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/ivimg"
+		android:text="编号"
+	></TextView>
+	
+	<TextView android:id="@+id/tvname"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_toRightOf="@+id/ivimg"
+		android:paddingLeft="10px"
+		android:text="名字"
+	></TextView>
+	
+	<TextView android:id="@+id/tvprice"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tvname"
+		android:layout_toRightOf="@+id/ivimg"
+		android:paddingLeft="10px"
+		android:text="价格"
+	></TextView>
+	
+	<TextView android:id="@+id/tvdescribe"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/tvprice"
+		android:layout_toRightOf="@+id/ivimg"
+		android:paddingLeft="10px"
+		android:text="描述"
+	></TextView>
+	
+	<RelativeLayout 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/ivimg"
+		android:layout_alignTop="@+id/tvno"
+		android:orientation="horizontal"
+		android:paddingLeft="10px"
+	>
+		<!-- <Button android:id="@+id/bbook"
+			android:layout_width="50px"
+			android:layout_height="20px"
+			android:background="@drawable/book"
+		></Button> -->
+
+		<ImageButton android:id="@+id/ivchoose"
+			android:layout_height="20px"
+			android:layout_width="20px"
+			android:layout_alignParentLeft="true"
+
+			android:layout_alignParentTop="true"
+		></ImageButton>
+
+		<TextView android:id="@+id/tvzxc"
+			android:layout_width="wrap_content"
+			android:layout_height="20px"
+			android:layout_alignParentTop="true"
+			android:text="订购    "
+			android:layout_toRightOf="@+id/ivchoose"
+		></TextView>			
+		<Button android:id="@+id/bdetail"
+			android:paddingLeft="10px"
+			android:layout_width="50px"
+			android:layout_height="20px"
+			android:layout_alignParentTop="true"
+			android:layout_toRightOf="@+id/tvzxc"
+			android:background="@drawable/detail"
+		></Button>
+		
+	</RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/back"
+    >
+<TextView 
+    android:text="请确认支付和配送信息" 
+    android:gravity="center_horizontal"
+    android:textSize="20px"
+    
+    android:id="@+id/TextView01" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content">
+</TextView>
+
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+<TextView 
+     android:text="订餐人:" 
+     android:gravity="right"
+     
+     android:id="@+id/tvOrderName" 
+     android:layout_width="80px" 
+     android:layout_height="wrap_content">
+</TextView>
+
+
+<EditText 
+      android:text=""
+      
+      android:id="@+id/etOrderName" 
+      android:layout_width="fill_parent" 
+      android:layout_height="wrap_content">
+</EditText>
+
+</LinearLayout>
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+<TextView 
+     android:text="送货地址:" 
+     
+     android:gravity="right"
+     android:id="@+id/tvOrderAddr" 
+     android:layout_width="80px" 
+     android:layout_height="wrap_content">
+</TextView>
+
+<EditText 
+      android:text=""
+   
+      android:id="@+id/etOrderAddr" 
+      android:layout_width="fill_parent" 
+      android:layout_height="wrap_content">
+</EditText>
+</LinearLayout>
+
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+<TextView 
+     android:text="联系电话:" 
+   
+     android:gravity="right"
+     android:id="@+id/tvOrderPhone" 
+     android:layout_width="80px" 
+     android:layout_height="wrap_content">
+</TextView>
+
+<EditText 
+      android:text=""
+      android:phoneNumber="true"
+  
+      android:id="@+id/etOrderPhone" 
+      android:layout_width="240px" 
+      android:layout_height="wrap_content">
+</EditText>
+</LinearLayout>
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+<TextView 
+     android:text="订单附言:" 
+   
+     android:gravity="right"
+     android:id="@+id/tvOrderMessage" 
+     android:layout_width="80px" 
+     android:layout_height="wrap_content">
+</TextView>
+
+<EditText 
+      android:text=""
+
+      android:id="@+id/etOrderMessage" 
+      android:height="180px"
+      android:layout_width="240px" 
+      android:layout_height="wrap_content">
+</EditText>
+</LinearLayout>
+<LinearLayout 
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+    
+<Button 
+      android:text="确认以上信息无误提交"
+
+      android:id="@+id/btOk" 
+      android:gravity="center"
+      android:layout_marginLeft="80px"
+      android:layout_width="wrap_content" 
+      android:layout_height="wrap_content">
+</Button>
+</LinearLayout>
+</LinearLayout>

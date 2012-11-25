@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+android:id="@+id/widget32"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+	          
+<TextView
+android:id="@+id/tv_IP"
+android:layout_width="241px"
+android:layout_height="33px"
+android:text="Host IP"
+android:layout_x="28px"
+android:layout_y="3px"
+/>          
+	<EditText
+android:id="@+id/ip"
+android:layout_width="230px"
+android:layout_height="47px"
+android:text=""
+android:textSize="18sp"
+android:layout_x="28px"
+android:layout_y="36px"
+/>
+	
+</AbsoluteLayout>

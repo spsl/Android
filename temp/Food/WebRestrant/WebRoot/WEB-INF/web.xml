@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <servlet>
+    <servlet-name>ServletShow</servlet-name>
+    <servlet-class>xxe.restrant.showfood.servlet.ServletShow</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ServletShow</servlet-name>
+    <url-pattern>/ServletShow</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RecordeServlet</servlet-name>
+    <servlet-class>xxe.restrant.record.RecordeServlet</servlet-class>
+  </servlet>
+  
+  
+  <servlet-mapping>
+    <servlet-name>RecordeServlet</servlet-name>
+    <url-pattern>/RecordeServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>xxe.restrant.login.LoginServlet</servlet-class>
+  </servlet>
+
+   <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+   
+    <servlet-name>OrderInfoServlet</servlet-name>
+    <servlet-class>xxe.restrant.order.webServlet.OrderInfoServlet</servlet-class>
+  
+  
+  </servlet>
+  
+ <servlet>
+     <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+   <servlet-name>ConsumeInfoServlet</servlet-name>
+    <servlet-class>xxe.restrant.order.webServlet.ConsumeInfoServlet</servlet-class>
+   </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>OrderInfoServlet</servlet-name>
+    <url-pattern>/OrderInfoServlet</url-pattern>
+  </servlet-mapping>
+  
+   <servlet-mapping>
+    <servlet-name>ConsumeInfoServlet</servlet-name>
+    <url-pattern>/ConsumeInfoServlet</url-pattern>
+  </servlet-mapping>
+  
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+<TextView  
+	android:id="@+id/tvno"
+    android:layout_width="30px" 
+    android:layout_height="40px" 
+    android:gravity="center"
+    />
+<TextView  
+	android:id="@+id/tvname"
+    android:layout_width="80px" 
+    android:layout_height="40px" 
+    android:gravity="center"
+    />   
+
+<TextView  
+	android:id="@+id/tvnum"
+    android:layout_width="50px" 
+    android:layout_height="40px" 
+    android:gravity="center"
+    />    
+ 
+<TextView  
+	android:id="@+id/tvprice"
+    android:layout_width="50px" 
+    android:layout_height="40px" 
+    android:gravity="center"
+    />
+
+<TextView  
+	android:id="@+id/tvtotprice"
+    android:layout_width="50px" 
+    android:layout_height="40px" 
+    android:gravity="center"
+    />
+<TextView  
+	android:id="@+id/tvmark"
+    android:layout_width="50px" 
+    android:layout_height="40px" 
+    android:gravity="center"
+    />
+</LinearLayout>
