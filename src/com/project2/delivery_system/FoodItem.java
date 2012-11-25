@@ -6,11 +6,21 @@ package com.project2.delivery_system;
  * @author deyuandeng
  */
 public class FoodItem {
-	private long id;
+	private long id;	// `id` is added by database
 	private long createAt;
 	private String name;
 	private long price;
 
+	public FoodItem() {
+		
+	}
+	
+	public FoodItem(long createAt, String name, long price) {
+		this.name = name;
+		this.price = price;
+		this.createAt = createAt;
+	}
+	
 	public long getId() {
 		return id;
 	}
