@@ -17,8 +17,6 @@ public class UpdateService extends Service {
 			"com.project2.delivery_system.NEW_FOODITEM";
 	public static final String NEW_FOODITEM_EXTRA_COUNT = 
 			"com.project2.delivery_system.EXTRA_COUNT";
-	public static final String RECEIVE_TIMELINE_NOTIFICATIONS = 
-			"com.project2.delivery_system.RECEIVE_TIMELINE_NOTIFICATIONS";
 	private static int DELAY = 60000;
 	private DeliveryApplication delivery;
 	private Updater updater;
@@ -38,9 +36,10 @@ public class UpdateService extends Service {
 		return null;
 	}
 
-	// Called each time the service receives startService() intent.
-	// A service can receive multiple start service request, each
-	// will call this.
+	/**
+	 * Called each time the service receives startService() intent. A service
+	 * can receive multiple start service request, each will call this.
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
@@ -51,8 +50,8 @@ public class UpdateService extends Service {
 	}
 
 	/**
-	 * Create Updater to pull friends' status, run in separate thread
-	 * to avoid blocking UI thread.
+	 * Create Updater to pull all , run in separate thread to avoid blocking
+	 * UI thread.
 	 */
 	class Updater extends Thread {
 		Intent intent;

@@ -33,15 +33,20 @@ public class FoodDataSource {
 		dbHelper.close();
 	}
 
+	/**
+	 * Add one food item into local database
+	 * @param foodItem
+	 * @return column added, or 0 if conflict
+	 */
 	public long addFoodItem(FoodItem foodItem) {
 		ContentValues values = new ContentValues();
 		
-		values.put(MySQLiteHelper.COLUMN_CREATED_AT, foodItem.getCreateAt());
+		values.put(MySQLiteHelper.COLUMN_ID, foodItem.getId());
 		values.put(MySQLiteHelper.COLUMN_NAME, foodItem.getName());
 		values.put(MySQLiteHelper.COLUMN_PRICE, foodItem.getPrice());
 		
 		try {
-			open();
+			open();	// open database
 			// Use `CONFLICT_IGNORE` to ignore conflict
 			return database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES,
 					null, values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -52,21 +57,33 @@ public class FoodDataSource {
 		return -1;
 	}
 
+	/**
+	 * Delete a specific food item
+	 * @param foodItem
+	 */
 	public void deleteFoodItem(FoodItem foodItem) {
-		long createAt = foodItem.getCreateAt();
+		long id = foodItem.getId();
 		
-		open();
+		open();		// open database
 		database.delete(MySQLiteHelper.TABLE_FOODITMES, 
-				MySQLiteHelper.COLUMN_CREATED_AT + " = " + createAt, null);
+				MySQLiteHelper.COLUMN_ID + " = " + id, null);
 	}
 	
+	/**
+	 * Get cursor of database, point to the first row 
+	 * @return
+	 */
 	public Cursor getFoodItemCursor() {
 		
-		open();
+		open();		// open database
 		return database.query(MySQLiteHelper.TABLE_FOODITMES,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
 	}
 
+	/**
+	 * Get a list of food items in database
+	 * @return A list of food items
+	 */
 	public List<FoodItem> getAllFoodItems() {
 		List<FoodItem> foodItems = new ArrayList<FoodItem>();
 
@@ -85,14 +102,18 @@ public class FoodDataSource {
 		return foodItems;
 	}
 	
-	
+
+	/**
+	 * Convert a row in database into a food item object
+	 * @param cursor
+	 * @return food item object
+	 */
 	private FoodItem cursorToFoodItem(Cursor cursor) {
 		FoodItem foodItem = new FoodItem();
 		
 		foodItem.setId(cursor.getLong(0));
-		foodItem.setCreateAt(cursor.getLong(1));
-		foodItem.setName(cursor.getString(2));
-		foodItem.setPrice(cursor.getLong(3));
+		foodItem.setName(cursor.getString(1));
+		foodItem.setPrice(cursor.getLong(2));
 		
 		return foodItem;
 	}

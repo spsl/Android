@@ -24,16 +24,16 @@ public class WebAccessor {
 			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			
 			while ((line = reader.readLine()) != null) {
-				if (line.contains("foodname")) {		
-					int offset1 = line.indexOf("foodname=");
-					int offset2 = line.indexOf("foodcreate=");
+				if (line.contains("itemID")) {		
+					int offset1 = line.indexOf("itemID=");
+					int offset2 = line.indexOf("foodname=");
 					int offset3 = line.indexOf("foodprice=");
 					int offset4 = line.indexOf("</a>");
 					
-					String name = line.substring(offset1 + 9, offset2 - 2);
-					int createAt = Integer.parseInt(line.substring(offset2 + 11, offset3 - 2));
+					int id = Integer.parseInt(line.substring(offset1 + 7, offset2 - 2));
+					String name = line.substring(offset2 + 9, offset3 - 2);
 					int price = Integer.parseInt(line.substring(offset3 + 10, offset4));
-					FoodItem foodItem = new FoodItem(createAt, name, price);
+					FoodItem foodItem = new FoodItem(id, name, price);
 					
 					foodItems.add(foodItem);
 				}

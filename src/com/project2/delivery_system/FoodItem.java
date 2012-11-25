@@ -6,8 +6,7 @@ package com.project2.delivery_system;
  * @author deyuandeng
  */
 public class FoodItem {
-	private long id;	// `id` is added by database
-	private long createAt;
+	private long id;
 	private String name;
 	private long price;
 
@@ -15,10 +14,10 @@ public class FoodItem {
 		
 	}
 	
-	public FoodItem(long createAt, String name, long price) {
+	public FoodItem(long id, String name, long price) {
+		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.createAt = createAt;
 	}
 	
 	public long getId() {
@@ -29,14 +28,6 @@ public class FoodItem {
 		this.id = id;
 	}
 
-	public long getCreateAt() {
-		return createAt;
-	}
-	
-	public void setCreateAt(long createAt) {
-		this.createAt = createAt;
-	}
-	
 	public String getName() {
 		return name;
 	}

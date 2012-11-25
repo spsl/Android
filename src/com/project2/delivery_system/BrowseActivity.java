@@ -6,18 +6,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 /**
  * This is the browse activity of our application. 
  * @author deyuandeng
  */
 public class BrowseActivity extends Activity {
-		
-	private static final String[] FROM = { MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_PRICE };
-	private static final int[] TO = { R.id.textName, R.id.textPrice };
+	
+	// `FROM` and `TO` map database to list view for adapter
+	private static final String[] FROM = 
+		{ MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_PRICE };
+	private static final int[] TO = 
+		{ R.id.textName, R.id.textPrice };
 	private DeliveryApplication deliveryApplication;
 	private IntentFilter filter = new IntentFilter(UpdateService.NEW_FOODITEM_INTENT);
 	private BroadcastReceiver receiver = new BrowseReceiver();
@@ -35,9 +43,16 @@ public class BrowseActivity extends Activity {
 
 		deliveryApplication = (DeliveryApplication)getApplication();
 		listView = (ListView)findViewById(R.id.list);
-		//adapter = new SimpleCursorAdapter(this, R.layout.list_row, cursor, FROM, TO);
-//		listView.setAdapter(adapter);
-		
+		listView.setOnItemClickListener(new OnItemClickListener() {
+	          public void onItemClick(AdapterView<?> parent, View view,
+	                  int position, long id) {
+	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView.getItemAtPosition(position);
+	        	  
+	        	  //String product = ((TextView) view).getText().toString();
+	        	  Toast.makeText(BrowseActivity.this, sqLiteCursor.getString(0) + " " + sqLiteCursor.getString(1) + " " +
+	        			  sqLiteCursor.getString(2) + " ", Toast.LENGTH_SHORT).show();
+			}
+	     });
 		setupListView();
 	    
 	    // Start service to fetch new food items from web server
@@ -74,12 +89,6 @@ public class BrowseActivity extends Activity {
 	private void setupListView() {
 		// Get all food items from local database, and use the SimpleCursorAdapter
 		// to show the elements in a ListView
-
-		//List<FoodItem> foodItems = deliveryApplication.getFoodDataSource().getAllFoodItems();
-//		adapter = new ArrayAdapter<FoodItem>(this, android.R.layout.simple_list_item_1, foodItems);
-//	    setListAdapter(adapter);
-		
-		// Get the data
 		cursor = deliveryApplication.getFoodDataSource().getFoodItemCursor();
 		startManagingCursor(cursor);
 		// Setup Adapter
@@ -96,13 +105,10 @@ public class BrowseActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			
-			//refreshListView();
-			//below implementation prompt "illegal statement in fill window"
 			// re-query to refresh cursor
 			cursor.requery();
 			// notify adapter that underlying data has changed
 			adapter.notifyDataSetChanged();
-			//*/
 		}
 	}
 }
