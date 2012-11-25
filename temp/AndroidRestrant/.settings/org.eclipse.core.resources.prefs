@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//src/xxe/restrant/ServiceConnection.java=UTF-8
+encoding//src/xxe/restrant/details/DetailsActivity.java=UTF-8
+encoding//src/xxe/restrant/login/LoginView.java=UTF-8
+encoding//src/xxe/restrant/login/Logining.java=UTF-8
+encoding//src/xxe/restrant/login/login/LoginActivity.java=UTF-8
+encoding//src/xxe/restrant/order/OrderAdd.java=UTF-8
+encoding//src/xxe/restrant/order/ShopCartAdd.java=UTF-8
+encoding//src/xxe/restrant/order/domain/ConsumeInfo.java=UTF-8
+encoding//src/xxe/restrant/order/domain/OrderInfo.java=UTF-8
+encoding//src/xxe/restrant/record/ActivityRecord.java=UTF-8
+encoding//src/xxe/restrant/show/ActivityChosenFood.java=UTF-8
+encoding//src/xxe/restrant/show/ActivityShowFood.java=UTF-8
+encoding//src/xxe/restrant/show/DownloadInfo.java=UTF-8
+encoding//src/xxe/restrant/show/LineAdapter.java=UTF-8
+encoding//src/xxe/restrant/show/domain/Food.java=UTF-8
+encoding//src/xxe/restrant/utils/FileService.java=UTF-8

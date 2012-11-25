@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 声明版本号以及编码方式 -->
+<resources>
+    <color name="red">#ff0000</color><!-- 定义red颜色 -->
+    <color name="yellow">#00ff00</color><!-- 定义yellow颜色 -->
+    <color name="word">#f37301</color><!-- 定义word颜色 -->
+    <color name="textword">#545454</color><!-- 定义textword颜色 -->
+    <color name="textword2">#000000</color><!-- 定义textword2颜色 -->
+    <color name="edit_text">#9a9996</color><!-- 定义edit_text颜色 -->
+</resources>

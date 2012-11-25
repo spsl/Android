@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/back"
+    
+    >
+     <LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+	>
+	    <EditText android:id="@+id/etfind"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_weight="1"
+	    ></EditText>
+	    <Spinner android:id="@+id/spsort"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:layout_weight="1"
+	    ></Spinner>
+	</LinearLayout>
+	
+	<ListView android:id="@+id/lvdiaplay"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	></ListView>
+	
+	<!--  LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+	>
+		<Button android:id="@+id/bsubmit"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="提交"
+		></Button>
+		<Button android:id="@+id/bshow"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="显示已选菜"
+		></Button>
+	</LinearLayout>
+	-->
+</LinearLayout>
