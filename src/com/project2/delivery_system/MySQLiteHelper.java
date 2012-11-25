@@ -12,16 +12,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_FOODITMES = "fooditems";
+	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_CREATED_AT = "created_at";	
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_PRICE = "price";
 	public static final String[] MAX_CREATED_AT_COLUMNS = 
 		{ "max(" + MySQLiteHelper.COLUMN_CREATED_AT + ")" };
+	public static final String GET_ALL_ORDER_BY = COLUMN_CREATED_AT + " DESC";	
 
 	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "fooditems.db";
 	private static final String DATABASE_CREATE = 
-			"create table " + TABLE_FOODITMES + "(" + 
+			"create table " + TABLE_FOODITMES + "(" +
+			COLUMN_ID + " int, " + 
 			COLUMN_CREATED_AT + " int primary key, " +
 			COLUMN_NAME + " text not null, " + 
 			COLUMN_PRICE + " int);";

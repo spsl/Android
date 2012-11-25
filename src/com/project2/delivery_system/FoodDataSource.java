@@ -59,13 +59,20 @@ public class FoodDataSource {
 		database.delete(MySQLiteHelper.TABLE_FOODITMES, 
 				MySQLiteHelper.COLUMN_CREATED_AT + " = " + createAt, null);
 	}
+	
+	public Cursor getFoodItemCursor() {
+		
+		open();
+		return database.query(MySQLiteHelper.TABLE_FOODITMES,
+				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
+	}
 
 	public List<FoodItem> getAllFoodItems() {
 		List<FoodItem> foodItems = new ArrayList<FoodItem>();
 
 		open();
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_FOODITMES,
-				null, null, null, null, null, null);
+				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -78,12 +85,14 @@ public class FoodDataSource {
 		return foodItems;
 	}
 	
+	
 	private FoodItem cursorToFoodItem(Cursor cursor) {
 		FoodItem foodItem = new FoodItem();
 		
-		foodItem.setCreateAt(cursor.getLong(0));
-		foodItem.setName(cursor.getString(1));
-		foodItem.setPrice(cursor.getLong(2));
+		foodItem.setId(cursor.getLong(0));
+		foodItem.setCreateAt(cursor.getLong(1));
+		foodItem.setName(cursor.getString(2));
+		foodItem.setPrice(cursor.getLong(3));
 		
 		return foodItem;
 	}
