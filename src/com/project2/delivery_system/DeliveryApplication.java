@@ -4,12 +4,13 @@ import android.app.Application;
 
 public class DeliveryApplication extends Application {
 
-	private boolean serviceRunning;		// indicate whether update is running
-	//private FoodDataBase foodDataBase;	// food database for entire application
+	private boolean serviceRunning;			// indicate whether update is running
+	private FoodDataSource foodDataSource;	// food database for entire application
 	
 	@Override
 	public void onCreate() {
-	//	foodDataBase = new FoodDataBase(this);
+		foodDataSource = new FoodDataSource(this);
+		foodDataSource.open();		// open database when application is started
 	}
 	
 	// Getter of serviceRunning
@@ -22,8 +23,8 @@ public class DeliveryApplication extends Application {
 		this.serviceRunning = serviceRunning;
 	}
 	
-	// Getter of foodDataBase
-//	public FoodDataBase getFoodDataBase() {
-//		return foodDataBase;
-//	}
+	// Getter of foodDataSource
+	public FoodDataSource getFoodDataSource() {
+		return foodDataSource;
+	}
 }

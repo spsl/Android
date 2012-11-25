@@ -33,26 +33,37 @@ public class FoodDataSource {
 		dbHelper.close();
 	}
 
-	public void addFoodItem(FoodItem foodItem) {
+	public long addFoodItem(FoodItem foodItem) {
 		ContentValues values = new ContentValues();
 		
 		values.put(MySQLiteHelper.COLUMN_CREATED_AT, foodItem.getCreateAt());
 		values.put(MySQLiteHelper.COLUMN_NAME, foodItem.getName());
 		values.put(MySQLiteHelper.COLUMN_PRICE, foodItem.getPrice());
 		
-		database.insert(MySQLiteHelper.TABLE_FOODITMES, null, values);
+		try {
+			open();
+			// Use `CONFLICT_IGNORE` to ignore conflict
+			return database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES,
+					null, values, SQLiteDatabase.CONFLICT_IGNORE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
 	}
 
 	public void deleteFoodItem(FoodItem foodItem) {
-		long id = foodItem.getId();
+		long createAt = foodItem.getCreateAt();
 		
+		open();
 		database.delete(MySQLiteHelper.TABLE_FOODITMES, 
-				MySQLiteHelper.COLUMN_ID + " = " + id, null);
+				MySQLiteHelper.COLUMN_CREATED_AT + " = " + createAt, null);
 	}
 
 	public List<FoodItem> getAllFoodItems() {
 		List<FoodItem> foodItems = new ArrayList<FoodItem>();
 
+		open();
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_FOODITMES,
 				null, null, null, null, null, null);
 
@@ -67,28 +78,10 @@ public class FoodDataSource {
 		return foodItems;
 	}
 	
-	public long getLatestCreatedAtTime() {
-		SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-		try {
-			Cursor cursor = db.query(MySQLiteHelper.TABLE_FOODITMES, 
-					MySQLiteHelper.MAX_CREATED_AT_COLUMNS, null, null, null, null, null);
-			try {
-				// return the first item's created time, which is latest
-				return cursor.moveToNext() ? cursor.getLong(0) : Long.MIN_VALUE;
-			} finally {
-				cursor.close();
-			}
-		} finally {
-			db.close(); 
-		}
-	}
-	
-	
-
 	private FoodItem cursorToFoodItem(Cursor cursor) {
 		FoodItem foodItem = new FoodItem();
 		
-		foodItem.setId(cursor.getLong(0));
+		foodItem.setCreateAt(cursor.getLong(0));
 		foodItem.setName(cursor.getString(1));
 		foodItem.setPrice(cursor.getLong(2));
 		

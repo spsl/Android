@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_FOODITMES = "fooditems";
-	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_CREATED_AT = "created_at";	
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_PRICE = "price";
@@ -23,8 +22,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "fooditems.db";
 	private static final String DATABASE_CREATE = 
 			"create table " + TABLE_FOODITMES + "(" + 
-			COLUMN_ID + " integer primary key autoincrement, " + 
-			COLUMN_CREATED_AT + "int, " +
+			COLUMN_CREATED_AT + " int primary key, " +
 			COLUMN_NAME + " text not null, " + 
 			COLUMN_PRICE + " int);";
 
