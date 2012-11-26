@@ -5,8 +5,24 @@
     android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/list"
+        android:id="@+id/itemlist"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:text="@string/hello_world" /> 
-</LinearLayout> 
+        android:layout_height="0dp"
+        android:layout_weight="0.83"
+        android:text="@string/hello_world" />
+
+    <TextView
+        android:id="@+id/textStatic1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/order_list" />
+
+    <ListView
+        android:id="@+id/orderlist"
+        android:layout_width="match_parent"
+        android:layout_height="202dp"
+        android:text="@string/hello_world" >
+    </ListView>
+
+</LinearLayout>

@@ -35,11 +35,50 @@ public class WebAccessor {
 					int price = Integer.parseInt(line.substring(offset3 + 10, offset4));
 					FoodItem foodItem = new FoodItem(id, name, price);
 					
-					foodItems.add(foodItem);
+					foodItems.add(foodItem);	// add to return list
 				}
 			}
 			
 			return foodItems;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	// fetch all orders of current user
+	public List<Order> getAllWebOrders(String orderUser) {
+		URLConnection connection;
+		BufferedReader reader;
+		String line;
+		ArrayList<Order> orders = new ArrayList<Order>();
+		
+		try {
+			connection = new URL(SERVER_URI).openConnection();
+			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			
+			while ((line = reader.readLine()) != null) {
+				if (line.contains("orderID")) {		
+					int offset1 = line.indexOf("orderID=");
+					int offset2 = line.indexOf("status=");
+					int offset3 = line.indexOf("user=");
+					int offset4 = line.indexOf("</a>");
+					
+					String user = line.substring(offset3 + 5, offset4);
+					if (!user.equals(orderUser)) continue;
+					
+					int id = Integer.parseInt(line.substring(offset1 + 8, offset2 - 2));
+					String status = line.substring(offset2 + 7, offset3-2);
+					Order order = new Order(id, user, status);
+					
+					orders.add(order);	// add to return list
+				}
+			}
+			
+			return orders;
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

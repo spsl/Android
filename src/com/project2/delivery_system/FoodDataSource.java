@@ -56,6 +56,30 @@ public class FoodDataSource {
 		
 		return -1;
 	}
+	
+	/**
+	 * Add one food item into local database
+	 * @param foodItem
+	 * @return column added, or 0 if conflict
+	 */
+	public long addOrder(Order order) {
+		ContentValues values = new ContentValues();
+		
+		values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+		values.put(MySQLiteHelper.COLUMN_STATUS, order.getStatus());
+		values.put(MySQLiteHelper.COLUMN_USER, order.getUser());
+		
+		try {
+			open();	// open database
+			// Use `CONFLICT_IGNORE` to ignore conflict
+			return database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
+					null, values, SQLiteDatabase.CONFLICT_IGNORE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
+	}
 
 	/**
 	 * Delete a specific food item
@@ -101,8 +125,18 @@ public class FoodDataSource {
 		cursor.close();
 		return foodItems;
 	}
-	
 
+	/**
+	 * Get cursor of database, point to the first row 
+	 * @return
+	 */
+	public Cursor getOrderCursor() {
+		
+		open();		// open database
+		return database.query(MySQLiteHelper.TABLE_ORDERS,
+				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
+	}
+	
 	/**
 	 * Convert a row in database into a food item object
 	 * @param cursor

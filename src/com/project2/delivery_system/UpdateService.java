@@ -13,9 +13,9 @@ import android.os.IBinder;
  */
 public class UpdateService extends Service {
 	
-	public static final String NEW_FOODITEM_INTENT = 
-			"com.project2.delivery_system.NEW_FOODITEM";
-	public static final String NEW_FOODITEM_EXTRA_COUNT = 
+	public static final String NEW_INFO_INTENT = 
+			"com.project2.delivery_system.NEW_INFO";
+	public static final String NEW_INFO_EXTRA_COUNT = 
 			"com.project2.delivery_system.EXTRA_COUNT";
 	private static int DELAY = 60000;
 	private DeliveryApplication delivery;
@@ -62,24 +62,31 @@ public class UpdateService extends Service {
 		
 		@Override
 		public void run() {
-			long newFoodItems = 0;	// count number of new food items
+			long newCount = 0;	// count number of new food items or orders
 			
 			while (delivery.isServiceRunning()) {
 				try {
-					// Connect to server and put latest statuses into DB
-					ArrayList<FoodItem> foodItems = (ArrayList<FoodItem>)webAccessor.getAllWebFoodItems();
-					
+					ArrayList<FoodItem> foodItems = (ArrayList<FoodItem>)webAccessor.getAllWebFoodItems();	
+					ArrayList<Order> orders = (ArrayList<Order>)webAccessor.getAllWebOrders(delivery.getUser());
+							
 					for (FoodItem foodItem : foodItems) {
 						if (delivery.getFoodDataSource().addFoodItem(foodItem) != 0)
-							newFoodItems++;
+							newCount++;
 					}
-					
-					if (newFoodItems > 0) {
-						intent = new Intent(NEW_FOODITEM_INTENT);
-						intent.putExtra(NEW_FOODITEM_EXTRA_COUNT, newFoodItems);
+							
+						
+					for (Order order : orders) {
+						if (delivery.getFoodDataSource().addOrder(order) != 0)
+							newCount++;
+					}
+						
+					if (newCount > 0) {
+						intent = new Intent(NEW_INFO_INTENT);
+						intent.putExtra(NEW_INFO_EXTRA_COUNT, newCount);
 						// In delivery application, browse activity will take action to this intent 
 						UpdateService.this.sendBroadcast(intent);
 					}
+					
 					Thread.sleep(DELAY);
 				} catch (InterruptedException ex) {
 					delivery.setServiceRunning(false);
