@@ -3,7 +3,19 @@
     <string name="app_name">Delivery-System</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_browse">Browse</string>
+    <string name="title_activity_detailview">Detail View</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_uploadfooditem">Upload Food Item</string>
     <string name="order_list">Order List</string>
+    <string name="order_button">Order Food</string>
+    
+    
+    <!-- Update item related string -->
+    <string name="itemID">Food item ID</string>
+    <string name="itemname">Food item name </string>
+    <string name="itemprice">Food item price</string>
+    <string name="itemupload">Upload</string>
+    <string name="button_upload">Upload</string>
 
 </resources>

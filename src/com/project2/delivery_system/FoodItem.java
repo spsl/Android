@@ -6,25 +6,25 @@ package com.project2.delivery_system;
  * @author deyuandeng
  */
 public class FoodItem {
-	private long id;
+	private String id;
 	private String name;
-	private long price;
+	private String price;
 
 	public FoodItem() {
 		
 	}
 	
-	public FoodItem(long id, String name, long price) {
+	public FoodItem(String id, String name, String price) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
 	}
 	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -36,11 +36,11 @@ public class FoodItem {
 		this.name = name;
 	}
 
-	public long getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(long price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 

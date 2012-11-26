@@ -46,7 +46,6 @@ public class FoodDataSource {
 		values.put(MySQLiteHelper.COLUMN_PRICE, foodItem.getPrice());
 		
 		try {
-			open();	// open database
 			// Use `CONFLICT_IGNORE` to ignore conflict
 			return database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES,
 					null, values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -70,7 +69,6 @@ public class FoodDataSource {
 		values.put(MySQLiteHelper.COLUMN_USER, order.getUser());
 		
 		try {
-			open();	// open database
 			// Use `CONFLICT_IGNORE` to ignore conflict
 			return database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
 					null, values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -86,9 +84,8 @@ public class FoodDataSource {
 	 * @param foodItem
 	 */
 	public void deleteFoodItem(FoodItem foodItem) {
-		long id = foodItem.getId();
+		String id = foodItem.getId();
 		
-		open();		// open database
 		database.delete(MySQLiteHelper.TABLE_FOODITMES, 
 				MySQLiteHelper.COLUMN_ID + " = " + id, null);
 	}
@@ -99,7 +96,6 @@ public class FoodDataSource {
 	 */
 	public Cursor getFoodItemCursor() {
 		
-		open();		// open database
 		return database.query(MySQLiteHelper.TABLE_FOODITMES,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
 	}
@@ -111,7 +107,6 @@ public class FoodDataSource {
 	public List<FoodItem> getAllFoodItems() {
 		List<FoodItem> foodItems = new ArrayList<FoodItem>();
 
-		open();
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_FOODITMES,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY);
 
@@ -132,7 +127,6 @@ public class FoodDataSource {
 	 */
 	public Cursor getOrderCursor() {
 		
-		open();		// open database
 		return database.query(MySQLiteHelper.TABLE_ORDERS,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
 	}
@@ -145,9 +139,9 @@ public class FoodDataSource {
 	private FoodItem cursorToFoodItem(Cursor cursor) {
 		FoodItem foodItem = new FoodItem();
 		
-		foodItem.setId(cursor.getLong(0));
+		foodItem.setId(cursor.getString(0));
 		foodItem.setName(cursor.getString(1));
-		foodItem.setPrice(cursor.getLong(2));
+		foodItem.setPrice(cursor.getString(2));
 		
 		return foodItem;
 	}

@@ -24,12 +24,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "fooditems.db";
 	private static final String DATABASE_LIST_CREATE = 
 			"create table " + TABLE_FOODITMES + "(" +
-			COLUMN_ID + " int primary key, " +
+			COLUMN_ID + " text primary key, " +
 			COLUMN_NAME + " text not null, " + 
 			COLUMN_PRICE + " int);";
 	private static final String DATABASE_ORDER_CREATE = 
 			"create table " + TABLE_ORDERS + "(" +
-			COLUMN_ID + " int primary key, " +
+			COLUMN_ID + " text primary key, " +
 			COLUMN_STATUS + " text not null, " + 
 			COLUMN_USER + " text not null);";
 
