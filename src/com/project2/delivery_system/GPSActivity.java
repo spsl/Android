@@ -69,14 +69,7 @@ public class GPSActivity extends MapActivity {
     protected boolean isRouteDisplayed() {
         return false;
     }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_gps, menu);
-        return true;
-    }
-
-    
+        
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         

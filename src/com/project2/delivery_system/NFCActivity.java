@@ -129,11 +129,4 @@ public class NFCActivity extends Activity implements OnClickListener{
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_nfc, menu);
-        return true;
-    }
-
 }
