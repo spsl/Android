@@ -18,4 +18,10 @@
     <string name="itemupload">Upload</string>
     <string name="button_upload">Upload</string>
 
+    <string name="title_activity_nfc">NFCActivity</string>
+    <string name="nfc_greetings">Communicating...</string>
+    <string name="gps_greetings">Welcome GPS</string>
+    <string name="title_activity_cam">CamActivity</string>
+    <string name="title_activity_gps">GPSActivity</string>
+    <string name="cam_greetings">Welcome Camera</string>
 </resources>
