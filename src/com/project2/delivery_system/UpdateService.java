@@ -17,7 +17,7 @@ public class UpdateService extends Service {
 			"com.project2.delivery_system.NEW_INFO";
 	public static final String NEW_INFO_EXTRA_COUNT = 
 			"com.project2.delivery_system.EXTRA_COUNT";
-	private static int DELAY = 60000;
+	private static int DELAY = 15000;
 	private DeliveryApplication delivery;
 	private Updater updater;
 	private WebAccessor webAccessor;
@@ -61,10 +61,9 @@ public class UpdateService extends Service {
 		}
 		
 		@Override
-		public void run() {
-			long newCount = 0;	// count number of new food items or orders
-			
+		public void run() {		
 			while (delivery.isServiceRunning()) {
+				long newCount = 0;	// count number of new food items or orders
 				try {
 					ArrayList<FoodItem> foodItems = (ArrayList<FoodItem>)webAccessor.getAllWebFoodItems();	
 					ArrayList<Order> orders = (ArrayList<Order>)webAccessor.getAllWebOrders(delivery.getUser());
@@ -73,7 +72,6 @@ public class UpdateService extends Service {
 						if (delivery.getFoodDataSource().addFoodItem(foodItem) != 0)
 							newCount++;
 					}
-							
 						
 					for (Order order : orders) {
 						if (delivery.getFoodDataSource().addOrder(order) != 0)

@@ -10,8 +10,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -31,16 +33,18 @@ public class BrowseActivity extends Activity {
 	private static final String[] ORDER_FROM = 
 		{ MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_STATUS };
 	private static final int[] ORDER_TO = 
-		{ R.id.textOrderID, R.id.textStatus };	
+		{ R.id.textOrderID, R.id.textStatus };
 	private DeliveryApplication deliveryApplication;
 	private IntentFilter filter = new IntentFilter(UpdateService.NEW_INFO_INTENT);
 	private BroadcastReceiver receiver = new BrowseReceiver();
 	private SimpleCursorAdapter listAdapter;
 	private SimpleCursorAdapter orderAdapter;
-	private Cursor listCursor;
-	private Cursor orderCursor;
-	private ListView listView1;
-	private ListView listView2;
+	private Cursor listCursor;		// cursor that manage item list
+	private Cursor orderCursor;		// cursor that manage order list
+	private ListView listView1;		// item list view
+	private ListView listView2;		// order list view
+	private Button updateButton;	// update a food item
+	private Context context;
 
 	/**
 	 * Called when browse activity is created
@@ -51,6 +55,7 @@ public class BrowseActivity extends Activity {
 		setContentView(R.layout.activity_browse);
 
 		deliveryApplication = (DeliveryApplication)getApplication();
+		context = this;
 		listView1 = (ListView)findViewById(R.id.itemlist);
 		listView2 = (ListView)findViewById(R.id.orderlist);
 		listView1.setOnItemClickListener(new OnItemClickListener() {
@@ -58,9 +63,13 @@ public class BrowseActivity extends Activity {
 	                  int position, long id) {
 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView1.getItemAtPosition(position);
 	        	  
-	        	  //String product = ((TextView) view).getText().toString();
-	        	  Toast.makeText(BrowseActivity.this, sqLiteCursor.getString(0) + " " + sqLiteCursor.getString(1) + " " +
-	        			  sqLiteCursor.getString(2) + " ", Toast.LENGTH_SHORT).show();
+	        	  Intent intent = new Intent(context, DetailViewActivity.class);
+	        	  Bundle bundle = new Bundle();
+	        	  bundle.putString("itemID", sqLiteCursor.getString(0));
+	        	  bundle.putString("itemName", sqLiteCursor.getString(1));
+	        	  bundle.putString("itemPrice", sqLiteCursor.getString(2));
+	        	  intent.putExtras(bundle);
+	        	  startActivity(intent);
 			}
 	     });
 		listView2.setOnItemClickListener(new OnItemClickListener() {
@@ -68,25 +77,30 @@ public class BrowseActivity extends Activity {
 	                  int position, long id) {
 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView2.getItemAtPosition(position);
 	        	  
-	        	  //String product = ((TextView) view).getText().toString();
 	        	  Toast.makeText(BrowseActivity.this, sqLiteCursor.getString(0) + " " + sqLiteCursor.getString(1) + " " +
 	        			  sqLiteCursor.getString(2) + " ", Toast.LENGTH_SHORT).show();
 			}
 	     });	
-		setupListView();
 	    
 		//***************this should be set in login activity*************
 		deliveryApplication.setUser("ddysher");
 		deliveryApplication.setIdentity(Identity.CUSTOMER);
 		
-	    // Start service ITEM_TO fetch new food items ITEM_FROM web server
+	    // Start service to fetch new food items from web server
 	    if (deliveryApplication.isServiceRunning() == false)
 	    	startService(new Intent(this, UpdateService.class));
+	    
+		updateButton = (Button)findViewById(R.id.button1);
+		updateButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+			    startActivity(new Intent(context, UploadFoodItemActivity.class));
+			}
+		});
 	}
 	
 	/**
 	 * Called when browse activity is resumed, every path
-	 * ITEM_TO running state will go through onResume()
+	 * to running state will go through onResume()
 	 */
 	@Override
 	protected void onResume() {
@@ -98,7 +112,7 @@ public class BrowseActivity extends Activity {
 
 	/**
 	 * Called when browse activity is paused, every path
-	 * ITEM_TO stop state will go through onPause()
+	 * to stop state will go through onPause()
 	 */
 	@Override
 	protected void onPause() {
@@ -131,6 +145,8 @@ public class BrowseActivity extends Activity {
 	class BrowseReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			
+			deliveryApplication.getFoodDataSource().open();
 			// re-query ITEM_TO refresh listCursor
 			listCursor.requery();
 			// notify listAdapter that underlying data has changed

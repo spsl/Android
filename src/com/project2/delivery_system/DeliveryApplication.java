@@ -18,7 +18,6 @@ public class DeliveryApplication extends Application {
 	@Override
 	public void onCreate() {
 		foodDataSource = new FoodDataSource(this);
-		foodDataSource.open();		// open database when application is started
 	}
 	
 	// Getter of user
