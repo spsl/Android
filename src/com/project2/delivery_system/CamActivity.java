@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -18,13 +17,10 @@ import android.view.Window;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import android.os.Environment;
-
-import android.content.Context;
 import android.widget.Toast;
 
 

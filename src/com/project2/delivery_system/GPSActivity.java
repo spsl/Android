@@ -31,7 +31,7 @@ public class GPSActivity extends MapActivity {
         myLoc=new MyLocationOverlay(this,mapView);
         
         List<Overlay> mapOverlays = mapView.getOverlays();
-        Drawable drawable = this.getResources().getDrawable(R.drawable.androidmarker);
+        Drawable drawable = this.getResources().getDrawable(R.drawable.ic_action_search);
         itemizedoverlay = new GPSItemizedOverlay(drawable, this);
         
         GeoPoint point = new GeoPoint(19240000,-99120000);

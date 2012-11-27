@@ -20,15 +20,15 @@ import org.apache.http.message.BasicNameValuePair;
 public class WebAccessor {
 
 	// for debugging
-	private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
-	private static String ORDER_URI = "http://10.0.2.2:8090/orders";
-	private static String USER_URI = "http://10.0.2.2:8090/users";
+	//private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
+//	private static String ORDER_URI = "http://10.0.2.2:8090/orders";
+//	private static String USER_URI = "http://10.0.2.2:8090/users";
 	
-	/*
+	
 	private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
 	private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
 	private static String USER_URI = "http://18641datastore.appspot.com/users";
-	*/
+	
 	
 	
 	// fetch all web food items, return a list of these items

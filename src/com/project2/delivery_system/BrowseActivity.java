@@ -104,7 +104,7 @@ public class BrowseActivity extends Activity {
 	 */
 	@Override
 	protected void onResume() {
-		deliveryApplication.getFoodDataSource().open();
+		//deliveryApplication.getFoodDataSource().open();
 		setupListView();
 		super.registerReceiver(receiver, filter, null, null);
 		super.onResume();
@@ -116,7 +116,7 @@ public class BrowseActivity extends Activity {
 	 */
 	@Override
 	protected void onPause() {
-		deliveryApplication.getFoodDataSource().close();
+		//deliveryApplication.getFoodDataSource().close();
 		super.unregisterReceiver(receiver);
 		super.onPause();
 	}
@@ -146,6 +146,8 @@ public class BrowseActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			
+			setupListView();
+			/*
 			deliveryApplication.getFoodDataSource().open();
 			// re-query ITEM_TO refresh listCursor
 			listCursor.requery();
@@ -154,6 +156,7 @@ public class BrowseActivity extends Activity {
 				
 			orderCursor.requery();
 			orderAdapter.notifyDataSetChanged();
+			*/
 		}
 	}
 }
