@@ -6,6 +6,12 @@ package com.project2.delivery_system;
  * @author deyuandeng
  */
 public class Order {
+    
+    final int STATUS_INITIAL=0;
+    final int STATUS_PROV_CONFIRMED=1;
+    final int STATUS_COUR_CONFIRMED=2;
+    final int STATUS_CLOSED=3;
+    
 	private String id;
 	private String user;
 	private String status;
