@@ -131,6 +131,7 @@ public class FoodDataSource {
 	 */
 	public Cursor getOrderCursor() {
 		
+		open();
 		return database.query(MySQLiteHelper.TABLE_ORDERS,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
 	}
