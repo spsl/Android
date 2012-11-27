@@ -69,6 +69,7 @@ public class FoodDataSource {
 		values.put(MySQLiteHelper.COLUMN_USER, order.getUser());
 		
 		try {
+			open();
 			// Use `CONFLICT_IGNORE` to ignore conflict
 			return database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
 					null, values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -86,6 +87,7 @@ public class FoodDataSource {
 	public void deleteFoodItem(FoodItem foodItem) {
 		String id = foodItem.getId();
 		
+		open();
 		database.delete(MySQLiteHelper.TABLE_FOODITMES, 
 				MySQLiteHelper.COLUMN_ID + " = " + id, null);
 	}
@@ -96,6 +98,7 @@ public class FoodDataSource {
 	 */
 	public Cursor getFoodItemCursor() {
 		
+		open();
 		return database.query(MySQLiteHelper.TABLE_FOODITMES,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
 	}
@@ -107,6 +110,7 @@ public class FoodDataSource {
 	public List<FoodItem> getAllFoodItems() {
 		List<FoodItem> foodItems = new ArrayList<FoodItem>();
 
+		open();
 		Cursor cursor = database.query(MySQLiteHelper.TABLE_FOODITMES,
 				null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY);
 
