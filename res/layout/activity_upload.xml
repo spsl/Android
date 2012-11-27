@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -18,20 +18,27 @@
         android:id="@+id/editItemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-     	android:hint="@string/itemname"
-        android:ems="10" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editItemID"
+        android:ems="10"
+        android:hint="@string/itemname" />
 
     <EditText
         android:id="@+id/editItemPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/itemprice"        
-        android:ems="10" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/editItemName"
+        android:ems="10"
+        android:hint="@string/itemprice" />
 
     <Button
         android:id="@+id/buttonUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editItemPrice"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:text="@string/itemupload" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,12 +1,14 @@
 package com.project2.delivery_system;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class UploadFoodItemActivity extends Activity { 
 	
@@ -14,14 +16,14 @@ public class UploadFoodItemActivity extends Activity {
 	EditText itemIDEditText;
 	EditText itemNameEditText;
 	EditText itemPriceEditText;
-	WebAccessor webAccessor;
+	DeliveryApplication delivery;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upload);
-		
-		webAccessor = new WebAccessor();
+
+		delivery = (DeliveryApplication)getApplication();
 		itemIDEditText = (EditText)findViewById(R.id.editItemID);
 		itemNameEditText = (EditText)findViewById(R.id.editItemName);
 		itemPriceEditText = (EditText)findViewById(R.id.editItemPrice);
@@ -33,13 +35,14 @@ public class UploadFoodItemActivity extends Activity {
 				String itemPrice = itemPriceEditText.getText().toString();
 				// Upload in background
 				new Uploader().execute(itemID, itemName, itemPrice);
+				startActivity(new Intent(UploadFoodItemActivity.this, BrowseActivity.class));
 			}
 		});
 	}
 	
 	
 	/***
-	 * Asynchronously posts to twitter, avoid blocking UI thread. The first data
+	 * Asynchronously posts to server, avoid blocking UI thread. The first data
 	 * type is used by doInBackground, the second by onProgressUpdate, and the
 	 * third by onPostExecute.
 	 */
@@ -50,13 +53,12 @@ public class UploadFoodItemActivity extends Activity {
 		@Override
 		protected String doInBackground(String... fooditem) {
 			try {
-				webAccessor.uploadFoodItem(new FoodItem(fooditem[0], fooditem[1], fooditem[2]));
+				delivery.getWebAccessor().addFoodItem(new FoodItem(fooditem[0], fooditem[1], fooditem[2]));
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "Failed to update";
+				return "Failed to upload";
 			}
-			
-			return null;
+			return "Successfully uploaded";
 		}
 
 		// onProgressUpdate() is called whenever there’s progress in the task
@@ -73,7 +75,7 @@ public class UploadFoodItemActivity extends Activity {
 		protected void onPostExecute(String result) {
 			// using a Toast feature of the Android UI to display a quick
 			// message on the screen.
-
+			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
 		}
 	}
 

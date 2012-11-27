@@ -35,7 +35,7 @@ public class BrowseActivity extends Activity {
 	private static final int[] ORDER_TO = 
 		{ R.id.textOrderID, R.id.textStatus };
 	private DeliveryApplication deliveryApplication;
-	private IntentFilter filter = new IntentFilter(UpdateService.NEW_INFO_INTENT);
+	private IntentFilter filter = new IntentFilter(WebAccessor.NEW_INFO_INTENT);
 	private BroadcastReceiver receiver = new BrowseReceiver();
 	private SimpleCursorAdapter listAdapter;
 	private SimpleCursorAdapter orderAdapter;
@@ -44,7 +44,6 @@ public class BrowseActivity extends Activity {
 	private ListView listView1;		// item list view
 	private ListView listView2;		// order list view
 	private Button updateButton;	// update a food item
-	private Context context;
 
 	/**
 	 * Called when browse activity is created
@@ -55,7 +54,6 @@ public class BrowseActivity extends Activity {
 		setContentView(R.layout.activity_browse);
 
 		deliveryApplication = (DeliveryApplication)getApplication();
-		context = this;
 		listView1 = (ListView)findViewById(R.id.itemlist);
 		listView2 = (ListView)findViewById(R.id.orderlist);
 		listView1.setOnItemClickListener(new OnItemClickListener() {
@@ -63,7 +61,7 @@ public class BrowseActivity extends Activity {
 	                  int position, long id) {
 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView1.getItemAtPosition(position);
 	        	  
-	        	  Intent intent = new Intent(context, DetailViewActivity.class);
+	        	  Intent intent = new Intent(BrowseActivity.this, DetailViewActivity.class);
 	        	  Bundle bundle = new Bundle();
 	        	  bundle.putString("itemID", sqLiteCursor.getString(0));
 	        	  bundle.putString("itemName", sqLiteCursor.getString(1));
@@ -93,7 +91,7 @@ public class BrowseActivity extends Activity {
 		updateButton = (Button)findViewById(R.id.button1);
 		updateButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-			    startActivity(new Intent(context, UploadFoodItemActivity.class));
+			    startActivity(new Intent(BrowseActivity.this, UploadFoodItemActivity.class));
 			}
 		});
 	}
@@ -104,7 +102,6 @@ public class BrowseActivity extends Activity {
 	 */
 	@Override
 	protected void onResume() {
-		//deliveryApplication.getFoodDataSource().open();
 		setupListView();
 		super.registerReceiver(receiver, filter, null, null);
 		super.onResume();
@@ -116,7 +113,6 @@ public class BrowseActivity extends Activity {
 	 */
 	@Override
 	protected void onPause() {
-		//deliveryApplication.getFoodDataSource().close();
 		super.unregisterReceiver(receiver);
 		super.onPause();
 	}
@@ -127,12 +123,12 @@ public class BrowseActivity extends Activity {
 	private void setupListView() {
 		// Get all food items ITEM_FROM local database, and use the SimpleCursorAdapter
 		// ITEM_TO show the elements in a ListView
-		listCursor = deliveryApplication.getFoodDataSource().getFoodItemCursor();
+		listCursor = deliveryApplication.getWebAccessor().getFoodItemCursor();
 		startManagingCursor(listCursor);
 		listAdapter = new SimpleCursorAdapter(this, R.layout.list_row, listCursor, ITEM_FROM, ITEM_TO);
 		listView1.setAdapter(listAdapter);
 		
-		orderCursor = deliveryApplication.getFoodDataSource().getOrderCursor();
+		orderCursor = deliveryApplication.getWebAccessor().getOrderCursor();
 		startManagingCursor(orderCursor);
 		orderAdapter = new SimpleCursorAdapter(this, R.layout.order_row, orderCursor, ORDER_FROM, ORDER_TO);
 		listView2.setAdapter(orderAdapter);
@@ -146,9 +142,6 @@ public class BrowseActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			
-			setupListView();
-			/*
-			deliveryApplication.getFoodDataSource().open();
 			// re-query ITEM_TO refresh listCursor
 			listCursor.requery();
 			// notify listAdapter that underlying data has changed
@@ -156,7 +149,6 @@ public class BrowseActivity extends Activity {
 				
 			orderCursor.requery();
 			orderAdapter.notifyDataSetChanged();
-			*/
 		}
 	}
 }

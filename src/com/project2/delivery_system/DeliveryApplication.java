@@ -7,7 +7,7 @@ public class DeliveryApplication extends Application {
 	private String user;			// user of current application
 	private Identity identity;		// user identity of current application
 	private boolean serviceRunning;			// indicate whether update is running
-	private FoodDataSource foodDataSource;	// food database for entire application
+	private WebAccessor webAccessor;
 	
 	enum Identity {
 		CUSTOMER,
@@ -17,7 +17,7 @@ public class DeliveryApplication extends Application {
 	
 	@Override
 	public void onCreate() {
-		foodDataSource = new FoodDataSource(this);
+		webAccessor = new WebAccessor(this);
 	}
 	
 	// Getter of user
@@ -50,8 +50,8 @@ public class DeliveryApplication extends Application {
 		this.serviceRunning = serviceRunning;
 	}
 	
-	// Getter of foodDataSource
-	public FoodDataSource getFoodDataSource() {
-		return foodDataSource;
+	// Getter of webAccessor
+	public WebAccessor getWebAccessor() {
+		return webAccessor;
 	}
 }
