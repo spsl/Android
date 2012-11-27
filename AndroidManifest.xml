@@ -54,7 +54,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project2.delivery_system.BrowseActivity" />
         </activity>
-        
+        <activity
+            android:name=".OrderViewActivity"
+            android:label="@string/title_activity_gps" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.project2.delivery_system.BrowseActivity" />
+        </activity>
         <activity
             android:name=".UploadFoodItemActivity"
             android:label="@string/title_activity_uploadfooditem" >            

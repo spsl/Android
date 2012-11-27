@@ -75,10 +75,17 @@ public class BrowseActivity extends Activity {
 		listView2.setOnItemClickListener(new OnItemClickListener() {
 	          public void onItemClick(AdapterView<?> parent, View view,
 	                  int position, long id) {
-	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView2.getItemAtPosition(position);
-	        	  
-	        	  Toast.makeText(BrowseActivity.this, sqLiteCursor.getString(0) + " " + sqLiteCursor.getString(1) + " " +
-	        			  sqLiteCursor.getString(2) + " ", Toast.LENGTH_SHORT).show();
+ 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView2.getItemAtPosition(position);
+//	        	  Toast.makeText(BrowseActivity.this, sqLiteCursor.getString(0) + " " + sqLiteCursor.getString(1) + " " +
+//	        			  sqLiteCursor.getString(2) + " ", Toast.LENGTH_SHORT).show();
+	              
+	              Intent intent = new Intent(BrowseActivity.this, OrderViewActivity.class );
+	              Bundle bundle = new Bundle();
+                  bundle.putString("orderID", sqLiteCursor.getString(0));
+                  bundle.putString("orderStatus", sqLiteCursor.getString(1));
+                  bundle.putString("orderUser", sqLiteCursor.getString(2));
+                  intent.putExtras(bundle);
+	              startActivity(intent);
 			}
 	     });	
 	    
@@ -106,6 +113,7 @@ public class BrowseActivity extends Activity {
 	protected void onResume() {
 		//deliveryApplication.getFoodDataSource().open();
 		setupListView();
+
 		super.registerReceiver(receiver, filter, null, null);
 		super.onResume();
 	}

@@ -17,29 +17,35 @@ public final class R {
     }
     public static final class id {
         public static final int button1=0x7f070001;
-        public static final int buttonOrder=0x7f070008;
-        public static final int buttonUpdate=0x7f07000d;
-        public static final int button_back=0x7f07000f;
+        public static final int buttonOrder=0x7f07000b;
+        public static final int buttonUpdate=0x7f070010;
+        public static final int button_action=0x7f070015;
+        public static final int button_back=0x7f070012;
         public static final int button_cam_shot=0x7f070006;
         public static final int button_cam_switch=0x7f070007;
         public static final int button_cam_view=0x7f070005;
-        public static final int editIdentity=0x7f07000c;
-        public static final int editItemID=0x7f070010;
-        public static final int editItemName=0x7f070011;
-        public static final int editItemPrice=0x7f070012;
-        public static final int editName=0x7f07000a;
-        public static final int editPassword=0x7f07000b;
+        public static final int editIdentity=0x7f07000f;
+        public static final int editItemID=0x7f070016;
+        public static final int editItemName=0x7f070017;
+        public static final int editItemPrice=0x7f070018;
+        public static final int editName=0x7f07000d;
+        public static final int editPassword=0x7f07000e;
         public static final int itemlist=0x7f070000;
-        public static final int map_view=0x7f070009;
-        public static final int menu_settings=0x7f070017;
+        public static final int map_view=0x7f07000c;
+        public static final int menu_settings=0x7f07001d;
         public static final int orderlist=0x7f070003;
         public static final int surfaceView_cam=0x7f070004;
-        public static final int textName=0x7f070013;
-        public static final int textOrderID=0x7f070015;
-        public static final int textPrice=0x7f070014;
+        public static final int textName=0x7f070019;
+        public static final int textOrderID=0x7f07001b;
+        public static final int textPrice=0x7f07001a;
         public static final int textStatic1=0x7f070002;
-        public static final int textStatus=0x7f070016;
-        public static final int textView_nfcDisplay=0x7f07000e;
+        public static final int textStatus=0x7f07001c;
+        public static final int textView_item_id=0x7f070008;
+        public static final int textView_item_name=0x7f070009;
+        public static final int textView_item_price=0x7f07000a;
+        public static final int textView_nfcDisplay=0x7f070011;
+        public static final int textView_order_id=0x7f070013;
+        public static final int textView_order_status=0x7f070014;
     }
     public static final class layout {
         public static final int activity_browse=0x7f030000;
@@ -48,36 +54,43 @@ public final class R {
         public static final int activity_gps=0x7f030003;
         public static final int activity_login=0x7f030004;
         public static final int activity_nfc=0x7f030005;
-        public static final int activity_upload=0x7f030006;
-        public static final int list_row=0x7f030007;
-        public static final int order_row=0x7f030008;
+        public static final int activity_orderview=0x7f030006;
+        public static final int activity_upload=0x7f030007;
+        public static final int list_row=0x7f030008;
+        public static final int order_row=0x7f030009;
     }
     public static final class menu {
         public static final int activity_main=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int button_upload=0x7f04000d;
-        public static final int cam_greetings=0x7f040013;
-        public static final int gps_greetings=0x7f040010;
+        public static final int button_upload=0x7f040011;
+        public static final int cam_greetings=0x7f040017;
+        public static final int gps_greetings=0x7f040014;
         public static final int hello_world=0x7f040001;
         /**  Update item related string 
          */
-        public static final int itemID=0x7f040009;
-        public static final int itemname=0x7f04000a;
-        public static final int itemprice=0x7f04000b;
-        public static final int itemupload=0x7f04000c;
+        public static final int itemID=0x7f04000d;
+        public static final int itemname=0x7f04000e;
+        public static final int itemprice=0x7f04000f;
+        public static final int itemupload=0x7f040010;
         public static final int menu_settings=0x7f040002;
-        public static final int nfc_greetings=0x7f04000f;
-        public static final int order_button=0x7f040008;
-        public static final int order_list=0x7f040007;
+        public static final int nfc_greetings=0x7f040013;
+        /**  order function  
+         */
+        public static final int order_action_button=0x7f04000a;
+        public static final int order_action_confirm=0x7f04000b;
+        public static final int order_action_transaction=0x7f04000c;
+        public static final int order_button=0x7f040009;
+        public static final int order_list=0x7f040008;
         public static final int title_activity_browse=0x7f040003;
-        public static final int title_activity_cam=0x7f040011;
+        public static final int title_activity_cam=0x7f040015;
         public static final int title_activity_detailview=0x7f040004;
-        public static final int title_activity_gps=0x7f040012;
+        public static final int title_activity_gps=0x7f040016;
         public static final int title_activity_login=0x7f040005;
-        public static final int title_activity_nfc=0x7f04000e;
-        public static final int title_activity_uploadfooditem=0x7f040006;
+        public static final int title_activity_nfc=0x7f040012;
+        public static final int title_activity_orderview=0x7f040006;
+        public static final int title_activity_uploadfooditem=0x7f040007;
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;
