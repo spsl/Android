@@ -12,7 +12,7 @@ import android.os.IBinder;
  */
 public class UpdateService extends Service {
 	
-	private static int DELAY = 15000;
+	private static int DELAY = 60000;	// 60s period
 	private DeliveryApplication delivery;
 	private Updater updater;
 	
@@ -24,6 +24,9 @@ public class UpdateService extends Service {
 		updater = new Updater();
 	}
 
+	/**
+	 * Unused in our application.
+	 */
 	@Override
 	public IBinder onBind(Intent arg0) {
 		return null;
@@ -57,6 +60,8 @@ public class UpdateService extends Service {
 		public void run() {		
 			while (delivery.isServiceRunning()) {
 				try {
+					// Get all food items, and all orders of current user. Callee methods
+					// will update database and list view if needed.
 					delivery.getWebAccessor().getAllFoodItems();
 					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
 					

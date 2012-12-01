@@ -1,5 +1,7 @@
 package com.project2.delivery_system;
 
+import com.project2.delivery_system.DeliveryApplication.Identity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,41 +12,42 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class UploadFoodItemActivity extends Activity { 
+/**
+ * Sign up activity, called for a new user to sign up.
+ * @author deyuandeng
+ */
+public class SignupActivity extends Activity { 
 	
-	Button updateButton;
-	Button takePhotoButton;
-	EditText itemIDEditText;
-	EditText itemNameEditText;
-	EditText itemPriceEditText;
+	Button signupButton;
+	EditText userNameEditText;
+	EditText passwordEditText;
+	EditText passwordConfirmEditText;
 	DeliveryApplication delivery;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_upload);
+		setContentView(R.layout.activity_signup);
 
+		// Instantiate all variables
 		delivery = (DeliveryApplication)getApplication();
-		itemIDEditText = (EditText)findViewById(R.id.editItemID);
-		itemNameEditText = (EditText)findViewById(R.id.editItemName);
-		itemPriceEditText = (EditText)findViewById(R.id.editItemPrice);
-		updateButton = (Button)findViewById(R.id.buttonUpdate);
-		updateButton.setOnClickListener(new OnClickListener() {
-			@Override			
+		userNameEditText = (EditText)findViewById(R.id.editSignupName);
+		passwordEditText= (EditText)findViewById(R.id.editSignupPassword);
+		passwordConfirmEditText= (EditText)findViewById(R.id.editSignupPasswordConfirm);
+		signupButton= (Button)findViewById(R.id.buttonSignup);
+		signupButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				String itemID = itemIDEditText.getText().toString();
-				String itemName = itemNameEditText.getText().toString();
-				String itemPrice = itemPriceEditText.getText().toString();
-				// Upload in background
-				new Uploader().execute(itemID, itemName, itemPrice);
-				startActivity(new Intent(UploadFoodItemActivity.this, BrowseActivity.class));
-			}
-		});
-		takePhotoButton = (Button)findViewById(R.id.button_take_photo);
-		takePhotoButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(UploadFoodItemActivity.this, CamActivity.class));
+				String name = userNameEditText.getText().toString();
+				String password = passwordEditText.getText().toString();
+				String passwordConfirm = passwordConfirmEditText.getText().toString();
+				
+				delivery.setUser(name);
+				delivery.setIdentity(Identity.CUSTOMER);
+				if (!password.equals(passwordConfirm)) {	// if password doesn't equal
+					Toast.makeText(delivery, "password does not match", Toast.LENGTH_LONG).show();
+				} else {
+					new Uploader().execute(name, password);
+				}
 			}
 		});
 	}
@@ -60,14 +63,13 @@ public class UploadFoodItemActivity extends Activity {
 		// doInBackground() is the callback that specifies the actual work to be
 		// done on the separate thread, as if it’s executing in the background.
 		@Override
-		protected String doInBackground(String... fooditem) {
+		protected String doInBackground(String... userStrings) {
 			try {
-				delivery.getWebAccessor().addFoodItem(new FoodItem(fooditem[0], fooditem[1], fooditem[2]));
+				return delivery.getWebAccessor().signup(userStrings[0], userStrings[1]);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "Failed to upload";
+				return "error: failed to sign up";
 			}
-			return "Successfully uploaded";
 		}
 
 		// onProgressUpdate() is called whenever there’s progress in the task
@@ -82,9 +84,10 @@ public class UploadFoodItemActivity extends Activity {
 		// that the task is done.
 		@Override
 		protected void onPostExecute(String result) {
-			// using a Toast feature of the Android UI to display a quick
-			// message on the screen.
 			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
+			if (!result.contains("error")) {	// error may occur when user name exists
+				startActivity(new Intent(SignupActivity.this, BrowseActivity.class));	
+			}
 		}
 	}
 }

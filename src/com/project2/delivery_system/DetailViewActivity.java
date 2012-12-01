@@ -1,11 +1,7 @@
 package com.project2.delivery_system;
 
 import android.app.Activity;
-import android.content.Intent;
-<<<<<<< HEAD
 import android.os.AsyncTask;
-=======
->>>>>>> e1c7ca6f97a5e28b900ebce1c1f022299caa2ae3
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Detail view of a food items for user. To start detail view
+ * activity, caller must use intent to specify item details.
+ * @author deyuandeng
+ */
 public class DetailViewActivity extends Activity {
 	
 	private String itemID;
@@ -26,24 +27,39 @@ public class DetailViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detailview);
 		
+		// Instantiate all variables
 		delivery = (DeliveryApplication) getApplication();
 		Bundle bundle = getIntent().getExtras();
-		
 		itemID = bundle.getString("itemID");
 		itemName = bundle.getString("itemName");
 		itemPrice = bundle.getString("itemPrice");
 		
-<<<<<<< HEAD
-		orderButton = (Button)findViewById(R.id.buttonOrder);
-		orderButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				new Uploader().execute();
-				startActivity(new Intent(DetailViewActivity.this, BrowseActivity.class));
-			}
-		});
-		
-		Toast.makeText(DetailViewActivity.this, itemID + " " + itemName+ " " + itemPrice + " ", 
-				Toast.LENGTH_SHORT).show();
+		// Display item details for user
+		TextView text;
+        text = (TextView)findViewById(R.id.textView_item_id);
+        text.setText(itemID);
+        text = (TextView)findViewById(R.id.textView_item_name);
+        text.setText(itemName);
+        text = (TextView)findViewById(R.id.textView_item_price);
+        text.setText(itemPrice);
+        
+        // Set order button only for customer
+        orderButton = (Button)findViewById(R.id.buttonOrder);
+        if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER) {
+            orderButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                	new Uploader().execute(delivery.getUser());
+                	
+                    Toast.makeText(DetailViewActivity.this, itemID + " " + itemName+ " " + itemPrice + " ", 
+                    		Toast.LENGTH_SHORT).show();
+                    
+                    finish();
+                }
+            });
+        } else{
+            orderButton.setVisibility(View.INVISIBLE);
+            orderButton.setEnabled(false);
+        }
 	}
 	
 	/***
@@ -83,57 +99,4 @@ public class DetailViewActivity extends Activity {
 			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
 		}
 	}
-
-=======
-		TextView text;
-        text = (TextView)findViewById(R.id.textView_item_id);
-        text.setText(itemID);
-        text = (TextView)findViewById(R.id.textView_item_name);
-        text.setText(itemName);
-        text = (TextView)findViewById(R.id.textView_item_price);
-        text.setText(itemPrice);
-        
-        orderButton = (Button)findViewById(R.id.buttonOrder);
-        
-        if(delivery.getIdentity()==DeliveryApplication.Identity.CUSTOMER){
-            orderButton.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    new WebAccessor().uploadOrder(delivery.getUser());
-                    
-                    Toast.makeText(DetailViewActivity.this, itemID + " " + itemName+ " " + itemPrice + " ", Toast.LENGTH_SHORT).show();
-                    // TODO: send new order
-                    
-                    finish();
-                }
-            });
-        }
-        else{
-            orderButton.setVisibility(0);
-            orderButton.setEnabled(false);
-        }
-		
-		
-	}
-	
-	// on new inent, read extra information
-    public void onNewIntent(Intent intent){
-        
-        Bundle bundle = intent.getExtras();
-        if(bundle!=null){
-            itemID = bundle.getString("ItemID");
-            itemName = bundle.getString("ItemName");
-            itemPrice = bundle.getString("ItemPrice");
-        }
-        setIntent(intent);
-        TextView text;
-        text = (TextView)findViewById(R.id.textView_item_id);
-        text.setText(itemID);
-        text = (TextView)findViewById(R.id.textView_item_name);
-        text.setText(itemName);
-        text = (TextView)findViewById(R.id.textView_item_price);
-        text.setText(itemPrice);
-        
-        super.onNewIntent(intent);
-    }
->>>>>>> e1c7ca6f97a5e28b900ebce1c1f022299caa2ae3
 }

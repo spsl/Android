@@ -44,7 +44,7 @@ public class WebAccessor {
 	private Context context;
 	private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
 	private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
-	// private static String USER_URI = "http://18641datastore.appspot.com/users";
+	private static String USER_URI = "http://18641datastore.appspot.com/users";
 
 	
 	public WebAccessor(Context context) {
@@ -80,8 +80,8 @@ public class WebAccessor {
 				String[] itemStrings = line.split(";");
 
 				values.put(MySQLiteHelper.COLUMN_ID, itemStrings[0]);
-				values.put(MySQLiteHelper.COLUMN_NAME, itemStrings[1]);
-				values.put(MySQLiteHelper.COLUMN_PRICE, itemStrings[2]);
+				values.put(MySQLiteHelper.COLUMN_ITEMNAME, itemStrings[1]);
+				values.put(MySQLiteHelper.COLUMN_ITEMPRICE, itemStrings[2]);
 				if (database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES,
 						null, values, SQLiteDatabase.CONFLICT_IGNORE) != 0)
 					newFoodItems++;
@@ -122,8 +122,8 @@ public class WebAccessor {
 				ContentValues values = new ContentValues();
 
 				values.put(MySQLiteHelper.COLUMN_ID, orderStrings[0]);
-				values.put(MySQLiteHelper.COLUMN_STATUS, orderStrings[1]);
-				values.put(MySQLiteHelper.COLUMN_USER, orderStrings[2]);
+				values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, orderStrings[1]);
+				values.put(MySQLiteHelper.COLUMN_ORDERUSER, orderStrings[2]);
 
 				if (database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
 						null, values, SQLiteDatabase.CONFLICT_IGNORE) != 0)
@@ -157,19 +157,16 @@ public class WebAccessor {
 		try {
 			// Post to server
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-			nameValuePairs.add(new BasicNameValuePair("itemID", foodItem
-					.getId()));
-			nameValuePairs.add(new BasicNameValuePair("itemName", foodItem
-					.getName()));
-			nameValuePairs.add(new BasicNameValuePair("itemPrice", foodItem
-					.getPrice()));
+			nameValuePairs.add(new BasicNameValuePair("itemID", foodItem.getId()));
+			nameValuePairs.add(new BasicNameValuePair("itemName", foodItem.getName()));
+			nameValuePairs.add(new BasicNameValuePair("itemPrice", foodItem.getPrice()));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
 
 			// Update local database
 			values.put(MySQLiteHelper.COLUMN_ID, foodItem.getId());
-			values.put(MySQLiteHelper.COLUMN_NAME, foodItem.getName());
-			values.put(MySQLiteHelper.COLUMN_PRICE, foodItem.getPrice());
+			values.put(MySQLiteHelper.COLUMN_ITEMNAME, foodItem.getName());
+			values.put(MySQLiteHelper.COLUMN_ITEMPRICE, foodItem.getPrice());
 			database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES, null,
 					values, SQLiteDatabase.CONFLICT_IGNORE);
 
@@ -198,15 +195,15 @@ public class WebAccessor {
 			String orderID = String.valueOf(new Random().nextInt(100000));
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 			nameValuePairs.add(new BasicNameValuePair("orderID", orderID));
-			nameValuePairs.add(new BasicNameValuePair("orderStatue", "Pending"));
+			nameValuePairs.add(new BasicNameValuePair("orderStatus", "Pending"));
 			nameValuePairs.add(new BasicNameValuePair("orderUser", orderUser));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
 
 			// Update local database
 			values.put(MySQLiteHelper.COLUMN_ID, orderID);
-			values.put(MySQLiteHelper.COLUMN_STATUS, "Pending");
-			values.put(MySQLiteHelper.COLUMN_USER, orderUser);
+			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, "Pending");
+			values.put(MySQLiteHelper.COLUMN_ORDERUSER, orderUser);
 			database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS, null,
 					values, SQLiteDatabase.CONFLICT_IGNORE);
 			
@@ -239,6 +236,69 @@ public class WebAccessor {
             
             return database.query(MySQLiteHelper.TABLE_ORDERS,
                             null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
+    }
+    
+    /**
+     * Login to application
+     * @param name
+     * @param password
+     * @return server response
+     */
+    public String login(String name, String password) {
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpGet httpGet = new HttpGet(USER_URI + "?name=" + name 
+				+ "&password=" + password);
+		String line = null;
+
+		try {
+			
+			HttpResponse response = httpClient.execute(httpGet);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					response.getEntity().getContent()));
+
+			line = reader.readLine();
+			reader.close();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return line;
+    }
+    
+
+    /**
+     * Sign up to application.
+     * @param name
+     * @param password
+     * @return server response
+     */
+    public String signup(String name, String password) {
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpPost httpPost = new HttpPost(USER_URI);
+		String line = null;
+		
+		try {
+			// Post to server
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("name", name));
+			nameValuePairs.add(new BasicNameValuePair("password", password));
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = httpClient.execute(httpPost);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					response.getEntity().getContent()));
+			
+			line = reader.readLine();
+			reader.close();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return line;
     }
     
     

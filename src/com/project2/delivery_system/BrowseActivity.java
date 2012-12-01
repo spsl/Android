@@ -1,6 +1,5 @@
 package com.project2.delivery_system;
 
-import com.project2.delivery_system.DeliveryApplication.Identity;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 /**
  * This is the browse activity of our application. 
@@ -26,12 +24,12 @@ public class BrowseActivity extends Activity {
 	
 	// `ITEM_FROM` and `ITEM_TO` map database to list view for listAdapter
 	private static final String[] ITEM_FROM = 
-		{ MySQLiteHelper.COLUMN_NAME, MySQLiteHelper.COLUMN_PRICE };
+		{ MySQLiteHelper.COLUMN_ITEMNAME, MySQLiteHelper.COLUMN_ITEMPRICE };
 	private static final int[] ITEM_TO = 
 		{ R.id.textName, R.id.textPrice };
 	// `ORDER_FROM` and `ORDER_TO` map database to list view for orderAdapter
 	private static final String[] ORDER_FROM = 
-		{ MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_STATUS };
+		{ MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_ORDERSTATUS };
 	private static final int[] ORDER_TO = 
 		{ R.id.textOrderID, R.id.textStatus };
 	private DeliveryApplication deliveryApplication;
@@ -41,9 +39,9 @@ public class BrowseActivity extends Activity {
 	private SimpleCursorAdapter orderAdapter;
 	private Cursor listCursor;		// cursor that manage item list
 	private Cursor orderCursor;		// cursor that manage order list
-	private ListView listView1;		// item list view
-	private ListView listView2;		// order list view
-	private Button updateButton;	// update a food item
+	private ListView itemListView;		// item list view
+	private ListView orderListView;		// order list view
+	private Button uploadButton;	// update a food item
 
 	/**
 	 * Called when browse activity is created
@@ -54,12 +52,18 @@ public class BrowseActivity extends Activity {
 		setContentView(R.layout.activity_browse);
 
 		deliveryApplication = (DeliveryApplication)getApplication();
-		listView1 = (ListView)findViewById(R.id.itemlist);
-		listView2 = (ListView)findViewById(R.id.orderlist);
-		listView1.setOnItemClickListener(new OnItemClickListener() {
+		itemListView = (ListView)findViewById(R.id.itemlist);
+		orderListView = (ListView)findViewById(R.id.orderlist);
+		uploadButton = (Button)findViewById(R.id.buttonUpload);
+		uploadButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {		// when upload button is clicked
+			    startActivity(new Intent(BrowseActivity.this, UploadFoodItemActivity.class));
+			}
+		});
+		itemListView.setOnItemClickListener(new OnItemClickListener() {
 	          public void onItemClick(AdapterView<?> parent, View view,
-	                  int position, long id) {
-	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView1.getItemAtPosition(position);
+	                  int position, long id) {	// when food item is clicked
+	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)itemListView.getItemAtPosition(position);
 	        	  
 	        	  Intent intent = new Intent(BrowseActivity.this, DetailViewActivity.class);
 	        	  Bundle bundle = new Bundle();
@@ -70,12 +74,10 @@ public class BrowseActivity extends Activity {
 	        	  startActivity(intent);
 			}
 	     });
-		listView2.setOnItemClickListener(new OnItemClickListener() {
+		orderListView.setOnItemClickListener(new OnItemClickListener() {
 	          public void onItemClick(AdapterView<?> parent, View view,
-	                  int position, long id) {
- 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)listView2.getItemAtPosition(position);
-//	        	  Toast.makeText(BrowseActivity.this, sqLiteCursor.getString(0) + " " + sqLiteCursor.getString(1) + " " +
-//	        			  sqLiteCursor.getString(2) + " ", Toast.LENGTH_SHORT).show();
+	                  int position, long id) {	// when order is clicked
+ 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)orderListView.getItemAtPosition(position);
 	              
 	              Intent intent = new Intent(BrowseActivity.this, OrderViewActivity.class );
 	              Bundle bundle = new Bundle();
@@ -86,21 +88,10 @@ public class BrowseActivity extends Activity {
 	              startActivity(intent);
 			}
 	     });	
-	    
-		//***************this should be set in login activity*************
-		deliveryApplication.setUser("ddysher");
-		deliveryApplication.setIdentity(Identity.CUSTOMER);
 		
 	    // Start service to fetch new food items from web server
 	    if (deliveryApplication.isServiceRunning() == false)
 	    	startService(new Intent(this, UpdateService.class));
-	    
-		updateButton = (Button)findViewById(R.id.button1);
-		updateButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-			    startActivity(new Intent(BrowseActivity.this, UploadFoodItemActivity.class));
-			}
-		});
 	}
 	
 	/**
@@ -110,7 +101,6 @@ public class BrowseActivity extends Activity {
 	@Override
 	protected void onResume() {
 		setupListView();
-
 		super.registerReceiver(receiver, filter, null, null);
 		super.onResume();
 	}
@@ -134,12 +124,12 @@ public class BrowseActivity extends Activity {
 		listCursor = deliveryApplication.getWebAccessor().getFoodItemCursor();
 		startManagingCursor(listCursor);
 		listAdapter = new SimpleCursorAdapter(this, R.layout.list_row, listCursor, ITEM_FROM, ITEM_TO);
-		listView1.setAdapter(listAdapter);
+		itemListView.setAdapter(listAdapter);
 		
 		orderCursor = deliveryApplication.getWebAccessor().getOrderCursor();
 		startManagingCursor(orderCursor);
 		orderAdapter = new SimpleCursorAdapter(this, R.layout.order_row, orderCursor, ORDER_FROM, ORDER_TO);
-		listView2.setAdapter(orderAdapter);
+		orderListView.setAdapter(orderAdapter);
 	}
 	
 	/**

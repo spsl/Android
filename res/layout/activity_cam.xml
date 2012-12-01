@@ -17,24 +17,24 @@
 
         <Button
             android:id="@+id/button_cam_view"
-            android:layout_weight="1" 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="View" />
+            android:layout_weight="1"
+            android:text="@string/cam_view" />
 
         <Button
             android:id="@+id/button_cam_shot"
             android:layout_weight="2" 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Shoot" />
+            android:text="@string/cam_shoot" />
 
         <Button
             android:id="@+id/button_cam_switch"
             android:layout_weight="1" 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Switch" />
+            android:text="@string/cam_switch" />
 
     </LinearLayout>
 

@@ -8,10 +8,14 @@ import android.content.Intent;
 import android.widget.TextView;
 import android.widget.Button;
 
+/**
+ * View details of an order. 
+ */
 public class OrderViewActivity extends Activity {
 	
 	private String orderID;
 	private String orderStatus;
+	@SuppressWarnings("unused")
 	private String orderUser;
 	
 	private Button actionButton;
@@ -23,21 +27,20 @@ public class OrderViewActivity extends Activity {
 		setContentView(R.layout.activity_orderview);
 		
 		delivery = (DeliveryApplication) getApplication();
-		
 		Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             orderID = bundle.getString("orderID");
             orderStatus = bundle.getString("orderStatus");
             orderUser = bundle.getString("orderUser");
         }
+        // Display details for user.
         TextView text;
         text = (TextView)findViewById(R.id.textView_order_id);
         text.setText(orderID);
         text = (TextView)findViewById(R.id.textView_order_status);
         text.setText(orderStatus);
 		
-        System.out.println(getText(R.string.order_action_transaction));
-        
+        // Set up action button for different user.
 		actionButton = (Button)findViewById(R.id.button_action);
 		switch(delivery.getIdentity()){
 		case CUSTOMER:
@@ -50,50 +53,54 @@ public class OrderViewActivity extends Activity {
 		    actionButton.setText(getText(R.string.order_action_confirm));		
             break;
         default:
-            break;  
+            break;
 		}
 		actionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 			    Intent intent;
 			    switch(delivery.getIdentity()){
 		        case CUSTOMER:
-		            intent = new Intent(OrderViewActivity.this, NFCActivity.class);
+		            // intent = new Intent(OrderViewActivity.this, NFCActivity.class);
+		        	intent = new Intent(OrderViewActivity.this, GPSActivity.class);
+		        	startActivity(intent);
 		            break;
 		        case PROVIDER:
 		            // update order status
 		            break;
 		        case COURIER:
-		            if(OrderViewActivity.this.orderStatus=="STATUS_COUR_CONFIRMED"){
+		            if(OrderViewActivity.this.orderStatus == "STATUS_COUR_CONFIRMED"){
 		                intent = new Intent(OrderViewActivity.this, NFCActivity.class);
 		                startActivity(intent);
 		            }
-		            else if(OrderViewActivity.this.orderStatus=="STATUS_PROV_CONFIRMED"){
+		            else if(OrderViewActivity.this.orderStatus == "STATUS_PROV_CONFIRMED"){
 		                // send update command to change status;
 		            }
 		            break;
 		        default:
 		            break; 
 			    }
-				new WebAccessor().uploadOrder(delivery.getUser());
-			};
+			}
 		});
 		
-		if(delivery.getIdentity()==DeliveryApplication.Identity.CUSTOMER
-		        &&OrderViewActivity.this.orderStatus!="STATUS_COUR_CONFIRMED")
+		// Disable action button according to different order status.
+		if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER
+		        &&OrderViewActivity.this.orderStatus != "STATUS_COUR_CONFIRMED")
 		    actionButton.setEnabled(false);
-		if(delivery.getIdentity()==DeliveryApplication.Identity.PROVIDER
-                &&OrderViewActivity.this.orderStatus!="STATUS_INIT")
+		if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER
+                &&OrderViewActivity.this.orderStatus != "STATUS_INIT")
             actionButton.setEnabled(false);
-		if(delivery.getIdentity()==DeliveryApplication.Identity.COURIER
-                &&OrderViewActivity.this.orderStatus!="STATUS_PROV_CONFIRMED")
+		if(delivery.getIdentity() == DeliveryApplication.Identity.COURIER
+                &&OrderViewActivity.this.orderStatus != "STATUS_PROV_CONFIRMED")
             actionButton.setEnabled(false);
+		//*************************************************************************************************
+		actionButton.setEnabled(true);
 	}
 	
-	// on new inent, read extra information
-	public void onNewIntent(Intent intent){
+	// On new intent, read extra information
+	public void onNewIntent(Intent intent) {
 	    
 	    Bundle bundle = intent.getExtras();
-	    if(bundle!=null){
+	    if(bundle!=null) {
 	        orderID = bundle.getString("orderID");
 	        orderStatus = bundle.getString("orderStatus");
 	        orderUser = bundle.getString("orderUser");
