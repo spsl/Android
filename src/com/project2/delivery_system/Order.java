@@ -7,10 +7,14 @@ package com.project2.delivery_system;
  */
 public class Order {
     
-    final int STATUS_INITIAL=0;
-    final int STATUS_PROV_CONFIRMED=1;
-    final int STATUS_COUR_CONFIRMED=2;
-    final int STATUS_CLOSED=3;
+	// order is placed by user, but not confirmed by provider
+    public static final String STATUS_PENDING = "Pending";
+    // order is confirmed by provider, but not by courier
+    public static final String STATUS_PROV_CONFIRMED = "Provider Confirmed";
+    // order is confirmed by courier, but not confirmed by user
+    public static final String STATUS_COUR_CONFIRMED = "Courier Confirmed";
+	// order is completed, namely, user and courier completed transaction
+    public static final String STATUS_CLOSED = "Order Completed";
     
 	private String id;
 	private String user;

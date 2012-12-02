@@ -27,9 +27,9 @@ import android.database.sqlite.SQLiteDatabase;
 public class WebAccessor {
 
 	// for debugging
-	//private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
-	//private static String ORDER_URI = "http://10.0.2.2:8090/orders";
-	//private static String USER_URI = "http://10.0.2.2:8090/users";
+	private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
+	private static String ORDER_URI = "http://10.0.2.2:8090/orders";
+	private static String USER_URI = "http://10.0.2.2:8090/users";
 	public static final String NEW_INFO_INTENT = 
 			"com.project2.delivery_system.NEW_INFO";
 	public static final String NEW_INFO_EXTRA = 
@@ -42,9 +42,10 @@ public class WebAccessor {
 	private SQLiteDatabase database;
 	private MySQLiteHelper dbHelper;
 	private Context context;
-	private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
-	private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
-	private static String USER_URI = "http://18641datastore.appspot.com/users";
+
+	//private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
+	//private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
+	//private static String USER_URI = "http://18641datastore.appspot.com/users";
 
 	
 	public WebAccessor(Context context) {
@@ -182,7 +183,7 @@ public class WebAccessor {
 	}
 
 	/**
-	 * Add an order to server, update local database, then list view
+	 * Add a new order to server, update local database, then list view
 	 */
 	public void addOrder(String orderUser) {
 		// Create a new HttpClient and Post Header
@@ -195,7 +196,7 @@ public class WebAccessor {
 			String orderID = String.valueOf(new Random().nextInt(100000));
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 			nameValuePairs.add(new BasicNameValuePair("orderID", orderID));
-			nameValuePairs.add(new BasicNameValuePair("orderStatus", "Pending"));
+			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_PENDING));
 			nameValuePairs.add(new BasicNameValuePair("orderUser", orderUser));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
@@ -225,17 +226,21 @@ public class WebAccessor {
     public Cursor getFoodItemCursor() {
             
             return database.query(MySQLiteHelper.TABLE_FOODITMES,
-                            null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
+                            null, null, null, null, null, 
+                            MySQLiteHelper.GET_ALL_ORDER_BY); 
     }
     
     /**
      * Get cursor of database, point to the first row 
      * @return
      */
-    public Cursor getOrderCursor() {
+    public Cursor getOrderCursor(String orderUser) {
             
-            return database.query(MySQLiteHelper.TABLE_ORDERS,
-                            null, null, null, null, null, MySQLiteHelper.GET_ALL_ORDER_BY); 
+            return database.query(MySQLiteHelper.TABLE_ORDERS, null,
+                            MySQLiteHelper.COLUMN_ORDERUSER + "=?",
+                            new String[] {orderUser}, 
+                            null, null, 
+                            MySQLiteHelper.GET_ALL_ORDER_BY); 
     }
     
     /**
@@ -302,17 +307,126 @@ public class WebAccessor {
     }
     
     
-	public void orderProviderConfirm(String orderID) {
+    /**
+     *  Used for provider to confirm a pending order. If order status is incorrect, return -1
+     * @param order
+     */
+	public int orderProviderConfirm(Order order) {
+		if (!order.getStatus().equals(Order.STATUS_PENDING)) {
+			return -1;
+		}
+		
+		// Create a new HttpClient and Post Header
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(ORDER_URI);
+		ContentValues values = new ContentValues();
 
+		try {
+			// Post to server
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("orderID", order.getId()));
+			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_PROV_CONFIRMED));
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpclient.execute(httppost);
+
+			// Update local database
+			values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, Order.STATUS_PROV_CONFIRMED);
+			values.put(MySQLiteHelper.COLUMN_ORDERUSER, order.getUser());
+			database.updateWithOnConflict(MySQLiteHelper.TABLE_ORDERS, values, 
+					null, null, SQLiteDatabase.CONFLICT_IGNORE);
+			
+			// Update order list
+            Intent intent = new Intent(NEW_INFO_INTENT);
+            intent.putExtra(NEW_INFO_EXTRA, NEW_ORDER);
+            context.sendBroadcast(intent);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	
-	public void orderDeliveryConfirm(String orderID) {
+	/**
+     *  Used for courier to confirm a provider confirmed order. If order status is incorrect, return -1
+     * @param order
+     */
+	public int orderDeliveryConfirm(Order order) {
+		if (!order.getStatus().equals(Order.STATUS_PROV_CONFIRMED)) {
+			return -1;
+		}
+		
+		// Create a new HttpClient and Post Header
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(ORDER_URI);
+		ContentValues values = new ContentValues();
 
+		try {
+			// Post to server
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("orderID", order.getId()));
+			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_COUR_CONFIRMED));
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpclient.execute(httppost);
+
+			// Update local database
+			values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, Order.STATUS_COUR_CONFIRMED);
+			values.put(MySQLiteHelper.COLUMN_ORDERUSER, order.getUser());
+			database.updateWithOnConflict(MySQLiteHelper.TABLE_ORDERS, values, 
+					null, null, SQLiteDatabase.CONFLICT_IGNORE);
+			
+			// Update order list
+            Intent intent = new Intent(NEW_INFO_INTENT);
+            intent.putExtra(NEW_INFO_EXTRA, NEW_ORDER);
+            context.sendBroadcast(intent);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
-	
-	public void orderTransactionConfirm(String orderID) {
+	/**
+     *  Used for courier to confirm an order has completed. If order status is incorrect, return -1
+     * @param order
+     */
+	public int orderTransactionConfirm(Order order) {
+		if (!order.getStatus().equals(Order.STATUS_COUR_CONFIRMED)) {
+			return -1;
+		}
+		
+		// Create a new HttpClient and Post Header
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(ORDER_URI);
+		ContentValues values = new ContentValues();
 
-	}
+		try {
+			// Post to server
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("orderID", order.getId()));
+			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_CLOSED));
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpclient.execute(httppost);
+
+			// Update local database
+			values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, Order.STATUS_CLOSED);
+			values.put(MySQLiteHelper.COLUMN_ORDERUSER, order.getUser());
+			database.updateWithOnConflict(MySQLiteHelper.TABLE_ORDERS, values, 
+					null, null, SQLiteDatabase.CONFLICT_IGNORE);
+			
+			// Update order list
+            Intent intent = new Intent(NEW_INFO_INTENT);
+            intent.putExtra(NEW_INFO_EXTRA, NEW_ORDER);
+            context.sendBroadcast(intent);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;}
 }

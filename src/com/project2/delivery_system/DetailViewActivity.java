@@ -48,7 +48,7 @@ public class DetailViewActivity extends Activity {
         if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER) {
             orderButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                	new Uploader().execute(delivery.getUser());
+                	new Uploader().execute();
                 	
                     Toast.makeText(DetailViewActivity.this, itemID + " " + itemName+ " " + itemPrice + " ", 
                     		Toast.LENGTH_SHORT).show();
@@ -72,7 +72,7 @@ public class DetailViewActivity extends Activity {
 		// doInBackground() is the callback that specifies the actual work to be
 		// done on the separate thread, as if it’s executing in the background.
 		@Override
-		protected String doInBackground(String... fooditem) {
+		protected String doInBackground(String... order) {
 			try {
 				delivery.getWebAccessor().addOrder(delivery.getUser());
 			} catch (Exception e) {

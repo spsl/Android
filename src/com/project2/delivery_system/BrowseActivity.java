@@ -32,7 +32,7 @@ public class BrowseActivity extends Activity {
 		{ MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_ORDERSTATUS };
 	private static final int[] ORDER_TO = 
 		{ R.id.textOrderID, R.id.textStatus };
-	private DeliveryApplication deliveryApplication;
+	private DeliveryApplication delivery;
 	private IntentFilter filter = new IntentFilter(WebAccessor.NEW_INFO_INTENT);
 	private BroadcastReceiver receiver = new BrowseReceiver();
 	private SimpleCursorAdapter listAdapter;
@@ -42,6 +42,7 @@ public class BrowseActivity extends Activity {
 	private ListView itemListView;		// item list view
 	private ListView orderListView;		// order list view
 	private Button uploadButton;	// update a food item
+	
 
 	/**
 	 * Called when browse activity is created
@@ -51,7 +52,7 @@ public class BrowseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browse);
 
-		deliveryApplication = (DeliveryApplication)getApplication();
+		delivery = (DeliveryApplication)getApplication();
 		itemListView = (ListView)findViewById(R.id.itemlist);
 		orderListView = (ListView)findViewById(R.id.orderlist);
 		uploadButton = (Button)findViewById(R.id.buttonUpload);
@@ -90,7 +91,7 @@ public class BrowseActivity extends Activity {
 	     });	
 		
 	    // Start service to fetch new food items from web server
-	    if (deliveryApplication.isServiceRunning() == false)
+	    if (delivery.isServiceRunning() == false)
 	    	startService(new Intent(this, UpdateService.class));
 	}
 	
@@ -121,12 +122,12 @@ public class BrowseActivity extends Activity {
 	private void setupListView() {
 		// Get all food items ITEM_FROM local database, and use the SimpleCursorAdapter
 		// ITEM_TO show the elements in a ListView
-		listCursor = deliveryApplication.getWebAccessor().getFoodItemCursor();
+		listCursor = delivery.getWebAccessor().getFoodItemCursor();
 		startManagingCursor(listCursor);
 		listAdapter = new SimpleCursorAdapter(this, R.layout.list_row, listCursor, ITEM_FROM, ITEM_TO);
 		itemListView.setAdapter(listAdapter);
 		
-		orderCursor = deliveryApplication.getWebAccessor().getOrderCursor();
+		orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser());
 		startManagingCursor(orderCursor);
 		orderAdapter = new SimpleCursorAdapter(this, R.layout.order_row, orderCursor, ORDER_FROM, ORDER_TO);
 		orderListView.setAdapter(orderAdapter);

@@ -61,6 +61,7 @@ public class OrderViewActivity extends Activity {
 			    switch(delivery.getIdentity()){
 		        case CUSTOMER:
 		            // intent = new Intent(OrderViewActivity.this, NFCActivity.class);
+		        	delivery.getWebAccessor().orderProviderConfirm(new Order(orderID, orderStatus, orderStatus));
 		        	intent = new Intent(OrderViewActivity.this, GPSActivity.class);
 		        	startActivity(intent);
 		            break;
@@ -68,11 +69,11 @@ public class OrderViewActivity extends Activity {
 		            // update order status
 		            break;
 		        case COURIER:
-		            if(OrderViewActivity.this.orderStatus == "STATUS_COUR_CONFIRMED"){
+		            if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED)) {
 		                intent = new Intent(OrderViewActivity.this, NFCActivity.class);
 		                startActivity(intent);
 		            }
-		            else if(OrderViewActivity.this.orderStatus == "STATUS_PROV_CONFIRMED"){
+		            else if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED)) {
 		                // send update command to change status;
 		            }
 		            break;
@@ -84,13 +85,13 @@ public class OrderViewActivity extends Activity {
 		
 		// Disable action button according to different order status.
 		if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER
-		        &&OrderViewActivity.this.orderStatus != "STATUS_COUR_CONFIRMED")
+		        && !OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED))
 		    actionButton.setEnabled(false);
 		if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER
-                &&OrderViewActivity.this.orderStatus != "STATUS_INIT")
+                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PENDING))
             actionButton.setEnabled(false);
 		if(delivery.getIdentity() == DeliveryApplication.Identity.COURIER
-                &&OrderViewActivity.this.orderStatus != "STATUS_PROV_CONFIRMED")
+                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED))
             actionButton.setEnabled(false);
 		//*************************************************************************************************
 		actionButton.setEnabled(true);
