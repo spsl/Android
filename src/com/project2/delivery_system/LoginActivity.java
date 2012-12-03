@@ -29,7 +29,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		// Set background color
 		Resources res = getResources();
 		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
 		this.getWindow().setBackgroundDrawable(drawable);
@@ -40,6 +40,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		nameEditText = (EditText)findViewById(R.id.editName);
 		passwordEditText = (EditText)findViewById(R.id.editPassword);
 		loginButton = (Button)findViewById(R.id.buttonLogin);
+		loginButton.setHeight(100);
+		loginButton.setWidth(100);
 		loginButton.setOnClickListener(this);
 		signupButton = (Button)findViewById(R.id.buttonSignup);
 		signupButton.setOnClickListener(new OnClickListener() {
