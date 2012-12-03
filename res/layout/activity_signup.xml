@@ -1,44 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/editSignupName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/user_name"
-        android:ems="10" >
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-        <requestFocus />
-    </EditText>
+        <TextView
+            android:layout_width="140px"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/editSignupPassword"
+        <EditText
+            android:id="@+id/editSignupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/user_name" >
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editSignupName"
-        android:ems="10"
-        android:hint="@string/user_password" />
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/editSignupPasswordConfirm"
+        <TextView
+            android:layout_width="140px"
+            android:layout_height="wrap_content"
+            android:text="@string/user_password"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editSignupPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editSignupName"
+            android:ems="10"
+            android:hint="@string/user_password" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editSignupPassword"
-        android:ems="10"
-        android:hint="@string/user_password_confirm" />
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="140px"
+            android:layout_height="wrap_content"
+            android:text="@string/user_password_confirm"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editSignupPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editSignupPassword"
+            android:ems="10"
+            android:hint="@string/user_password_confirm" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editSignupPasswordConfirm"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:textSize="20sp"
         android:text="@string/user_signup" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -25,7 +25,6 @@ public class NFCActivity extends Activity implements OnClickListener{
     
     private String orderID;
     private String orderStatus;
-    @SuppressWarnings("unused")
     private String orderUser;
     
     @Override

@@ -4,6 +4,8 @@ import com.project2.delivery_system.DeliveryApplication.Identity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -17,18 +19,22 @@ import android.widget.Toast;
  * @author deyuandeng
  */
 public class LoginActivity extends Activity implements OnClickListener {
-	
+
 	private EditText nameEditText;
 	private EditText passwordEditText;
 	private Button loginButton;
 	private Button signupButton;
 	private DeliveryApplication delivery;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Resources res = getResources();
+		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
+		this.getWindow().setBackgroundDrawable(drawable);
 		setContentView(R.layout.activity_login);
-		
+
 		// Instantiate all variables
 		delivery = (DeliveryApplication) getApplication();
 		nameEditText = (EditText)findViewById(R.id.editName);
@@ -43,7 +49,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				startActivity(new Intent(LoginActivity.this, SignupActivity.class));
 			}
 		});
-		
+
 		ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Processing...", 
 				"Finding Location...", true, false);
 		progressDialog.dismiss();
@@ -61,7 +67,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		new Uploader().execute(name, password);		// internet connection in background
 		Toast.makeText(delivery, "Please wait", Toast.LENGTH_SHORT).show();
 	}
-	
+
 	/***
 	 * Asynchronously posts to server, avoid blocking UI thread. The first data
 	 * type is used by doInBackground, the second by onProgressUpdate, and the
@@ -70,7 +76,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	class Uploader extends AsyncTask<String, Integer, String> {
 
 		// doInBackground() is the callback that specifies the actual work to be
-		// done on the separate thread, as if itÕs executing in the background.
+		// done on the separate thread, as if itï¿½s executing in the background.
 		@Override
 		protected String doInBackground(String... user) {
 			try {
@@ -81,7 +87,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			}
 		}
 
-		// onProgressUpdate() is called whenever thereÕs progress in the task
+		// onProgressUpdate() is called whenever thereï¿½s progress in the task
 		// execution. The progress should be reported from the doInBackground() call.
 		@Override
 		protected void onProgressUpdate(Integer... values) {
@@ -102,7 +108,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					delivery.setIdentity(Identity.PROVIDER);
 				else if (result.equals("courier"))
 					delivery.setIdentity(Identity.COURIER);
-				
+
 				startActivity(new Intent(LoginActivity.this, BrowseActivity.class));
 			}
 		}
