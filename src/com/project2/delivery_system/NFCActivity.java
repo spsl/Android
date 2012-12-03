@@ -19,13 +19,21 @@ public class NFCActivity extends Activity implements OnClickListener{
     PendingIntent mPendingIntent; 
     TextView textView;
     private IntentFilter[] mFilters;
+    private DeliveryApplication delivery;
     
-    final String NFC_MESSAGE_MIME="application.com.example.partialTest";
+    private final String MESSAGE_ID="com.project2.delivery_system.NFCActivity.MESSAGE";
+    
+    private String orderID;
+    private String orderStatus;
+    @SuppressWarnings("unused")
+    private String orderUser;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
+        
+        delivery = (DeliveryApplication) getApplication();
         
         textView=(TextView)findViewById(R.id.textView_nfcDisplay);
      
@@ -42,7 +50,7 @@ public class NFCActivity extends Activity implements OnClickListener{
             throw new RuntimeException("fail",e);
         }
         
-        mFilters=new IntentFilter[]{ndef,};
+        mFilters=new IntentFilter[]{ndef};
         // Check for available NFC Adapter
         
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -51,6 +59,8 @@ public class NFCActivity extends Activity implements OnClickListener{
             finish();
             return;
         }
+        
+        intentHandler(getIntent());
     }
     
     @Override
@@ -59,31 +69,13 @@ public class NFCActivity extends Activity implements OnClickListener{
         super.onPause();
         mNfcAdapter.disableForegroundNdefPush(this);
         mNfcAdapter.disableForegroundDispatch(this);
-        
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // TODO Auto-generated method stub
-        System.out.println("NFC on new intent");
-        String action = intent.getAction();
-        if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
-            
-            System.out.println("NDEF Received!");
-            
-            textView=(TextView)findViewById(R.id.textView_nfcDisplay);
-            
-            Parcelable[] rawMsgs=intent.getParcelableArrayExtra(
-                    NfcAdapter.EXTRA_NDEF_MESSAGES);
-            System.out.println(rawMsgs.toString());
-            NdefMessage msg=(NdefMessage) rawMsgs[0];
-            System.out.println(new String(msg.getRecords()[0].getId()));
-            
-            textView.setText(new String(msg.getRecords()[0].getPayload()));
-            
-        }
-
+        intentHandler(intent);
+        setIntent(intent);
+        
         super.onNewIntent(intent);
     }
 
@@ -98,18 +90,33 @@ public class NFCActivity extends Activity implements OnClickListener{
             System.out.println("NFC not enabled!");
         }
         
-        if(true){
-            System.out.println("Start Transmitting..");
+        // if identity is CUSTOMER, start transmission
+        if(delivery.getIdentity()==DeliveryApplication.Identity.CUSTOMER){
+            System.out.println("Start Transmission..");
             
-            String text=("Beam me up, Android! \n\n"+"Beam Time: "+ System.currentTimeMillis());
-            
+            // formatting message
             NdefMessage msg=new NdefMessage(
                     new NdefRecord[]{     
                             new NdefRecord(
-                            NdefRecord.TNF_WELL_KNOWN,
-                            NdefRecord.RTD_TEXT,
-                            NFC_MESSAGE_MIME.getBytes(),
-                            text.getBytes() )
+                                NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_TEXT,
+                                MESSAGE_ID.getBytes(),
+                                new String("").getBytes() ),
+                            new NdefRecord(
+                                NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_TEXT,
+                                new String("orderID").getBytes(),
+                                orderID.getBytes() ),
+                            new NdefRecord(
+                                NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_TEXT,
+                                new String("orderStatus").getBytes(),
+                                orderStatus.getBytes() ),
+                            new NdefRecord(
+                                NdefRecord.TNF_WELL_KNOWN,
+                                NdefRecord.RTD_TEXT,
+                                new String("orderUser").getBytes(),
+                                orderUser.getBytes() ),
                             }
                     );
             
@@ -128,4 +135,46 @@ public class NFCActivity extends Activity implements OnClickListener{
         }
     }
 
+    private void intentHandler(Intent intent){
+        // TODO Auto-generated method stub
+        
+        Bundle bundle = intent.getExtras();
+        if(bundle!=null){
+            // set current order information
+            orderID = bundle.getString("orderID");
+            orderStatus = bundle.getString("orderStatus");
+            orderUser = bundle.getString("orderUser");
+        }
+        
+        String action = intent.getAction();
+        if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+            System.out.println("NDEF Received!");
+            
+            textView=(TextView)findViewById(R.id.textView_nfcDisplay);
+            
+            Parcelable[] rawMsgs=intent.getParcelableArrayExtra(
+                    NfcAdapter.EXTRA_NDEF_MESSAGES);
+            System.out.println(rawMsgs.toString());
+            NdefMessage msg=(NdefMessage) rawMsgs[0];
+            
+            String msg_id=new String(msg.getRecords()[0].getId());
+            
+            // if the id is good
+            if(msg_id == MESSAGE_ID)
+            {
+                String receivedOrderID = new String(msg.getRecords()[1].getPayload());
+                String receivedOrderStatus = new String(msg.getRecords()[2].getPayload());
+                String receivedOrderUser = new String(msg.getRecords()[3].getPayload());
+                
+                System.out.println("Received! id: "+receivedOrderID+" Status: "+receivedOrderStatus+" User: "+receivedOrderUser);
+                // if the user identity is courier, sent data base upload request
+                if(delivery.getIdentity()==DeliveryApplication.Identity.COURIER &&
+                        receivedOrderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
+                    delivery.getWebAccessor().orderTransactionConfirm(new Order(receivedOrderID, Order.STATUS_CLOSED, receivedOrderUser));
+                    textView.setText(new String("Transaction Completed: ")+orderID);
+                }
+            }
+        }
+    }
+    
 }

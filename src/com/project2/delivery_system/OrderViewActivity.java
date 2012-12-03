@@ -15,7 +15,6 @@ public class OrderViewActivity extends Activity {
 	
 	private String orderID;
 	private String orderStatus;
-	@SuppressWarnings("unused")
 	private String orderUser;
 	
 	private Button actionButton;
@@ -55,18 +54,29 @@ public class OrderViewActivity extends Activity {
         default:
             break;
 		}
+		
+		setupActionButtonUsingOrderStatus();
+		
 		actionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 			    Intent intent;
 			    switch(delivery.getIdentity()){
 		        case CUSTOMER:
-		            // intent = new Intent(OrderViewActivity.this, NFCActivity.class);
-		        	delivery.getWebAccessor().orderProviderConfirm(new Order(orderID, orderStatus, orderStatus));
-		        	intent = new Intent(OrderViewActivity.this, GPSActivity.class);
-		        	startActivity(intent);
+                    // for customer, check if the state of the order is delivery confirmed, 
+                    // if yes, start nfc activity for transaction
+                    if(OrderViewActivity.this.orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
+		                intent = new Intent(OrderViewActivity.this, NFCActivity.class);
+		                Bundle bundle = new Bundle();
+                        bundle.putString("orderID", orderID);
+                        bundle.putString("orderStatus", orderStatus);
+                        bundle.putString("orderUser", orderUser);
+                        intent.putExtras(bundle);
+		                startActivity(intent);
+                    }
 		            break;
 		        case PROVIDER:
 		            // update order status
+		        	delivery.getWebAccessor().orderProviderConfirm(new Order(orderID, orderStatus, orderStatus));
 		            break;
 		        case COURIER:
 		            if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED)) {
@@ -82,19 +92,6 @@ public class OrderViewActivity extends Activity {
 			    }
 			}
 		});
-		
-		// Disable action button according to different order status.
-		if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER
-		        && !OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED))
-		    actionButton.setEnabled(false);
-		if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER
-                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PENDING))
-            actionButton.setEnabled(false);
-		if(delivery.getIdentity() == DeliveryApplication.Identity.COURIER
-                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED))
-            actionButton.setEnabled(false);
-		//*************************************************************************************************
-		actionButton.setEnabled(true);
 	}
 	
 	// On new intent, read extra information
@@ -113,6 +110,24 @@ public class OrderViewActivity extends Activity {
 	    text = (TextView)findViewById(R.id.textView_order_status);
         text.setText(orderStatus);
         
+        setupActionButtonUsingOrderStatus();
+        
 	    super.onNewIntent(intent);
 	}
+	
+	// enable action buttons if the status of the order is legal
+	private void setupActionButtonUsingOrderStatus(){
+	    if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER
+                && !OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED))
+            actionButton.setEnabled(false);
+        if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER
+                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PENDING))
+            actionButton.setEnabled(false);
+        if(delivery.getIdentity() == DeliveryApplication.Identity.COURIER
+                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED))
+            actionButton.setEnabled(false);
+        //*************************************************************************************************
+        actionButton.setEnabled(true);
+	    
+	};
 }
