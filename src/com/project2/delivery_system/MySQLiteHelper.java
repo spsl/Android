@@ -12,19 +12,26 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_FOODITMES = "fooditems";
-	public static final String COLUMN_CREATED_AT = "created_at";	
-	public static final String COLUMN_NAME = "name";
-	public static final String COLUMN_PRICE = "price";
-	public static final String[] MAX_CREATED_AT_COLUMNS = 
-		{ "max(" + MySQLiteHelper.COLUMN_CREATED_AT + ")" };
+	public static final String TABLE_ORDERS = "orders";
+	public static final String COLUMN_ID = "_id";
+	public static final String COLUMN_ITEMNAME = "item_name";
+	public static final String COLUMN_ITEMPRICE = "item_price";
+	public static final String COLUMN_ORDERSTATUS = "order_status";
+	public static final String COLUMN_ORDERUSER = "order_user";
+	public static final String GET_ALL_ORDER_BY = COLUMN_ID + " DESC";	
 
 	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "fooditems.db";
-	private static final String DATABASE_CREATE = 
-			"create table " + TABLE_FOODITMES + "(" + 
-			COLUMN_CREATED_AT + " int primary key, " +
-			COLUMN_NAME + " text not null, " + 
-			COLUMN_PRICE + " int);";
+	private static final String DATABASE_LIST_CREATE = 
+			"create table " + TABLE_FOODITMES + "(" +
+			COLUMN_ID + " text primary key, " +
+			COLUMN_ITEMNAME + " text not null, " + 
+			COLUMN_ITEMPRICE + " int);";
+	private static final String DATABASE_ORDER_CREATE = 
+			"create table " + TABLE_ORDERS + "(" +
+			COLUMN_ID + " text primary key, " +
+			COLUMN_ORDERSTATUS + " text not null, " + 
+			COLUMN_ORDERUSER + " text not null);";
 
 	
 	public MySQLiteHelper(Context context) {
@@ -33,7 +40,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL(DATABASE_CREATE);
+		database.execSQL(DATABASE_LIST_CREATE);
+		database.execSQL(DATABASE_ORDER_CREATE);
 	}
 
 	@Override

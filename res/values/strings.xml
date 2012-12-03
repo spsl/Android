@@ -3,6 +3,45 @@
     <string name="app_name">Delivery-System</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_browse">Browse</string>
+    <string name="title_activity_detailview">Detail View</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_signup">Signup</string>
+    <string name="title_activity_orderview">Detail View</string>
+    <string name="title_activity_uploadfooditem">Upload Food Item</string>
+    <string name="order_list">Order List</string>
+    <string name="order_button">Order Food</string>
+    
+    <!-- order function  -->
+    <string name="order_action_button">Action</string>
+    <string name="order_action_confirm">Confirm</string>
+    <string name="order_action_transaction">Transaction</string>
+        
+    <!-- Update item related string -->
+    <string name="itemID">Food item ID</string>
+    <string name="item_name">Food item name </string>
+    <string name="item_price">Food item price</string>
+    <string name="item_upload">Upload</string>
+    <string name="button_upload">Upload</string>
 
+    <string name="title_activity_nfc">NFCActivity</string>
+    <string name="nfc_greetings">Communicating&#8230;</string>
+    <string name="gps_greetings">Welcome GPS</string>
+    <string name="title_activity_cam">CamActivity</string>
+    <string name="title_activity_gps">GPSActivity</string>
+    <string name="cam_greetings">Welcome Camera</string>
+    
+    <string name="user_name">name</string>
+    <string name="user_password">passowrd</string>
+    <string name="user_password_confirm">confirm passowrd</string>
+    <string name="user_login">Login</string>
+    <string name="user_signup">Signup</string>
+    
+    <string name="take_photo">Take Photo</string>
+    <string name="cam_view">View</string>
+    <string name="cam_shoot">Shoot</string>
+    <string name="cam_switch">Switch</string>
+    
+    
 </resources>
+
