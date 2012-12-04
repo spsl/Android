@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|left"
-    android:orientation="vertical" >
-
-    <!-- android:background="@drawable/login"-->
+    android:orientation="vertical"
+    android:background="@drawable/login">
 
     <TextView
         android:layout_width="match_parent"

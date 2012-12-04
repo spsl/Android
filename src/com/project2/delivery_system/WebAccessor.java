@@ -6,8 +6,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
 	
 public class WebAccessor {
@@ -79,31 +75,32 @@ public class WebAccessor {
 	 * Get all web food items from server, update local database, then list view
 	 */
 	public void getAllFoodItems() {
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(FOOD_ITEM_URI);
-		int newFoodItems = 0;
-
 		try {
 			String line;
+			int newFoodItems = 0;
+			
+			// Generate GET request for food items
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(FOOD_ITEM_URI);
 			HttpResponse response = httpClient.execute(httpGet);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
-			while ((line = reader.readLine()) != null) {
+			while ((line = reader.readLine()) != null) {	// read server response
 				ContentValues values = new ContentValues();
 				String[] itemStrings = line.split(";");
 				
-				// get image of an item
+				// Get image of an item
 			    httpGet = new HttpGet(IMAGE_URI + "?itemID=" + URLEncoder.encode(itemStrings[0]));
 			    response = httpClient.execute(httpGet);
 			    InputStream inputStream = response.getEntity().getContent();
 			    ByteArrayOutputStream out = new ByteArrayOutputStream();
 			    byte[] data = new byte[1024];
 			    int length = 0;
-			    while ((length = inputStream.read(data))!=-1) {
+			    while ((length = inputStream.read(data))!=-1) {		// read from input stream as bytes
 			    	out.write(data, 0, length);
 			    }
 
+			    // Insert into database
 				values.put(MySQLiteHelper.COLUMN_ID, itemStrings[0]);
 				values.put(MySQLiteHelper.COLUMN_ITEMNAME, itemStrings[1]);
 				values.put(MySQLiteHelper.COLUMN_ITEMPRICE, itemStrings[2]);
@@ -116,8 +113,7 @@ public class WebAccessor {
             if (newFoodItems > 0) {
                 Intent intent = new Intent(NEW_INFO_INTENT);
                 intent.putExtra(NEW_INFO_EXTRA, NEW_ITEM);
-                // In delivery application, browse activity will take action to this intent
-                context.sendBroadcast(intent);
+                context.sendBroadcast(intent);	// send broadcast message to browse activity
             }
 			reader.close();
 
@@ -132,13 +128,12 @@ public class WebAccessor {
 	 * Get all orders of current user from web, update local database, then
 	 * update order view
 	 */
-	public void getAllWebOrders(String orderUser) {
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(ORDER_URI + "?orderUser=" + orderUser);
-		int newOrders = 0;
-
+	public void getAllWebOrders(String orderUser) {		
 		try {
 			String line;
+			int newOrders = 0;
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(ORDER_URI + "?orderUser=" + orderUser);			
 			HttpResponse response = httpClient.execute(httpGet);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));
@@ -158,7 +153,6 @@ public class WebAccessor {
             if (newOrders > 0) {
                 Intent intent = new Intent(NEW_INFO_INTENT);
                 intent.putExtra(NEW_INFO_EXTRA, NEW_ORDER);
-                // In delivery application, browse activity will take action to this intent
                 context.sendBroadcast(intent);
             }
 			reader.close();
@@ -174,7 +168,6 @@ public class WebAccessor {
 	 * Add a food item to server, update local database, then update list view
 	 */
 	public void addFoodItem(FoodItem foodItem, byte[] image) {
-		
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(FOOD_ITEM_URI);
@@ -246,22 +239,20 @@ public class WebAccessor {
 	}
 
     /**
-     * Get cursor of database, point to the first row 
+     * Get cursor of database table food item, point to the first row 
      * @return
      */
     public Cursor getFoodItemCursor() {
-            
             return database.query(MySQLiteHelper.TABLE_FOODITMES,
                             null, null, null, null, null, 
                             MySQLiteHelper.GET_ALL_ORDER_BY); 
     }
     
     /**
-     * Get cursor of database, point to the first row 
+     * Get cursor of database table order, point to the first row 
      * @return
      */
     public Cursor getOrderCursor(String orderUser) {
-            
             return database.query(MySQLiteHelper.TABLE_ORDERS, null,
                             MySQLiteHelper.COLUMN_ORDERUSER + "=?",
                             new String[] {orderUser}, 
@@ -277,8 +268,7 @@ public class WebAccessor {
      */
     public String login(String name, String password) {
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet(USER_URI + "?name=" + name 
-				+ "&password=" + password);
+		HttpGet httpGet = new HttpGet(USER_URI + "?name=" + name + "&password=" + password);
 		String line = null;
 
 		try {
@@ -304,9 +294,9 @@ public class WebAccessor {
      * Sign up to application.
      * @param name
      * @param password
-     * @return server response
+     * @return server response, e.g. user already exits
      */
-    public String signup(String name, String password) {
+    public String signup(String name, String password, String identity) {
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(USER_URI);
 		String line = null;
@@ -316,10 +306,10 @@ public class WebAccessor {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 			nameValuePairs.add(new BasicNameValuePair("name", name));
 			nameValuePairs.add(new BasicNameValuePair("password", password));
+			nameValuePairs.add(new BasicNameValuePair("identity", identity));
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse response = httpClient.execute(httpPost);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					response.getEntity().getContent()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 			
 			line = reader.readLine();
 			reader.close();
@@ -337,11 +327,7 @@ public class WebAccessor {
      *  Used for provider to confirm a pending order. If order status is incorrect, return -1
      * @param order
      */
-	public int orderProviderConfirm(Order order) {
-		if (!order.getStatus().equals(Order.STATUS_PENDING)) {
-			return -1;
-		}
-		
+	public int orderProviderConfirm(String orderID) {
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(ORDER_URI);
@@ -350,15 +336,14 @@ public class WebAccessor {
 		try {
 			// Post to server
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-			nameValuePairs.add(new BasicNameValuePair("orderID", order.getId()));
+			nameValuePairs.add(new BasicNameValuePair("orderID", orderID));
 			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_PROV_CONFIRMED));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
 
 			// Update local database
-			values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+			values.put(MySQLiteHelper.COLUMN_ID, orderID);
 			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, Order.STATUS_PROV_CONFIRMED);
-			values.put(MySQLiteHelper.COLUMN_ORDERUSER, order.getUser());
 			database.updateWithOnConflict(MySQLiteHelper.TABLE_ORDERS, values, 
 					null, null, SQLiteDatabase.CONFLICT_IGNORE);
 			
@@ -420,10 +405,7 @@ public class WebAccessor {
      *  Used for courier to confirm an order has completed. If order status is incorrect, return -1
      * @param order
      */
-	public int orderTransactionConfirm(Order order) {
-		if (!order.getStatus().equals(Order.STATUS_COUR_CONFIRMED)) {
-			return -1;
-		}
+	public int orderTransactionConfirm(String orderID) {
 		
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
@@ -433,15 +415,14 @@ public class WebAccessor {
 		try {
 			// Post to server
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-			nameValuePairs.add(new BasicNameValuePair("orderID", order.getId()));
+			nameValuePairs.add(new BasicNameValuePair("orderID", orderID));
 			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_CLOSED));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
 
 			// Update local database
-			values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+			values.put(MySQLiteHelper.COLUMN_ID, orderID);
 			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, Order.STATUS_CLOSED);
-			values.put(MySQLiteHelper.COLUMN_ORDERUSER, order.getUser());
 			database.updateWithOnConflict(MySQLiteHelper.TABLE_ORDERS, values, 
 					null, null, SQLiteDatabase.CONFLICT_IGNORE);
 			

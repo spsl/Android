@@ -63,7 +63,7 @@ public class OrderViewActivity extends Activity {
 			    switch(delivery.getIdentity()){
 		        case CUSTOMER:
                     // for customer, check if the state of the order is delivery confirmed, 
-                    // if yes, start nfc activity for transaction
+                    // if yes, start NFC activity for transaction
                     if(OrderViewActivity.this.orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
 		                intent = new Intent(OrderViewActivity.this, NFCActivity.class);
 		                Bundle bundle = new Bundle();
@@ -76,7 +76,7 @@ public class OrderViewActivity extends Activity {
 		            break;
 		        case PROVIDER:
 		            // update order status
-		        	delivery.getWebAccessor().orderProviderConfirm(new Order(orderID, orderStatus, orderStatus));
+		        	delivery.getWebAccessor().orderProviderConfirm(orderID);
 		            break;
 		        case COURIER:
 		            if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED)) {

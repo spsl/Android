@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,8 +45,8 @@ public class BrowseActivity extends Activity {
 	private SimpleCursorAdapter orderAdapter;
 	private Cursor listCursor;		// cursor that manage item list
 	private Cursor orderCursor;		// cursor that manage order list
-	private ListView itemListView;		// item list view
-	private ListView orderListView;		// order list view
+	private ListView itemListView;	// item list view
+	private ListView orderListView;	// order list view
 	private Button uploadButton;	// update a food item
 	private ProgressDialog progressDialog;
 	private ViewBinder VIEW_BINDER = new ViewBinder() {
@@ -112,6 +113,10 @@ public class BrowseActivity extends Activity {
 			}
 	     });
 		
+		progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
+				"Loading...", true, false);
+		new Uploader().execute();
+		
 	    // Start service to fetch new food items from web server
 	    if (delivery.isServiceRunning() == false)
 	    	startService(new Intent(this, UpdateService.class));
@@ -164,8 +169,6 @@ public class BrowseActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			
-			progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
-					"Loading...", true, false);
 			// re-query ITEM_TO refresh listCursor
 			listCursor.requery();
 			// notify listAdapter that underlying data has changed
@@ -173,6 +176,41 @@ public class BrowseActivity extends Activity {
 				
 			orderCursor.requery();
 			orderAdapter.notifyDataSetChanged();
+		}
+	}
+	
+	/***
+	 * Asynchronously posts to server, avoid blocking UI thread. The first data
+	 * type is used by doInBackground, the second by onProgressUpdate, and the
+	 * third by onPostExecute.
+	 */
+	class Uploader extends AsyncTask<String, Integer, String> {
+
+		// doInBackground() is the callback that specifies the actual work to be
+		// done on the separate thread, as if it's executing in the background.
+		@Override
+		protected String doInBackground(String... user) {
+			try {
+				delivery.getWebAccessor().getAllFoodItems();
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null; 	
+		}
+
+		// onProgressUpdate() is called whenever there's progress in the task
+		// execution. The progress should be reported from the doInBackground() call.
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+
+		// onPostExecute() is called when our task completes. This is our
+		// callback method to update the user interface and tell the user 
+		// that the task is done.
+		@Override
+		protected void onPostExecute(String result) {
 			progressDialog.dismiss();
 		}
 	}

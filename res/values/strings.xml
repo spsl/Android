@@ -11,38 +11,41 @@
     <string name="title_activity_uploadfooditem">Upload Food Item</string>
     <string name="order_list">Order List</string>
     <string name="order_button">Order Food</string>
-    
-    <!-- order function  -->
+
+    <!-- order function -->
     <string name="order_action_button">Action</string>
     <string name="order_action_confirm">Confirm</string>
     <string name="order_action_transaction">Transaction</string>
-        
+
     <!-- Update item related string -->
     <string name="itemID">Food Item ID</string>
     <string name="item_name">Food Item Name </string>
     <string name="item_price">Food Item Price</string>
     <string name="item_upload">Upload</string>
     <string name="button_upload">Upload</string>
-
     <string name="title_activity_nfc">NFCActivity</string>
     <string name="nfc_greetings">Communicating&#8230;</string>
     <string name="gps_greetings">Welcome GPS</string>
     <string name="title_activity_cam">CamActivity</string>
     <string name="title_activity_gps">GPSActivity</string>
     <string name="cam_greetings">Welcome Camera</string>
-    
     <string name="user_name">Username:</string>
     <string name="hint_info">Please enter here</string>
+    <string name="hint_info2">Please chose here</string>
     <string name="user_password">Password:</string>
     <string name="user_password_confirm">Confirm Password</string>
     <string name="user_login">Login</string>
     <string name="user_signup">Signup</string>
-    
+    <string name="user_identity">Your identity</string>
     <string name="take_photo">Take a Photo</string>
     <string name="cam_view">View</string>
     <string name="cam_shoot">Shoot</string>
     <string name="cam_switch">Switch</string>
-    
-    
-</resources>
 
+    <string-array name="identity">
+        <item>Provider</item>
+        <item>Courier</item>
+        <item>Customer</item>
+    </string-array>
+
+</resources>

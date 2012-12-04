@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/user_name" >
+            android:hint="@string/hint_info" >
 
             <requestFocus />
         </EditText>
@@ -48,9 +48,8 @@
             android:id="@+id/editSignupPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editSignupName"
             android:ems="10"
-            android:hint="@string/user_password" />
+            android:hint="@string/hint_info" />
     </LinearLayout>
 
     <TextView
@@ -71,17 +70,36 @@
             android:id="@+id/editSignupPasswordConfirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/editSignupPassword"
             android:ems="10"
-            android:hint="@string/user_password_confirm" />
+            android:hint="@string/hint_info" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/user_identity"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+    <Spinner
+        android:id="@+id/spinnerIdentity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/identity"
+        android:prompt="@string/hint_info2" />
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editSignupPasswordConfirm"
         android:text="@string/user_signup"
         android:textSize="20sp" />
 

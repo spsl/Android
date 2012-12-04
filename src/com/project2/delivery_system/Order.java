@@ -19,15 +19,17 @@ public class Order {
 	private String id;
 	private String user;
 	private String status;
+	private String itemID;
 
 	public Order() {
 		
 	}
 	
-	public Order(String id, String status, String user) {
+	public Order(String id, String status, String user, String itemID) {
 		this.id = id;
 		this.user = user;
 		this.status = status;
+		this.itemID = itemID;
 	}
 	
 	public String getId() {
@@ -52,5 +54,13 @@ public class Order {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	public String getItemID() {
+		return itemID;
+	}
+
+	public void setItemID(String itemID) {
+		this.itemID = itemID;
 	}
 }

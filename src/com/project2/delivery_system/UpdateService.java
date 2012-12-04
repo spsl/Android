@@ -12,7 +12,7 @@ import android.os.IBinder;
  */
 public class UpdateService extends Service {
 	
-	private static int DELAY = 60000;	// 60s period
+	private static int DELAY = 120000;	// 2min period
 	private DeliveryApplication delivery;
 	private Updater updater;
 	

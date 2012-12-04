@@ -1,7 +1,6 @@
 package com.project2.delivery_system;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,19 +9,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.project2.delivery_system.DeliveryApplication.Identity;
 
 /**
  * Login activity, main activity of our application. 
  * @author deyuandeng
  */
-public class LoginActivity extends Activity implements OnClickListener {
+public class LoginActivity extends Activity {
 
 	private EditText nameEditText;
 	private EditText passwordEditText;
 	private Button loginButton;
 	private Button signupButton;
-	private ProgressDialog progressDialog;
 	private DeliveryApplication delivery;
 
 	@Override
@@ -35,7 +34,16 @@ public class LoginActivity extends Activity implements OnClickListener {
 		nameEditText = (EditText)findViewById(R.id.editName);
 		passwordEditText = (EditText)findViewById(R.id.editPassword);
 		loginButton = (Button)findViewById(R.id.buttonLogin);
-		loginButton.setOnClickListener(this);
+		loginButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String name = nameEditText.getText().toString();
+				String password = passwordEditText.getText().toString();
+
+				delivery.setUser(name);		// if login fail, name will be reset next time
+				new Uploader().execute(name, password);		// internet connection in background
+			}			
+		});
 		signupButton = (Button)findViewById(R.id.buttonSignup);
 		signupButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -46,24 +54,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 		});
 	}
 
-	/**
-	 * Called when login button is pressed.
-	 */
-	@Override
-	public void onClick(View v) {
-		String name = nameEditText.getText().toString();
-		String password = passwordEditText.getText().toString();
-
-		delivery.setUser(name);		// if login fail, name will be reset next time
-		new Uploader().execute(name, password);		// internet connection in background
-		progressDialog = ProgressDialog.show(LoginActivity.this, "Processing...", 
-				"Login...", true, false);
-	}
-
 	/***
-	 * Asynchronously posts to server, avoid blocking UI thread. The first data
-	 * type is used by doInBackground, the second by onProgressUpdate, and the
-	 * third by onPostExecute.
+	 * Asynchronously login to server, avoid blocking UI thread.
 	 */
 	class Uploader extends AsyncTask<String, Integer, String> {
 
@@ -92,7 +84,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		@Override
 		protected void onPostExecute(String result) {
 			if (result.contains("error")) {		// stay in login page if something wrong
-				progressDialog.dismiss();
 				Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
 			} else {	// login succeed, set identity and start browse activity
 				if (result.equals("customer"))
@@ -101,7 +92,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 					delivery.setIdentity(Identity.PROVIDER);
 				else if (result.equals("courier"))
 					delivery.setIdentity(Identity.COURIER);
-				progressDialog.dismiss();
 				startActivity(new Intent(LoginActivity.this, BrowseActivity.class));
 			}
 		}

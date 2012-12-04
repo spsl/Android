@@ -169,11 +169,10 @@ public class NFCActivity extends Activity implements OnClickListener{
                 // if the user identity is courier, sent data base upload request
                 if(delivery.getIdentity()==DeliveryApplication.Identity.COURIER &&
                         receivedOrderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
-                    delivery.getWebAccessor().orderTransactionConfirm(new Order(receivedOrderID, Order.STATUS_CLOSED, receivedOrderUser));
+                    delivery.getWebAccessor().orderTransactionConfirm(receivedOrderID);
                     textView.setText(new String("Transaction Completed: ")+orderID);
                 }
             }
         }
-    }
-    
+    }    
 }

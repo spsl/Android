@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 /**
@@ -22,6 +23,7 @@ public class SignupActivity extends Activity {
 	EditText userNameEditText;
 	EditText passwordEditText;
 	EditText passwordConfirmEditText;
+	Spinner userIdentitySpinner;
 	DeliveryApplication delivery;
 	
 	@Override
@@ -34,19 +36,30 @@ public class SignupActivity extends Activity {
 		userNameEditText = (EditText)findViewById(R.id.editSignupName);
 		passwordEditText= (EditText)findViewById(R.id.editSignupPassword);
 		passwordConfirmEditText= (EditText)findViewById(R.id.editSignupPasswordConfirm);
+		userIdentitySpinner = (Spinner)findViewById(R.id.spinnerIdentity);
 		signupButton= (Button)findViewById(R.id.buttonSignup);
 		signupButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				String name = userNameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 				String passwordConfirm = passwordConfirmEditText.getText().toString();
-				
-				delivery.setUser(name);
-				delivery.setIdentity(Identity.CUSTOMER);
-				if (!password.equals(passwordConfirm)) {	// if password doesn't equal
+				String identity = (String)userIdentitySpinner.getSelectedItem();
+								
+				if (name.equals("")) {					// no user name is entered
+					Toast.makeText(delivery, "please enter user name", Toast.LENGTH_LONG).show();
+				} else if (password.equals("")) {		// no password is entered
+					Toast.makeText(delivery, "please enter valid password", Toast.LENGTH_LONG).show();
+				} else if (!password.equals(passwordConfirm)) {	// if password doesn't equal
 					Toast.makeText(delivery, "password does not match", Toast.LENGTH_LONG).show();
 				} else {
-					new Uploader().execute(name, password);
+					delivery.setUser(name);
+					if (identity.equalsIgnoreCase("customer"))
+						delivery.setIdentity(Identity.CUSTOMER);
+					else if (identity.equalsIgnoreCase("provider"))
+						delivery.setIdentity(Identity.PROVIDER);
+					else if (identity.equalsIgnoreCase("courier"))
+						delivery.setIdentity(Identity.COURIER);
+					new Uploader().execute(name, password, identity);
 				}
 			}
 		});
@@ -65,7 +78,7 @@ public class SignupActivity extends Activity {
 		@Override
 		protected String doInBackground(String... userStrings) {
 			try {
-				return delivery.getWebAccessor().signup(userStrings[0], userStrings[1]);
+				return delivery.getWebAccessor().signup(userStrings[0], userStrings[1], userStrings[2]);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "error: failed to sign up";

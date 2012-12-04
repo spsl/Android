@@ -49,10 +49,6 @@ public class DetailViewActivity extends Activity {
             orderButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
                 	new Uploader().execute();
-                	
-                    Toast.makeText(DetailViewActivity.this, itemID + " " + itemName+ " " + itemPrice + " ", 
-                    		Toast.LENGTH_SHORT).show();
-                    
                     finish();
                 }
             });
