@@ -30,9 +30,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Set background color
-		Resources res = getResources();
-		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
-		this.getWindow().setBackgroundDrawable(drawable);
+//		Resources res = getResources();
+//		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
+//		this.getWindow().setBackgroundDrawable(drawable);
 		setContentView(R.layout.activity_login);
 
 		// Instantiate all variables

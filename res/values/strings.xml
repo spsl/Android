@@ -11,7 +11,6 @@
     <string name="title_activity_uploadfooditem">Upload Food Item</string>
     <string name="order_list">Order List</string>
     <string name="order_button">Order Food</string>
-    <drawable name="bkcolor">#e6e6fa</drawable>
     
     <!-- order function  -->
     <string name="order_action_button">Action</string>
