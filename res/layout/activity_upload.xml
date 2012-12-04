@@ -2,9 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="bottom"
     android:orientation="vertical" >
 
+    <ImageView
+        android:contentDescription="@string/hello_world"
+        android:id="@+id/jpgview"
+        android:layout_width="120sp"
+        android:layout_height="160sp" />
+    
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

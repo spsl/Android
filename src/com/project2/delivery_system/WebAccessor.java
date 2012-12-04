@@ -1,6 +1,7 @@
 package com.project2.delivery_system;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.InputStreamBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -149,19 +153,22 @@ public class WebAccessor {
 	/**
 	 * Add a food item to server, update local database, then update list view
 	 */
-	public void addFoodItem(FoodItem foodItem) {
+	public void addFoodItem(FoodItem foodItem, byte[] image) {
+		
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(FOOD_ITEM_URI);
 		ContentValues values = new ContentValues();
-
+		
 		try {
+			MultipartEntity multipartContent = new MultipartEntity();
 			// Post to server
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-			nameValuePairs.add(new BasicNameValuePair("itemID", foodItem.getId()));
-			nameValuePairs.add(new BasicNameValuePair("itemName", foodItem.getName()));
-			nameValuePairs.add(new BasicNameValuePair("itemPrice", foodItem.getPrice()));
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			multipartContent.addPart("itemID", new StringBody(foodItem.getId()));
+			multipartContent.addPart("itemName", new StringBody(foodItem.getName()));
+			multipartContent.addPart("itemPrice", new StringBody(foodItem.getPrice()));
+			multipartContent.addPart("itemPicture", 
+					new InputStreamBody(new ByteArrayInputStream(image), foodItem.getFilePath()));
+			httppost.setEntity(multipartContent);
 			httpclient.execute(httppost);
 
 			// Update local database
@@ -175,8 +182,6 @@ public class WebAccessor {
             Intent intent = new Intent(NEW_INFO_INTENT);
             intent.putExtra(NEW_INFO_EXTRA, NEW_ITEM);
             context.sendBroadcast(intent);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -190,7 +195,7 @@ public class WebAccessor {
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(ORDER_URI);
 		ContentValues values = new ContentValues();
-
+		
 		try {
 			// Post to server
 			String orderID = String.valueOf(new Random().nextInt(100000));
@@ -200,7 +205,7 @@ public class WebAccessor {
 			nameValuePairs.add(new BasicNameValuePair("orderUser", orderUser));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
-
+			
 			// Update local database
 			values.put(MySQLiteHelper.COLUMN_ID, orderID);
 			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, "Pending");

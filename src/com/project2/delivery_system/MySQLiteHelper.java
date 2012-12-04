@@ -16,6 +16,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_ITEMNAME = "item_name";
 	public static final String COLUMN_ITEMPRICE = "item_price";
+	public static final String COLUMN_ITEMPICTURE = "item_picture";
 	public static final String COLUMN_ORDERSTATUS = "order_status";
 	public static final String COLUMN_ORDERUSER = "order_user";
 	public static final String GET_ALL_ORDER_BY = COLUMN_ID + " DESC";	
@@ -26,7 +27,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			"create table " + TABLE_FOODITMES + "(" +
 			COLUMN_ID + " text primary key, " +
 			COLUMN_ITEMNAME + " text not null, " + 
-			COLUMN_ITEMPRICE + " int);";
+			COLUMN_ITEMPRICE + " text not null, " + 
+			COLUMN_ITEMPICTURE + " blob);";
 	private static final String DATABASE_ORDER_CREATE = 
 			"create table " + TABLE_ORDERS + "(" +
 			COLUMN_ID + " text primary key, " +

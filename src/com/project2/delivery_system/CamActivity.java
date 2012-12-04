@@ -1,29 +1,30 @@
 package com.project2.delivery_system;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
+import android.hardware.Camera.AutoFocusCallback;
+import android.hardware.Camera.CameraInfo;
+import android.hardware.Camera.PictureCallback;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.content.Intent;
-import android.hardware.Camera;
-import android.hardware.Camera.CameraInfo;
+import android.os.Environment;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.hardware.Camera.PictureCallback;
-import android.hardware.Camera.AutoFocusCallback;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import android.os.Environment;
 import android.widget.Toast;
-import java.util.Date;
-import android.util.Log;
-import java.io.IOException;
 
 /**
  * Camera activity, used to take photo for providers
@@ -47,6 +48,9 @@ public class CamActivity extends Activity implements OnClickListener,
 		// Do we have a camera?
 		if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
 			Toast.makeText(this, "No camera on this device", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent();
+			intent.putExtra("RESULT_STRING", lastPicFile);
+			setResult(RESULT_OK, intent);
 			finish();
 		}
 
@@ -181,12 +185,16 @@ public class CamActivity extends Activity implements OnClickListener,
 			FileOutputStream fos = new FileOutputStream(pictureFile);
 			fos.write(data);
 			fos.close();
-			Toast.makeText(this, "New Image saved:" + photoFile,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "New Image saved:" + photoFile, Toast.LENGTH_LONG).show();
 		} catch (Exception error) {
-			Toast.makeText(this, "Image could not be saved.", Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(this, "Image could not be saved.", Toast.LENGTH_LONG).show();
 		}
+		
+		Intent intent = new Intent();
+		intent.putExtra("RESULT_IMG", data);
+		intent.putExtra("RESULT_STRING", lastPicFile);
+		setResult(RESULT_OK, intent);
+		finish();
 	}
 
 	/**

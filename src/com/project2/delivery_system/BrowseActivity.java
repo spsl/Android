@@ -1,5 +1,6 @@
 package com.project2.delivery_system;
 
+import android.R.drawable;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,8 +14,10 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter.ViewBinder;
 
 /**
  * This is the browse activity of our application. 
@@ -24,9 +27,9 @@ public class BrowseActivity extends Activity {
 	
 	// `ITEM_FROM` and `ITEM_TO` map database to list view for listAdapter
 	private static final String[] ITEM_FROM = 
-		{ MySQLiteHelper.COLUMN_ITEMNAME, MySQLiteHelper.COLUMN_ITEMPRICE };
+		{ MySQLiteHelper.COLUMN_ITEMNAME, MySQLiteHelper.COLUMN_ITEMPRICE, MySQLiteHelper.COLUMN_ITEMPRICE };
 	private static final int[] ITEM_TO = 
-		{ R.id.textName, R.id.textPrice };
+		{ R.id.textName, R.id.textPrice, R.id.imageViewFood };
 	// `ORDER_FROM` and `ORDER_TO` map database to list view for orderAdapter
 	private static final String[] ORDER_FROM = 
 		{ MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_ORDERSTATUS };
@@ -42,6 +45,18 @@ public class BrowseActivity extends Activity {
 	private ListView itemListView;		// item list view
 	private ListView orderListView;		// order list view
 	private Button uploadButton;	// update a food item
+	static final ViewBinder VIEW_BINDER = new ViewBinder() {
+		// called for each data element that needs to be bound to a particular view
+		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
+			if (view.getId() == R.id.imageViewFood) {
+				
+				ImageView noteTypeIcon = (ImageView) view;
+				noteTypeIcon.setImageResource(drawable.ic_media_next);
+				return true;
+			}
+			return false;
+		}
+	};
 	
 
 	/**
@@ -88,7 +103,7 @@ public class BrowseActivity extends Activity {
                   intent.putExtras(bundle);
 	              startActivity(intent);
 			}
-	     });	
+	     });
 		
 	    // Start service to fetch new food items from web server
 	    if (delivery.isServiceRunning() == false)
@@ -125,6 +140,7 @@ public class BrowseActivity extends Activity {
 		listCursor = delivery.getWebAccessor().getFoodItemCursor();
 		startManagingCursor(listCursor);
 		listAdapter = new SimpleCursorAdapter(this, R.layout.list_row, listCursor, ITEM_FROM, ITEM_TO);
+		listAdapter.setViewBinder(VIEW_BINDER);
 		itemListView.setAdapter(listAdapter);
 		
 		orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser());

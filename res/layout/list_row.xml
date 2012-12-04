@@ -4,11 +4,21 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <ImageView
+        android:contentDescription="@string/hello_world"
+        android:id="@+id/imageViewFood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/androidmarker" />
+
     <TextView
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:text="@string/hello_world"
         android:textStyle="bold" />
 
@@ -16,8 +26,8 @@
         android:id="@+id/textPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageViewFood"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:gravity="right"
         android:text="@string/hello_world" />
 

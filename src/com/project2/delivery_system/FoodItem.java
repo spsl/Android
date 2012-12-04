@@ -9,15 +9,17 @@ public class FoodItem {
 	private String id;
 	private String name;
 	private String price;
+	private String filePath;
 
+	
 	public FoodItem() {
-		
 	}
 	
-	public FoodItem(String id, String name, String price) {
+	public FoodItem(String id, String name, String price, String filePath) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.filePath = filePath;
 	}
 	
 	public String getId() {
@@ -43,10 +45,12 @@ public class FoodItem {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-
-	// Will be used by the ArrayAdapter in the ListView
-	@Override
-	public String toString() {
-		return name + " " + price;
+	
+	public String getFilePath() {
+		return filePath;
 	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}	
 }
