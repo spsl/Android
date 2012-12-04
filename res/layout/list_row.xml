@@ -7,8 +7,8 @@
     <ImageView
         android:contentDescription="@string/hello_world"
         android:id="@+id/imageViewFood"
-        android:layout_width="96sp"
-        android:layout_height="72sp"
+        android:layout_width="128sp"
+        android:layout_height="96sp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/androidmarker" />
@@ -20,6 +20,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/hello_world"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <TextView
@@ -29,6 +30,7 @@
         android:layout_alignBottom="@+id/imageViewFood"
         android:layout_alignParentRight="true"
         android:gravity="right"
+        android:textSize="20sp"
         android:text="@string/hello_world" />
 
 </RelativeLayout>

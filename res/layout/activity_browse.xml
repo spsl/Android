@@ -31,7 +31,7 @@
     <ListView
         android:id="@+id/orderlist"
         android:layout_width="match_parent"
-        android:layout_height="202dp"
+        android:layout_height="142dp"
         android:text="@string/hello_world" >
     </ListView>
 

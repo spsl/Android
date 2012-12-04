@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -93,7 +94,7 @@ public class WebAccessor {
 				String[] itemStrings = line.split(";");
 				
 				// get image of an item
-			    httpGet = new HttpGet(IMAGE_URI + "?itemName=" + itemStrings[1]);
+			    httpGet = new HttpGet(IMAGE_URI + "?itemID=" + URLEncoder.encode(itemStrings[0]));
 			    response = httpClient.execute(httpGet);
 			    InputStream inputStream = response.getEntity().getContent();
 			    ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -167,32 +168,6 @@ public class WebAccessor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Get an image of an item.
-	 * @param itemName
-	 * @return byte array of image
-	 */
-	public Bitmap getImage(String itemName) {
-
-		try {
-			Bitmap bmp = null;			
-			URL imageURL = new URL(IMAGE_URI + "?itemName=" + itemName);			
-			HttpURLConnection httpConnection = (HttpURLConnection)imageURL.openConnection();
-			httpConnection.setDoInput(true);
-			httpConnection.connect();
-			InputStream inputStream = httpConnection.getInputStream();
-			bmp = BitmapFactory.decodeStream(inputStream);	
-			
-			return bmp;
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 
 	/**

@@ -3,8 +3,6 @@ package com.project2.delivery_system;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.project2.delivery_system.DeliveryApplication.Identity;
 
 /**
@@ -31,12 +28,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Set background color
-//		Resources res = getResources();
-//		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
-//		this.getWindow().setBackgroundDrawable(drawable);
 		setContentView(R.layout.activity_login);
-
+		
 		// Instantiate all variables
 		delivery = (DeliveryApplication) getApplication();
 		nameEditText = (EditText)findViewById(R.id.editName);
