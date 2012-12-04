@@ -64,12 +64,12 @@
 
         <Button
             android:id="@+id/buttonLogin"
+            style="@style/button_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editPassword"
             android:layout_marginLeft="15dp"
             android:text="@string/user_login"
-            android:background="@drawable/button_shape"
             android:textSize="20sp" />
 
         <Button
@@ -79,6 +79,7 @@
             android:layout_below="@+id/buttonLogin"
             android:layout_marginLeft="15dp"
             android:text="@string/user_signup"
+            style="@style/button_text"
             android:textSize="20sp" />
     </LinearLayout>
 
