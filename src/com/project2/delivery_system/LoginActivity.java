@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -19,7 +20,7 @@ import android.widget.Toast;
  * @author deyuandeng
  */
 public class LoginActivity extends Activity implements OnClickListener {
-
+	private TextView textview;
 	private EditText nameEditText;
 	private EditText passwordEditText;
 	private Button loginButton;
@@ -36,12 +37,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_login);
 
 		// Instantiate all variables
+		//textview = (TextView)findViewById(R.id.userName);
+		textview.setTextSize(20);
 		delivery = (DeliveryApplication) getApplication();
 		nameEditText = (EditText)findViewById(R.id.editName);
 		passwordEditText = (EditText)findViewById(R.id.editPassword);
 		loginButton = (Button)findViewById(R.id.buttonLogin);
-		loginButton.setHeight(100);
-		loginButton.setWidth(100);
+		//loginButton.setHeight(100);
+		//loginButton.setWidth(100);
 		loginButton.setOnClickListener(this);
 		signupButton = (Button)findViewById(R.id.buttonSignup);
 		signupButton.setOnClickListener(new OnClickListener() {
