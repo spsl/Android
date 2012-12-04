@@ -32,8 +32,9 @@
     <string name="title_activity_gps">GPSActivity</string>
     <string name="cam_greetings">Welcome Camera</string>
     
-    <string name="user_name">Username</string>
-    <string name="user_password">Password</string>
+    <string name="user_name">Username:</string>
+    <string name="hint_info">Please enter here</string>
+    <string name="user_password">Password:</string>
     <string name="user_password_confirm">Confirm Password</string>
     <string name="user_login">Login</string>
     <string name="user_signup">Signup</string>
