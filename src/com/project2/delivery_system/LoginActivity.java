@@ -20,7 +20,6 @@ import android.widget.Toast;
  * @author deyuandeng
  */
 public class LoginActivity extends Activity implements OnClickListener {
-	//private TextView textview;
 	private EditText nameEditText;
 	private EditText passwordEditText;
 	private Button loginButton;
@@ -37,8 +36,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_login);
 
 		// Instantiate all variables
-		//textview = (TextView)findViewById(R.id.userName);
-		//textview.setTextSize(20);
 		delivery = (DeliveryApplication) getApplication();
 		nameEditText = (EditText)findViewById(R.id.editName);
 		passwordEditText = (EditText)findViewById(R.id.editPassword);
