@@ -20,7 +20,7 @@ import com.project2.delivery_system.DeliveryApplication.Identity;
  * @author deyuandeng
  */
 public class LoginActivity extends Activity implements OnClickListener {
-	
+
 	private EditText nameEditText;
 	private EditText passwordEditText;
 	private Button loginButton;
@@ -32,9 +32,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Set background color
-		Resources res = getResources();
-		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
-		this.getWindow().setBackgroundDrawable(drawable);
+//		Resources res = getResources();
+//		Drawable drawable = res.getDrawable(R.drawable.bkcolor);
+//		this.getWindow().setBackgroundDrawable(drawable);
 		setContentView(R.layout.activity_login);
 
 		// Instantiate all variables
