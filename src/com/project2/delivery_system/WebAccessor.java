@@ -2,8 +2,12 @@ package com.project2.delivery_system;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,6 +30,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 	
 public class WebAccessor {
@@ -34,6 +40,7 @@ public class WebAccessor {
 	//private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
 	//private static String ORDER_URI = "http://10.0.2.2:8090/orders";
 	//private static String USER_URI = "http://10.0.2.2:8090/users";
+	//private static String IMAGE_URI = "http://10.0.2.2:8090/images";
 	public static final String NEW_INFO_INTENT = 
 			"com.project2.delivery_system.NEW_INFO";
 	public static final String NEW_INFO_EXTRA = 
@@ -50,7 +57,8 @@ public class WebAccessor {
 	private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
 	private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
 	private static String USER_URI = "http://18641datastore.appspot.com/users";
-
+	private static String IMAGE_URI = "http://18641datastore.appspot.com/images";
+	
 	
 	public WebAccessor(Context context) {
 		dbHelper = new MySQLiteHelper(context);
@@ -83,10 +91,22 @@ public class WebAccessor {
 			while ((line = reader.readLine()) != null) {
 				ContentValues values = new ContentValues();
 				String[] itemStrings = line.split(";");
+				
+				// get image of an item
+			    httpGet = new HttpGet(IMAGE_URI + "?itemName=" + itemStrings[1]);
+			    response = httpClient.execute(httpGet);
+			    InputStream inputStream = response.getEntity().getContent();
+			    ByteArrayOutputStream out = new ByteArrayOutputStream();
+			    byte[] data = new byte[1024];
+			    int length = 0;
+			    while ((length = inputStream.read(data))!=-1) {
+			    	out.write(data, 0, length);
+			    }
 
 				values.put(MySQLiteHelper.COLUMN_ID, itemStrings[0]);
 				values.put(MySQLiteHelper.COLUMN_ITEMNAME, itemStrings[1]);
 				values.put(MySQLiteHelper.COLUMN_ITEMPRICE, itemStrings[2]);
+				values.put(MySQLiteHelper.COLUMN_ITEMPICTURE, out.toByteArray());
 				if (database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES,
 						null, values, SQLiteDatabase.CONFLICT_IGNORE) != 0)
 					newFoodItems++;
@@ -129,7 +149,6 @@ public class WebAccessor {
 				values.put(MySQLiteHelper.COLUMN_ID, orderStrings[0]);
 				values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, orderStrings[1]);
 				values.put(MySQLiteHelper.COLUMN_ORDERUSER, orderStrings[2]);
-
 				if (database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
 						null, values, SQLiteDatabase.CONFLICT_IGNORE) != 0)
 					newOrders++;
@@ -148,6 +167,32 @@ public class WebAccessor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Get an image of an item.
+	 * @param itemName
+	 * @return byte array of image
+	 */
+	public Bitmap getImage(String itemName) {
+
+		try {
+			Bitmap bmp = null;			
+			URL imageURL = new URL(IMAGE_URI + "?itemName=" + itemName);			
+			HttpURLConnection httpConnection = (HttpURLConnection)imageURL.openConnection();
+			httpConnection.setDoInput(true);
+			httpConnection.connect();
+			InputStream inputStream = httpConnection.getInputStream();
+			bmp = BitmapFactory.decodeStream(inputStream);	
+			
+			return bmp;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	/**
@@ -170,11 +215,12 @@ public class WebAccessor {
 					new InputStreamBody(new ByteArrayInputStream(image), foodItem.getFilePath()));
 			httppost.setEntity(multipartContent);
 			httpclient.execute(httppost);
-
+			
 			// Update local database
 			values.put(MySQLiteHelper.COLUMN_ID, foodItem.getId());
 			values.put(MySQLiteHelper.COLUMN_ITEMNAME, foodItem.getName());
 			values.put(MySQLiteHelper.COLUMN_ITEMPRICE, foodItem.getPrice());
+			values.put(MySQLiteHelper.COLUMN_ITEMPICTURE, image);
 			database.insertWithOnConflict(MySQLiteHelper.TABLE_FOODITMES, null,
 					values, SQLiteDatabase.CONFLICT_IGNORE);
 

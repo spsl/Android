@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+	public static final String DATABASE_NAME = "fooditems.db";
 	public static final String TABLE_FOODITMES = "fooditems";
 	public static final String TABLE_ORDERS = "orders";
 	public static final String COLUMN_ID = "_id";
@@ -22,7 +23,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String GET_ALL_ORDER_BY = COLUMN_ID + " DESC";	
 
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "fooditems.db";
 	private static final String DATABASE_LIST_CREATE = 
 			"create table " + TABLE_FOODITMES + "(" +
 			COLUMN_ID + " text primary key, " +

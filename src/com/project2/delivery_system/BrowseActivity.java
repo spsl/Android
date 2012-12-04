@@ -1,13 +1,15 @@
 package com.project2.delivery_system;
 
-import android.R.drawable;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,20 +47,25 @@ public class BrowseActivity extends Activity {
 	private ListView itemListView;		// item list view
 	private ListView orderListView;		// order list view
 	private Button uploadButton;	// update a food item
-	static final ViewBinder VIEW_BINDER = new ViewBinder() {
+	private ProgressDialog progressDialog;
+	private ViewBinder VIEW_BINDER = new ViewBinder() {
 		// called for each data element that needs to be bound to a particular view
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
 			if (view.getId() == R.id.imageViewFood) {
-				
-				ImageView noteTypeIcon = (ImageView) view;
-				noteTypeIcon.setImageResource(drawable.ic_media_next);
-				return true;
+				ImageView foodImageView = (ImageView) view;
+				byte[] image = cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ITEMPICTURE));
+				if (image != null) {
+					Bitmap bmp = BitmapFactory.decodeByteArray(image, 0, image.length);
+					foodImageView.setImageBitmap(bmp);
+					return true;
+				} else {
+					return false;		
+				}
 			}
 			return false;
 		}
 	};
 	
-
 	/**
 	 * Called when browse activity is created
 	 */
@@ -157,6 +164,8 @@ public class BrowseActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			
+			progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
+					"Loading...", true, false);
 			// re-query ITEM_TO refresh listCursor
 			listCursor.requery();
 			// notify listAdapter that underlying data has changed
@@ -164,6 +173,7 @@ public class BrowseActivity extends Activity {
 				
 			orderCursor.requery();
 			orderAdapter.notifyDataSetChanged();
+			progressDialog.dismiss();
 		}
 	}
 }
