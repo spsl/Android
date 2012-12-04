@@ -27,9 +27,9 @@ import android.database.sqlite.SQLiteDatabase;
 public class WebAccessor {
 
 	// for debugging
-	private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
-	private static String ORDER_URI = "http://10.0.2.2:8090/orders";
-	private static String USER_URI = "http://10.0.2.2:8090/users";
+	//private static String FOOD_ITEM_URI = "http://10.0.2.2:8090/fooditems";
+	//private static String ORDER_URI = "http://10.0.2.2:8090/orders";
+	//private static String USER_URI = "http://10.0.2.2:8090/users";
 	public static final String NEW_INFO_INTENT = 
 			"com.project2.delivery_system.NEW_INFO";
 	public static final String NEW_INFO_EXTRA = 
@@ -43,9 +43,9 @@ public class WebAccessor {
 	private MySQLiteHelper dbHelper;
 	private Context context;
 
-	//private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
-	//private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
-	//private static String USER_URI = "http://18641datastore.appspot.com/users";
+	private static String FOOD_ITEM_URI = "http://18641datastore.appspot.com/fooditems";
+	private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
+	private static String USER_URI = "http://18641datastore.appspot.com/users";
 
 	
 	public WebAccessor(Context context) {
