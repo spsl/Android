@@ -126,8 +126,5 @@ public class OrderViewActivity extends Activity {
         if(delivery.getIdentity() == DeliveryApplication.Identity.COURIER
                 &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED))
             actionButton.setEnabled(false);
-        //*************************************************************************************************
-        actionButton.setEnabled(true);
-	    
 	};
 }
