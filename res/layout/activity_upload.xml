@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/jpgview"
-            android:layout_width="128sp"
-            android:layout_height="96sp"
+            android:layout_width="256sp"
+            android:layout_height="192sp"
             android:contentDescription="@string/hello_world" />
     </LinearLayout>
 

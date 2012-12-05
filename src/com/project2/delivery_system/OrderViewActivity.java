@@ -27,7 +27,7 @@ public class OrderViewActivity extends Activity {
 		
 		delivery = (DeliveryApplication) getApplication();
 		Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
+        if(bundle != null){
             orderID = bundle.getString("orderID");
             orderStatus = bundle.getString("orderStatus");
             orderUser = bundle.getString("orderUser");
@@ -41,7 +41,7 @@ public class OrderViewActivity extends Activity {
 		
         // Set up action button for different user.
 		actionButton = (Button)findViewById(R.id.button_action);
-		switch(delivery.getIdentity()){
+		switch(delivery.getIdentity()) {
 		case CUSTOMER:
 		    actionButton.setText(getText(R.string.order_action_transaction));
 		    break;

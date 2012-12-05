@@ -51,4 +51,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOODITMES);
 		onCreate(db);
 	}
+	
+	public void clear() {
+		
+	}
 }

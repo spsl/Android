@@ -53,6 +53,12 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		delivery.getWebAccessor().delete();
+	};
 
 	/***
 	 * Asynchronously login to server, avoid blocking UI thread.
@@ -86,11 +92,11 @@ public class LoginActivity extends Activity {
 			if (result.contains("error")) {		// stay in login page if something wrong
 				Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
 			} else {	// login succeed, set identity and start browse activity
-				if (result.equals("customer"))
+				if (result.equalsIgnoreCase("customer"))
 					delivery.setIdentity(Identity.CUSTOMER);
-				else if (result.equals("provider"))
+				else if (result.equalsIgnoreCase("provider"))
 					delivery.setIdentity(Identity.PROVIDER);
-				else if (result.equals("courier"))
+				else if (result.equalsIgnoreCase("courier"))
 					delivery.setIdentity(Identity.COURIER);
 				startActivity(new Intent(LoginActivity.this, BrowseActivity.class));
 			}
