@@ -8,6 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:gravity="left"
         android:text="@string/user_name"
         android:textSize="20sp" />
@@ -21,7 +22,7 @@
 
         <EditText
             android:id="@+id/editSignupName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_info" >
@@ -33,6 +34,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:gravity="left"
         android:text="@string/user_password"
         android:textSize="20sp" />
@@ -46,7 +48,7 @@
 
         <EditText
             android:id="@+id/editSignupPassword"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_info" />
@@ -55,6 +57,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:gravity="left"
         android:text="@string/user_password_confirm"
         android:textSize="20sp" />
@@ -68,7 +71,7 @@
 
         <EditText
             android:id="@+id/editSignupPasswordConfirm"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_info" />
@@ -88,19 +91,21 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-    <Spinner
-        android:id="@+id/spinnerIdentity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/identity"
-        android:prompt="@string/hint_info2" />
+        <Spinner
+            android:id="@+id/spinnerIdentity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/identity"
+            android:prompt="@string/hint_info2" />
     </LinearLayout>
 
     <Button
         android:id="@+id/buttonSignup"
+        style="@style/button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
         android:text="@string/user_signup"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
