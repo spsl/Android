@@ -24,8 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="100dp"
-        android:ems="10"
-        android:hint="@string/hint_info" >
+        android:ems="10" >
 
         <requestFocus />
     </EditText>
@@ -45,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="@string/hint_info" />
+        android:password="true" 
+        android:ems="10" />
 
     <Button
         android:id="@+id/buttonLogin"

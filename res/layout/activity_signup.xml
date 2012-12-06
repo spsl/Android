@@ -45,6 +45,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="200dp"
+        android:password="true" 
         android:ems="10"
         android:hint="@string/hint_info" />
 
@@ -64,6 +65,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="120dp"
+        android:password="true" 
         android:ems="10"
         android:hint="@string/hint_info" />
 
