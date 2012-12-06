@@ -4,19 +4,19 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical" >
-
-    <ImageView
+    
+     <ImageView
         android:id="@+id/jpgview"
         android:layout_width="256sp"
         android:layout_height="192sp"
-        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/textview_foodid"
+        android:layout_marginBottom="26dp"
         android:contentDescription="@string/hello_world" />
 
     <TextView
         android:id="@+id/textview_foodid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/jpgview"
         android:layout_marginBottom="250dp"
         android:layout_marginLeft="15dp"
         android:gravity="left"
@@ -31,6 +31,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/hint_info" >
+
         <requestFocus />
     </EditText>
 
@@ -98,5 +99,7 @@
         android:background="@drawable/button_shape"
         android:text="@string/item_upload"
         android:textSize="15sp" />
+
+   
 
 </RelativeLayout>

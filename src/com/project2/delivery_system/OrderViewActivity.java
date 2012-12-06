@@ -42,7 +42,7 @@ public class OrderViewActivity extends Activity {
 		
         // Set up action button for different user.
 		actionButton = (Button)findViewById(R.id.button_action);
-		traceButton = (Button)findViewById(R.id.button_trace);
+		//traceButton = (Button)findViewById(R.id.button_trace);
 
 		actionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
