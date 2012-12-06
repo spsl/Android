@@ -10,7 +10,6 @@ public class FoodItem {
 	private String name;
 	private String price;
 	private String filePath;
-
 	
 	public FoodItem() {
 	}

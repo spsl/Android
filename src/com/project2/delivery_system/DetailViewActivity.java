@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 /**
  * Detail view of a food items for user. To start detail view
  * activity, caller must use intent to specify item details.

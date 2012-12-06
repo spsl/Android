@@ -70,6 +70,11 @@ public class WebAccessor {
 	public void close() {
 		database.close();
 	}
+	
+	public void delete() {
+		database.delete(MySQLiteHelper.TABLE_FOODITMES, null, null); 
+		database.delete(MySQLiteHelper.TABLE_ORDERS, null, null); 
+	}
 
 	/**
 	 * Get all web food items from server, update local database, then list view
