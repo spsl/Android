@@ -19,9 +19,9 @@
     <string name="order_action_transaction">Transaction</string>
 
     <!-- Update item related string -->
-    <string name="itemID">Food Item ID</string>
-    <string name="item_name">Food Item Name </string>
-    <string name="item_price">Food Item Price</string>
+    <string name="itemID">Food Item ID:</string>
+    <string name="item_name">Food Item Name:</string>
+    <string name="item_price">Food Item Price:</string>
     <string name="item_upload">Upload</string>
     <string name="button_upload">Upload</string>
     <string name="item_action_order">Order</string>
