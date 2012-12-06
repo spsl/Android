@@ -18,6 +18,7 @@ public class OrderViewActivity extends Activity {
 	private String orderUser;
 	
 	private Button actionButton;
+	private Button traceButton;
 	private DeliveryApplication delivery;
 	
 	@Override
@@ -41,22 +42,8 @@ public class OrderViewActivity extends Activity {
 		
         // Set up action button for different user.
 		actionButton = (Button)findViewById(R.id.button_action);
-		switch(delivery.getIdentity()) {
-		case CUSTOMER:
-		    actionButton.setText(getText(R.string.order_action_transaction));
-		    break;
-		case PROVIDER:
-		    actionButton.setText(getText(R.string.order_action_confirm));
-            break;
-		case COURIER:
-		    actionButton.setText(getText(R.string.order_action_confirm));		
-            break;
-        default:
-            break;
-		}
-		
-		setupActionButtonUsingOrderStatus();
-		
+		traceButton = (Button)findViewById(R.id.button_trace);
+
 		actionButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 			    Intent intent;
@@ -92,8 +79,34 @@ public class OrderViewActivity extends Activity {
 			    }
 			}
 		});
+		
+		traceButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                
+                // start GPS activity showing the location of the courior
+                Intent intent;
+                intent = new Intent(OrderViewActivity.this, GPSActivity.class);
+               
+                int trace_location_x, trace_location_y;
+                
+                //TODO get order location info
+                // dummy location: 
+                trace_location_x = 19240000;
+                trace_location_y = -99120000;
+                Bundle bundle = new Bundle();
+                bundle.putString("orderID", orderID);
+                bundle.putString("orderStatus", orderStatus);
+                bundle.putString("orderUser", orderUser);
+                bundle.putInt("locX", trace_location_x);
+                bundle.putInt("locY", trace_location_y);
+                intent.putExtras(bundle);
+                
+                startActivity(intent);
+            }
+        });
+		
+		setupButtons();
 	}
-	
 	// On new intent, read extra information
 	public void onNewIntent(Intent intent) {
 	    
@@ -110,21 +123,49 @@ public class OrderViewActivity extends Activity {
 	    text = (TextView)findViewById(R.id.textView_order_status);
         text.setText(orderStatus);
         
-        setupActionButtonUsingOrderStatus();
+        setupButtons();
         
 	    super.onNewIntent(intent);
 	}
 	
 	// enable action buttons if the status of the order is legal
-	private void setupActionButtonUsingOrderStatus(){
-	    if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER
-                && !OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED))
-            actionButton.setEnabled(false);
-        if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER
-                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PENDING))
-            actionButton.setEnabled(false);
-        if(delivery.getIdentity() == DeliveryApplication.Identity.COURIER
-                &&!OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED))
-            actionButton.setEnabled(false);
+	private void setupButtons(){
+	    switch(delivery.getIdentity()) {
+        case CUSTOMER:{
+            actionButton.setText(getText(R.string.order_action_transaction));
+            if(orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
+                actionButton.setEnabled(true);
+                actionButton.setVisibility(View.VISIBLE);
+            }  
+            else{
+                actionButton.setEnabled(false);
+                actionButton.setVisibility(View.INVISIBLE);
+            }
+        }break;
+        case PROVIDER:{
+            actionButton.setText(getText(R.string.order_action_confirm));
+            if(orderStatus.contentEquals(Order.STATUS_PENDING)){
+                actionButton.setEnabled(true);
+                actionButton.setVisibility(View.VISIBLE);
+            }  
+            else{
+                actionButton.setEnabled(false);
+                actionButton.setVisibility(View.INVISIBLE);
+            }
+        }break;
+        case COURIER:{
+            actionButton.setText(getText(R.string.order_action_confirm));   
+            if(orderStatus.contentEquals(Order.STATUS_PROV_CONFIRMED)){
+                actionButton.setEnabled(true);
+                actionButton.setVisibility(View.VISIBLE);
+            }  
+            else{
+                actionButton.setEnabled(false);
+                actionButton.setVisibility(View.INVISIBLE);
+            }
+        }break;
+        default:
+            break;
+        }
 	};
 }
