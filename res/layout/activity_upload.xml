@@ -10,14 +10,17 @@
         android:layout_width="256sp"
         android:layout_height="192sp"
         android:layout_above="@+id/textview_foodid"
-        android:layout_marginBottom="26dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:contentDescription="@string/hello_world" />
 
     <TextView
         android:id="@+id/textview_foodid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="250dp"
+        android:layout_above="@+id/editItemID"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/itemID"
@@ -27,8 +30,8 @@
         android:id="@+id/editItemID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/textview_itemName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="@string/hint_info" >
 
@@ -39,7 +42,8 @@
         android:id="@+id/textview_itemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editItemID"
+        android:layout_above="@+id/editItemName"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/item_name"
@@ -49,18 +53,17 @@
         android:id="@+id/editItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/textview_itemPrice"
         android:layout_alignLeft="@+id/editItemID"
-        android:layout_below="@+id/textview_itemName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
         android:ems="10"
         android:hint="@string/hint_info" />
-
+    
     <TextView
         android:id="@+id/textview_itemPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editItemName"
+        android:layout_above="@+id/editItemPrice"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/item_price"
@@ -70,12 +73,22 @@
         android:id="@+id/editItemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editItemID"
-        android:layout_below="@+id/textview_itemPrice"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
+        android:layout_above="@+id/button_take_photo"
+        android:layout_alignLeft="@+id/editItemName"
         android:ems="10"
         android:hint="@string/hint_info" />
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editItemPrice"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/item_upload"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/button_take_photo"
@@ -87,17 +100,6 @@
         android:layout_alignRight="@+id/editItemPrice"
         android:background="@drawable/button_shape"
         android:text="@string/take_photo"
-        android:textSize="15sp" />
-
-    <Button
-        android:id="@+id/buttonUpdate"
-        style="@style/button_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editItemPrice"
-        android:layout_below="@+id/editItemPrice"
-        android:background="@drawable/button_shape"
-        android:text="@string/item_upload"
         android:textSize="15sp" />
 
    
