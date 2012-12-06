@@ -4,16 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="?android:attr/listDivider" />
-
     <ListView
         android:id="@+id/itemlist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.83"
+        android:divider="#000"
+        android:dividerHeight="1px"
         android:text="@string/hello_world" />
 
     <Button
@@ -38,6 +35,8 @@
         android:id="@+id/orderlist"
         android:layout_width="match_parent"
         android:layout_height="142dp"
+        android:divider="#000"
+        android:dividerHeight="1px"
         android:text="@string/hello_world" >
     </ListView>
 

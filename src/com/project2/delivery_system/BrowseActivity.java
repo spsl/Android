@@ -99,6 +99,7 @@ public class BrowseActivity extends Activity {
 	        	  startActivity(intent);
 			}
 	     });
+		
 		orderListView.setOnItemClickListener(new OnItemClickListener() {
 	          public void onItemClick(AdapterView<?> parent, View view,
 	                  int position, long id) {	// when order is clicked
