@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="?android:attr/listDivider" />
+
     <ListView
         android:id="@+id/itemlist"
         android:layout_width="match_parent"
@@ -13,20 +18,21 @@
 
     <Button
         android:id="@+id/buttonUpload"
-        style="?android:attr/buttonStyleSmall"
+        style="@style/button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="20sp"
-        android:text="@string/button_upload" />
-    
+        android:background="@drawable/button_shape"
+        android:text="@string/button_upload"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/textStatic1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textSize="20sp"
-        android:text="@string/order_list" />
+        android:text="@string/order_list"
+        android:textSize="20sp" />
 
     <ListView
         android:id="@+id/orderlist"
