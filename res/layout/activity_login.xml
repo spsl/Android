@@ -5,12 +5,14 @@
     android:background="@drawable/login"
     android:gravity="center|left"
     android:orientation="vertical" >
-
+    
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/editName"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_name"
         android:textSize="20sp" />
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/editPassword"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_password"
         android:textSize="20sp" />
@@ -44,8 +47,8 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="@string/hint_info" />
-    
-     <Button
+
+    <Button
         android:id="@+id/buttonLogin"
         style="@style/button_text"
         android:layout_width="wrap_content"
