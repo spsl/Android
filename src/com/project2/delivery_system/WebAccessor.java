@@ -378,10 +378,7 @@ public class WebAccessor {
      *  Used for courier to confirm a provider confirmed order. If order status is incorrect, return -1
      * @param order
      */
-	public int orderDeliveryConfirm(Order order) {
-		if (!order.getStatus().equals(Order.STATUS_PROV_CONFIRMED)) {
-			return -1;
-		}
+	public int orderDeliveryConfirm(String orderID) {
 		
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
@@ -391,15 +388,14 @@ public class WebAccessor {
 		try {
 			// Post to server
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-			nameValuePairs.add(new BasicNameValuePair("orderID", order.getId()));
+			nameValuePairs.add(new BasicNameValuePair("orderID", orderID));
 			nameValuePairs.add(new BasicNameValuePair("orderStatus", Order.STATUS_COUR_CONFIRMED));
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpclient.execute(httppost);
 
 			// Update local database
-			values.put(MySQLiteHelper.COLUMN_ID, order.getId());
+			values.put(MySQLiteHelper.COLUMN_ID, orderID);
 			values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, Order.STATUS_COUR_CONFIRMED);
-			values.put(MySQLiteHelper.COLUMN_ORDERUSER, order.getUser());
 			database.updateWithOnConflict(MySQLiteHelper.TABLE_ORDERS, values, 
 					null, null, SQLiteDatabase.CONFLICT_IGNORE);
 			

@@ -1,6 +1,9 @@
 package com.project2.delivery_system;
 
+import com.project2.delivery_system.DeliveryApplication.Identity;
+
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -63,7 +66,7 @@ public class OrderViewActivity extends Activity {
 		            break;
 		        case PROVIDER:
 		            // update order status
-		        	delivery.getWebAccessor().orderProviderConfirm(orderID);
+		        	new Uploader().execute(Order.STATUS_PENDING, orderID);
 		            break;
 		        case COURIER:
 		            if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED)) {
@@ -71,7 +74,9 @@ public class OrderViewActivity extends Activity {
 		                startActivity(intent);
 		            }
 		            else if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED)) {
-		                // send update command to change status;
+			            // update order status
+			        	new Uploader().execute(Order.STATUS_PROV_CONFIRMED, orderID);
+			            break;
 		            }
 		            break;
 		        default:
@@ -83,13 +88,12 @@ public class OrderViewActivity extends Activity {
 		traceButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 
-                // start GPS activity showing the location of the courior
+                // start GPS activity showing the location of the courier
                 Intent intent;
                 intent = new Intent(OrderViewActivity.this, GPSActivity.class);
                
                 int trace_location_x, trace_location_y;
                 
-                //TODO get order location info
                 // dummy location: 
                 trace_location_x = 19240000;
                 trace_location_y = -99120000;
@@ -168,4 +172,42 @@ public class OrderViewActivity extends Activity {
             break;
         }
 	};
+	
+	/***
+	 * Asynchronously posts to server, avoid blocking UI thread. The first data
+	 * type is used by doInBackground, the second by onProgressUpdate, and the
+	 * third by onPostExecute.
+	 */
+	class Uploader extends AsyncTask<String, Integer, String> {
+
+		// doInBackground() is the callback that specifies the actual work to be
+		// done on the separate thread, as if it's executing in the background.
+		@Override
+		protected String doInBackground(String... in) {
+			try {
+				if (in[0].equals(Order.STATUS_PENDING))
+					delivery.getWebAccessor().orderProviderConfirm(orderID);
+				else if (in[0].equals(Order.STATUS_PROV_CONFIRMED))
+					delivery.getWebAccessor().orderDeliveryConfirm(orderID);
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null; 	
+		}
+
+		// onProgressUpdate() is called whenever there's progress in the task
+		// execution. The progress should be reported from the doInBackground() call.
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+
+		// onPostExecute() is called when our task completes. This is our
+		// callback method to update the user interface and tell the user 
+		// that the task is done.
+		@Override
+		protected void onPostExecute(String result) {
+		}
+	}
 }
