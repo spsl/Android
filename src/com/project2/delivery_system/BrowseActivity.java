@@ -1,5 +1,7 @@
 package com.project2.delivery_system;
 
+import com.project2.delivery_system.DeliveryApplication.Identity;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -60,7 +62,7 @@ public class BrowseActivity extends Activity {
 					foodImageView.setImageBitmap(bmp);
 					return true;
 				} else {
-					return false;		
+					return false;
 				}
 			}
 			return false;
@@ -158,7 +160,7 @@ public class BrowseActivity extends Activity {
 		listAdapter.setViewBinder(VIEW_BINDER);
 		itemListView.setAdapter(listAdapter);
 		
-		orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser());
+		orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser(), delivery.getIdentity());
 		startManagingCursor(orderCursor);
 		orderAdapter = new SimpleCursorAdapter(this, R.layout.order_row, orderCursor, ORDER_FROM, ORDER_TO);
 		orderListView.setAdapter(orderAdapter);
@@ -195,6 +197,10 @@ public class BrowseActivity extends Activity {
 		protected String doInBackground(String... user) {
 			try {
 				delivery.getWebAccessor().getAllFoodItems();
+				if (delivery.getIdentity() == Identity.COURIER || delivery.getIdentity() == Identity.PROVIDER)
+					delivery.getWebAccessor().getAllWebOrders("get_all_orders");
+				else
+					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
 				return null;
 			} catch (Exception e) {
 				e.printStackTrace();

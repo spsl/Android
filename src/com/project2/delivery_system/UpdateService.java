@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.project2.delivery_system.DeliveryApplication.Identity;
+
 
 /**
  * This class periodically get content from web server, with
@@ -63,7 +65,10 @@ public class UpdateService extends Service {
 					// Get all food items, and all orders of current user. Callee methods
 					// will update database and list view if needed.
 					delivery.getWebAccessor().getAllFoodItems();
-					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
+					if (delivery.getIdentity() == Identity.COURIER || delivery.getIdentity() == Identity.PROVIDER)
+						delivery.getWebAccessor().getAllWebOrders("get_all_orders");
+					else
+						delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
 					
 					Thread.sleep(DELAY);
 				} catch (InterruptedException ex) {

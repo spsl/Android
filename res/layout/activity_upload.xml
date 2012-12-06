@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical" >
-
-    <ImageView
+    
+     <ImageView
         android:id="@+id/jpgview"
         android:layout_width="256sp"
         android:layout_height="192sp"
         android:layout_above="@+id/textview_foodid"
+
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/hello_world" />
@@ -32,7 +33,10 @@
         android:layout_above="@+id/textview_itemName"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="@string/hint_info" />
+        android:hint="@string/hint_info" >
+
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:id="@+id/textview_itemName"
@@ -97,5 +101,7 @@
         android:background="@drawable/button_shape"
         android:text="@string/take_photo"
         android:textSize="15sp" />
+
+   
 
 </RelativeLayout>
