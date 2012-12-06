@@ -24,6 +24,8 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.project2.delivery_system.DeliveryApplication.Identity;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -257,12 +259,19 @@ public class WebAccessor {
      * Get cursor of database table order, point to the first row 
      * @return
      */
-    public Cursor getOrderCursor(String orderUser) {
-            return database.query(MySQLiteHelper.TABLE_ORDERS, null,
-                            MySQLiteHelper.COLUMN_ORDERUSER + "=?",
-                            new String[] {orderUser}, 
-                            null, null, 
-                            MySQLiteHelper.GET_ALL_ORDER_BY); 
+    public Cursor getOrderCursor(String orderUser, Identity identity) {
+    	if (identity == Identity.CUSTOMER)
+    		return database.query(MySQLiteHelper.TABLE_ORDERS, null,
+                    MySQLiteHelper.COLUMN_ORDERUSER + "=?",
+                    new String[] {orderUser}, 
+                    null, null, 
+                    MySQLiteHelper.GET_ALL_ORDER_BY);
+    	else
+    		return database.query(MySQLiteHelper.TABLE_ORDERS, null,
+                    null,
+                    null,
+                    null, null, 
+                    MySQLiteHelper.GET_ALL_ORDER_BY);
     }
     
     /**
