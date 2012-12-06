@@ -1,113 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/jpgview"
-            android:layout_width="256sp"
-            android:layout_height="192sp"
-            android:contentDescription="@string/hello_world" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/jpgview"
+        android:layout_width="256sp"
+        android:layout_height="192sp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/hello_world" />
 
     <TextView
+        android:id="@+id/textview_foodid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/jpgview"
+        android:layout_marginBottom="250dp"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/itemID"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editItemID"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/editItemID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/itemID" >
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/hint_info" >
+        <requestFocus />
+    </EditText>
 
     <TextView
+        android:id="@+id/textview_itemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editItemID"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/item_name"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editItemName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/editItemName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/item_name" />
-    </LinearLayout>
+        android:layout_alignLeft="@+id/editItemID"
+        android:layout_below="@+id/textview_itemName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:hint="@string/hint_info" />
 
     <TextView
+        android:id="@+id/textview_itemPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editItemName"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/item_price"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editItemPrice"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_alignLeft="@+id/editItemID"
+        android:layout_below="@+id/textview_itemPrice"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:hint="@string/hint_info" />
 
-        <EditText
-            android:id="@+id/editItemPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/item_price" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/button_take_photo"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_alignBaseline="@+id/buttonUpdate"
+        android:layout_alignBottom="@+id/buttonUpdate"
+        android:layout_alignRight="@+id/editItemPrice"
+        android:background="@drawable/button_shape"
+        android:text="@string/take_photo"
+        android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/buttonUpdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/item_upload"
-            android:textSize="20sp" />
+    <Button
+        android:id="@+id/buttonUpdate"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editItemPrice"
+        android:layout_below="@+id/editItemPrice"
+        android:background="@drawable/button_shape"
+        android:text="@string/item_upload"
+        android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/button_take_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/take_photo"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

@@ -1,111 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center|left"
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/editSignupName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_name"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editSignupName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="280dp"
+        android:ems="10" >
 
-        <EditText
-            android:id="@+id/editSignupName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_info" >
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/editSignupPassword"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_password"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editSignupPassword"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/editSignupPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_info" />
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
+        android:password="true" 
+        android:ems="10" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/editSignupPasswordConfirm"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_password_confirm"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editSignupPasswordConfirm"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/editSignupPasswordConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_info" />
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="120dp"
+        android:password="true" 
+        android:ems="10" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/editSignupPasswordConfirm"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_identity"
         android:textSize="20sp" />
 
-    <LinearLayout
+    <Spinner
+        android:id="@+id/spinnerIdentity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <Spinner
-            android:id="@+id/spinnerIdentity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/identity"
-            android:prompt="@string/hint_info2" />
-    </LinearLayout>
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView2"
+        android:entries="@array/identity"
+        android:prompt="@string/hint_info2" />
 
     <Button
         android:id="@+id/buttonSignup"
         style="@style/button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editSignupName"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/button_shape"
         android:text="@string/user_signup"
         android:textSize="18sp" />
 
-</LinearLayout>
+</RelativeLayout>

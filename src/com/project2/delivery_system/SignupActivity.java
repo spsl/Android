@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,6 +26,7 @@ public class SignupActivity extends Activity {
 	EditText passwordConfirmEditText;
 	Spinner userIdentitySpinner;
 	DeliveryApplication delivery;
+	private boolean passwordDisplay = false;  
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,11 @@ public class SignupActivity extends Activity {
 				String password = passwordEditText.getText().toString();
 				String passwordConfirm = passwordConfirmEditText.getText().toString();
 				String identity = (String)userIdentitySpinner.getSelectedItem();
+				
+				// hide password, display "."  
+				passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());  
+				passwordDisplay = !passwordDisplay;  
+				passwordEditText.postInvalidate();  
 								
 				if (name.equals("")) {					// no user name is entered
 					Toast.makeText(delivery, "please enter user name", Toast.LENGTH_LONG).show();
@@ -74,7 +81,7 @@ public class SignupActivity extends Activity {
 	class Uploader extends AsyncTask<String, Integer, String> {
 
 		// doInBackground() is the callback that specifies the actual work to be
-		// done on the separate thread, as if itÕs executing in the background.
+		// done on the separate thread, as if itï¿½s executing in the background.
 		@Override
 		protected String doInBackground(String... userStrings) {
 			try {
@@ -85,7 +92,7 @@ public class SignupActivity extends Activity {
 			}
 		}
 
-		// onProgressUpdate() is called whenever thereÕs progress in the task
+		// onProgressUpdate() is called whenever thereï¿½s progress in the task
 		// execution. The progress should be reported from the doInBackground() call.
 		@Override
 		protected void onProgressUpdate(Integer... values) {

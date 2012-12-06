@@ -1,87 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login"
     android:gravity="center|left"
-    android:orientation="vertical"
-    android:background="@drawable/login">
-
+    android:orientation="vertical" >
+    
     <TextView
+        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/editName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_name"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:ems="10" >
 
-        <EditText
-            android:id="@+id/editName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_info" >
-
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/editPassword"
+        android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/user_password"
         android:textSize="20sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:password="true" 
+        android:ems="10" />
 
-        <EditText
-            android:id="@+id/editPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/hint_info" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonLogin"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:layout_alignLeft="@+id/editPassword"
+        android:layout_below="@+id/editPassword"
+        android:background="@drawable/button_shape"
+        android:text="@string/user_login"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/buttonLogin"
-            style="@style/button_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_shape"
-            android:text="@string/user_login"
-            android:textSize="18sp" />
+    <Button
+        android:id="@+id/buttonSignup"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/editPassword"
+        android:layout_below="@+id/editPassword"
+        android:background="@drawable/button_shape"
+        android:text="@string/user_signup"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/buttonSignup"
-            style="@style/button_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_shape"
-            android:text="@string/user_signup"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
