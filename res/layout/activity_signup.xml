@@ -23,8 +23,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="280dp"
-        android:ems="10"
-        android:hint="@string/hint_info" >
+        android:ems="10" >
 
         <requestFocus />
     </EditText>
@@ -46,8 +45,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="200dp"
         android:password="true" 
-        android:ems="10"
-        android:hint="@string/hint_info" />
+        android:ems="10" />
 
     <TextView
         android:layout_width="match_parent"
@@ -66,8 +64,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="120dp"
         android:password="true" 
-        android:ems="10"
-        android:hint="@string/hint_info" />
+        android:ems="10" />
 
     <TextView
         android:id="@+id/textView2"
