@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project2.delivery_system.DeliveryApplication.Identity;
@@ -17,7 +18,7 @@ import com.project2.delivery_system.DeliveryApplication.Identity;
  * @author deyuandeng
  */
 public class LoginActivity extends Activity {
-
+	
 	private EditText nameEditText;
 	private EditText passwordEditText;
 	private Button loginButton;

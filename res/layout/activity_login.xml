@@ -9,10 +9,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/editName"
+        android:layout_centerHorizontal="true"
         android:gravity="left"
-        android:layout_alignTop="@+id/editName"
         android:text="@string/user_name"
         android:textSize="20sp" />
 
@@ -20,12 +19,52 @@
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
         android:ems="10"
         android:hint="@string/hint_info" >
 
         <requestFocus />
     </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editPassword"
+        android:gravity="left"
+        android:text="@string/user_password"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="@string/hint_info" />
     
-    
+     <Button
+        android:id="@+id/buttonLogin"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editPassword"
+        android:layout_below="@+id/editPassword"
+        android:background="@drawable/button_shape"
+        android:text="@string/user_login"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonSignup"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/editPassword"
+        android:layout_below="@+id/editPassword"
+        android:background="@drawable/button_shape"
+        android:text="@string/user_signup"
+        android:textSize="18sp" />
 
 </RelativeLayout>
