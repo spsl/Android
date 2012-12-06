@@ -14,6 +14,7 @@
 
     <!-- order function -->
     <string name="order_action_button">Action</string>
+    <string name="order_action_trace">Trace</string>
     <string name="order_action_confirm">Confirm</string>
     <string name="order_action_transaction">Transaction</string>
 
@@ -23,6 +24,8 @@
     <string name="item_price">Food Item Price</string>
     <string name="item_upload">Upload</string>
     <string name="button_upload">Upload</string>
+    <string name="item_action_order">Order</string>
+    
     <string name="title_activity_nfc">NFCActivity</string>
     <string name="nfc_greetings">Communicating&#8230;</string>
     <string name="gps_greetings">Welcome GPS</string>

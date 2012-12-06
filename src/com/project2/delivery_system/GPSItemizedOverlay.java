@@ -27,6 +27,10 @@ public class GPSItemizedOverlay extends ItemizedOverlay {
 		mOverlays.add(overlay);
 		populate(); // read each of the OverlayItem objects and prepare them to be drawn.
 	}
+	
+	public void clearOverlay() {
+        mOverlays.clear();
+    }
 
 	@Override
 	protected OverlayItem createItem(int i) {

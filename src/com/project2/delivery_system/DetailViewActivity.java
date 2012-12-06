@@ -46,17 +46,7 @@ public class DetailViewActivity extends Activity {
         
         // Set order button only for customer
         orderButton = (Button)findViewById(R.id.buttonOrder);
-        if(delivery.getIdentity() == DeliveryApplication.Identity.CUSTOMER) {
-            orderButton.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                	new Uploader().execute();
-                    finish();
-                }
-            });
-        } else{
-            orderButton.setVisibility(View.INVISIBLE);
-            orderButton.setEnabled(false);
-        }
+        setupComponentsAccordingToIdentity();
 	}
 	
 	/***
@@ -67,7 +57,7 @@ public class DetailViewActivity extends Activity {
 	class Uploader extends AsyncTask<String, Integer, String> {
 
 		// doInBackground() is the callback that specifies the actual work to be
-		// done on the separate thread, as if itÕs executing in the background.
+		// done on the separate thread, as if itï¿½s executing in the background.
 		@Override
 		protected String doInBackground(String... order) {
 			try {
@@ -79,7 +69,7 @@ public class DetailViewActivity extends Activity {
 			return "Successfully ordered";
 		}
 
-		// onProgressUpdate() is called whenever thereÕs progress in the task
+		// onProgressUpdate() is called whenever thereï¿½s progress in the task
 		// execution. The progress should be reported from the doInBackground() call.
 		@Override
 		protected void onProgressUpdate(Integer... values) {
@@ -96,4 +86,30 @@ public class DetailViewActivity extends Activity {
 			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
 		}
 	}
+	
+	// set up interfaces according to user identity
+    private void setupComponentsAccordingToIdentity(){
+        switch(delivery.getIdentity()) {
+        case CUSTOMER:{
+            orderButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    new Uploader().execute();
+                    finish();
+                }
+            });
+            orderButton.setVisibility(View.VISIBLE);
+            orderButton.setEnabled(true);
+        }break;
+        case PROVIDER:{
+            orderButton.setVisibility(View.INVISIBLE);
+            orderButton.setEnabled(false);
+        }break;
+        case COURIER:{
+            orderButton.setVisibility(View.INVISIBLE);
+            orderButton.setEnabled(false);
+        }break;
+        default:
+            break;
+        }
+    }
 }

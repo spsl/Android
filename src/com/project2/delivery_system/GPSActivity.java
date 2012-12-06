@@ -2,6 +2,7 @@ package com.project2.delivery_system;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import java.util.List;
 import com.google.android.maps.MapActivity;
@@ -21,6 +22,10 @@ public class GPSActivity extends MapActivity {
     MapView mapView;
     GPSItemizedOverlay itemizedoverlay;
     
+    private String orderID;
+    private String orderStatus;
+    private String orderUser;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,22 +35,30 @@ public class GPSActivity extends MapActivity {
         mapView.setBuiltInZoomControls(true);	// enable zoom in, zoom out
         myLoc = new MyLocationOverlay(this, mapView);
         
-        List<Overlay> mapOverlays = mapView.getOverlays();
+        
         Drawable drawable = this.getResources().getDrawable(R.drawable.ic_action_search);
         itemizedoverlay = new GPSItemizedOverlay(drawable, this);
         
-        GeoPoint point = new GeoPoint(19240000, -99120000);
-        OverlayItem overlayitem = new OverlayItem(point, "Hola, Mundo!", "I'm in Mexico City!");
-        GeoPoint point2 = new GeoPoint(35410000, 139460000);
-        OverlayItem overlayitem2 = new OverlayItem(point2, "Sekai, konichiwa!", "I'm in Japan!");
-        
-        mapOverlays.add(itemizedoverlay);	// add two class (both child of Overlay) to display in map
+        List<Overlay> mapOverlays = mapView.getOverlays();
+        mapOverlays.add(itemizedoverlay);   // add two class (both child of Overlay) to display in map
         mapOverlays.add(myLoc);
         
-        itemizedoverlay.addOverlay(overlayitem);	// add two items for interacting
-        itemizedoverlay.addOverlay(overlayitem2);
+        Bundle bundle = getIntent().getExtras();
+        updateLocations(bundle);
+       
     }
     
+    @Override
+    public void onNewIntent(Intent intent) {
+        // TODO Auto-generated method stub
+        Bundle bundle = intent.getExtras();
+        
+        updateLocations(bundle);
+        
+        setIntent(intent);
+        super.onNewIntent(intent);
+    }
+
     @Override
     protected void onPause() {
     	myLoc.disableMyLocation();
@@ -77,4 +90,19 @@ public class GPSActivity extends MapActivity {
         return super.onOptionsItemSelected(item);
     }
     
+    // update locations in the map
+    private void updateLocations(Bundle bundle){
+
+        if(bundle!=null) {
+            orderID = bundle.getString("orderID");
+            orderStatus = bundle.getString("orderStatus");
+            orderUser = bundle.getString("orderUser");
+                        
+            GeoPoint point = new GeoPoint(bundle.getInt("locX"), bundle.getInt("locY"));
+            OverlayItem overlayitem = new OverlayItem(point, "Courier", "Order ID:"+orderID);
+            
+            itemizedoverlay.clearOverlay();
+            itemizedoverlay.addOverlay(overlayitem);  
+        }
+    }
 }

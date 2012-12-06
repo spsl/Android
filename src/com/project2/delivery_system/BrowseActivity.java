@@ -78,6 +78,7 @@ public class BrowseActivity extends Activity {
 		delivery = (DeliveryApplication)getApplication();
 		itemListView = (ListView)findViewById(R.id.itemlist);
 		orderListView = (ListView)findViewById(R.id.orderlist);
+
 		uploadButton = (Button)findViewById(R.id.buttonUpload);
 		uploadButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {		// when upload button is clicked
@@ -116,7 +117,7 @@ public class BrowseActivity extends Activity {
 		progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
 				"Loading...", true, false);
 		new Uploader().execute();
-		
+
 	    // Start service to fetch new food items from web server
 	    if (delivery.isServiceRunning() == false)
 	    	startService(new Intent(this, UpdateService.class));
@@ -130,6 +131,7 @@ public class BrowseActivity extends Activity {
 	protected void onResume() {
 		setupListView();
 		super.registerReceiver(receiver, filter, null, null);
+		setupComponentsAccordingToIdentity();
 		super.onResume();
 	}
 
@@ -213,5 +215,17 @@ public class BrowseActivity extends Activity {
 		protected void onPostExecute(String result) {
 			progressDialog.dismiss();
 		}
+	}
+	
+    // set up interfaces according to user identity
+	private void setupComponentsAccordingToIdentity(){
+	    if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER){
+            uploadButton.setEnabled(true);
+            uploadButton.setVisibility(View.VISIBLE);
+	    }
+	    else{
+	        uploadButton.setEnabled(false);
+            uploadButton.setVisibility(View.INVISIBLE);
+	    } 
 	}
 }
