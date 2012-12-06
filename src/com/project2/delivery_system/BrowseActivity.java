@@ -60,7 +60,7 @@ public class BrowseActivity extends Activity {
 					foodImageView.setImageBitmap(bmp);
 					return true;
 				} else {
-					return false;		
+					return false;
 				}
 			}
 			return false;
