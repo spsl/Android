@@ -142,7 +142,7 @@ public class NFCActivity extends Activity implements OnClickListener{
         Bundle bundle = intent.getExtras();
         if(bundle!=null){
             // set current order information
-            if(orderID!=null) {
+            if(bundle.getString("orderID")!=null) {
                 orderID = bundle.getString("orderID");
                 orderStatus = bundle.getString("orderStatus");
                 orderUser = bundle.getString("orderUser");
