@@ -154,26 +154,24 @@ public class BrowseActivity extends Activity {
 			 
 			alertDialogBuilder.setTitle("Do you want to exit?");	// set title
 			alertDialogBuilder			// set dialog message
-				.setMessage("Click Yes to exit!")
 				.setCancelable(false)
-				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
-						delivery.setServiceRunning(false);
+						delivery.setServiceRunning(false);	// stop service, delete data cache
 						stopService(new Intent(BrowseActivity.this, UpdateService.class));
 						delivery.getWebAccessor().delete();
 						Intent intent = new Intent(BrowseActivity.this, LoginActivity.class);
 						startActivity(intent);
 					}
 				  })
-				.setNegativeButton("No",new DialogInterface.OnClickListener() {
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,int id) {
 						dialog.cancel();
 					}
 				});
 			
 			AlertDialog alertDialog = alertDialogBuilder.create();	// create alert dialog
- 
-			alertDialog.show();			// show it
+			alertDialog.show();
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
