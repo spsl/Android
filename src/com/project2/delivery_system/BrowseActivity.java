@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.TextView;
 
 import com.project2.delivery_system.DeliveryApplication.Identity;
 

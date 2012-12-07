@@ -15,7 +15,8 @@
         android:layout_marginLeft="15dp"
         android:gravity="center"
         android:text="@string/user_name"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <EditText
         android:id="@+id/editSignupName"
@@ -36,7 +37,8 @@
         android:layout_marginLeft="15dp"
         android:gravity="center"
         android:text="@string/user_password"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <EditText
         android:id="@+id/editSignupPassword"
@@ -55,7 +57,8 @@
         android:layout_marginLeft="15dp"
         android:gravity="center"
         android:text="@string/user_password_confirm"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <EditText
         android:id="@+id/editSignupPasswordConfirm"
@@ -77,14 +80,15 @@
         android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="@string/user_identity"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <Spinner
         android:id="@+id/spinnerIdentity"
         android:layout_width="200dip"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
         android:entries="@array/identity"
         android:prompt="@string/hint_info2" />
 
@@ -97,6 +101,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_shape"
         android:text="@string/user_signup"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:typeface="serif" />
 
 </RelativeLayout>

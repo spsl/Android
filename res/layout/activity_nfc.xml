@@ -1,24 +1,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/trace" >
 
     <TextView
         android:id="@+id/textView_nfcDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:text="@string/nfc_greetings"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         tools:context=".NFCActivity" />
+
+    <ImageView
+        android:id="@+id/titlelogo"
+        android:layout_width="186sp"
+        android:layout_height="66sp"
+        android:layout_below="@+id/textView_nfcDisplay"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/communicate1" />
 
     <Button
         android:id="@+id/button_back"
+        style="@style/button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView_nfcDisplay"
-        android:layout_marginTop="200dp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/titlelogo"
         android:layout_centerHorizontal="true"
-        android:text="Back" />
+        android:layout_marginTop="53dp"
+        android:background="@drawable/button_shape"
+        android:text="Back"
+        android:textSize="20sp"
+        android:typeface="serif" />
+
 </RelativeLayout>

@@ -15,6 +15,7 @@
         android:text="@string/hello_world"
         android:textColor="#ffffff"
         android:textSize="20sp"
+         android:typeface="serif" 
         android:textStyle="bold" />
 
     <TextView
@@ -27,6 +28,7 @@
         android:text="@string/hello_world"
         android:textColor="#ffffff"
         android:textSize="20sp"
+         android:typeface="serif" 
         android:textStyle="bold" />
 
     <Button
@@ -39,6 +41,7 @@
         android:layout_below="@+id/textView_order_status"
         android:background="@drawable/button_shape"
         android:text="@string/order_action_button"
+         android:typeface="serif" 
         android:textSize="18sp" />
 
     <Button
@@ -49,6 +52,7 @@
         android:layout_below="@+id/button_action"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_shape"
+         android:typeface="serif" 
         android:text="@string/order_action_trace"
         android:textSize="18sp" />
 
