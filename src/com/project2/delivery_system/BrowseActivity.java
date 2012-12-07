@@ -207,20 +207,14 @@ public class BrowseActivity extends Activity {
 		protected Integer doInBackground(String... user) {
 			try {
 				// Get all food items for current user
-				if (delivery.getWebAccessor().getAllFoodItems() != DeliveryApplication.GET_ALL_FOODITEMS_SUCCESS) {
-					 return DeliveryApplication.GET_ALL_FOODITEMS_FAIL;
-				}
-				// Get all orders if current user is courier or provider; otherwise, get the orders of
-				// a specified customer.
+				delivery.getWebAccessor().getAllFoodItems();
+				// Get all orders if current user is courier or provider; otherwise, get the orders of a specified customer.
 				if (delivery.getIdentity() == Identity.COURIER || delivery.getIdentity() == Identity.PROVIDER)
-					if (delivery.getWebAccessor().getAllWebOrders(DeliveryApplication.GET_ALL_ORDERS) != 
-							DeliveryApplication.GET_ALL_ORDERS_SUCCESS)
-							return DeliveryApplication.GET_ALL_ORDERS_FAIL;
-				else
-					if (delivery.getWebAccessor().getAllWebOrders(delivery.getUser()) != 
-							DeliveryApplication.GET_ALL_ORDERS_SUCCESS)
-						return DeliveryApplication.GET_ALL_ORDERS_FAIL;
-				return null;
+					delivery.getWebAccessor().getAllWebOrders(DeliveryApplication.GET_ALL_ORDERS); 
+				else if (delivery.getIdentity() == Identity.CUSTOMER)
+					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
+				
+				return DeliveryApplication.GET_ALL_ORDERS_SUCCESS;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

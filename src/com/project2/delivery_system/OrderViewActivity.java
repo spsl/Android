@@ -180,7 +180,7 @@ public class OrderViewActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null; 	
+			return "NONE";
 		}
 
 		// onProgressUpdate() is called whenever there's progress in the task

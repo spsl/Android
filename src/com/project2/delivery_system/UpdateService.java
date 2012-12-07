@@ -14,7 +14,7 @@ import com.project2.delivery_system.DeliveryApplication.Identity;
  */
 public class UpdateService extends Service {
 	
-	private static int DELAY = 120000;	// 2min period
+	private static int DELAY = 60000;	// 1min period
 	private DeliveryApplication delivery;
 	private Updater updater;
 	
