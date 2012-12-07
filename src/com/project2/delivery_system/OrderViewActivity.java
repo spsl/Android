@@ -25,7 +25,6 @@ public class OrderViewActivity extends Activity {
 	
     Intent intent;
     int[] trace_location;
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,9 +54,9 @@ public class OrderViewActivity extends Activity {
 			    Intent intent;
 			    switch(delivery.getIdentity()){
 		        case CUSTOMER:
-                    // for customer, check if the state of the order is delivery confirmed, 
+                    // For customer, check if the state of the order is delivery confirmed, 
                     // if yes, start NFC activity for transaction
-                    if(OrderViewActivity.this.orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
+                    if (OrderViewActivity.this.orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
 		                intent = new Intent(OrderViewActivity.this, NFCActivity.class);
 		                Bundle bundle = new Bundle();
                         bundle.putString("orderID", orderID);
@@ -68,16 +67,16 @@ public class OrderViewActivity extends Activity {
                     }
 		            break;
 		        case PROVIDER:
-		            // update order status
+		            // Update order status
 		        	new Uploader().execute(Order.STATUS_PENDING, orderID);
 		            break;
 		        case COURIER:
-		            if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED)) {
+		            if (OrderViewActivity.this.orderStatus.equals(Order.STATUS_COUR_CONFIRMED)) {
 		                intent = new Intent(OrderViewActivity.this, NFCActivity.class);
 		                startActivity(intent);
 		            }
-		            else if(OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED)) {
-			            // update order status
+		            else if (OrderViewActivity.this.orderStatus.equals(Order.STATUS_PROV_CONFIRMED)) {
+			            // Update order status
 			        	new Uploader().execute(Order.STATUS_PROV_CONFIRMED, orderID);
 			            break;
 		            }
@@ -91,13 +90,15 @@ public class OrderViewActivity extends Activity {
 		
 		traceButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                // start GPS activity showing the location of the courier                
+                // Start GPS activity showing the location of the courier                
                 new Uploader().execute("Order Trace", orderID);
             }
         });
 		
 		setupButtons();
 	}
+	
+	
 	// On new intent, read extra information
 	public void onNewIntent(Intent intent) {
 	    
@@ -119,7 +120,7 @@ public class OrderViewActivity extends Activity {
 	    super.onNewIntent(intent);
 	}
 	
-	// enable action buttons if the status of the order is legal
+	// Enable action buttons if the status of the order is legal
 	private void setupButtons(){
 	    switch(delivery.getIdentity()) {
         case CUSTOMER:{
@@ -165,9 +166,7 @@ public class OrderViewActivity extends Activity {
 	};
 	
 	/***
-	 * Asynchronously posts to server, avoid blocking UI thread. The first data
-	 * type is used by doInBackground, the second by onProgressUpdate, and the
-	 * third by onPostExecute.
+	 * Asynchronously posts to server, avoid blocking UI thread.
 	 */
 	class Uploader extends AsyncTask<String, Integer, String> {
 
@@ -201,7 +200,6 @@ public class OrderViewActivity extends Activity {
 		// that the task is done.
 		@Override
 		protected void onPostExecute(String result) {
-            // dummy location: 
 			if (result.equals("Order Trace")) {
 				intent = new Intent(OrderViewActivity.this, GPSActivity.class);
 				
