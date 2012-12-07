@@ -158,8 +158,9 @@ public class WebAccessor {
 				values.put(MySQLiteHelper.COLUMN_ORDERSTATUS, orderStrings[1]);
 				values.put(MySQLiteHelper.COLUMN_ORDERUSER, orderStrings[2]);
 				if (database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
-						null, values, SQLiteDatabase.CONFLICT_IGNORE) != 0)
+						null, values, SQLiteDatabase.CONFLICT_REPLACE) != 0)
 					newOrders++;
+				
 			}
 			
             if (newOrders > 0) {

@@ -23,6 +23,13 @@
         android:text="@string/button_upload"
         android:textSize="18sp" />
 
+    <Button
+        android:id="@+id/buttonLogout"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_logout" />
+
     <TextView
         android:id="@+id/textStatic1"
         android:layout_width="wrap_content"

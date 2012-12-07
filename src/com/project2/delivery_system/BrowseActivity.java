@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -50,6 +51,7 @@ public class BrowseActivity extends Activity {
 	private ListView itemListView;	// item list view
 	private ListView orderListView;	// order list view
 	private Button uploadButton;	// update a food item
+	private Button logoutButton;	
 	private ProgressDialog progressDialog;
 	private ViewBinder VIEW_BINDER = new ViewBinder() {
 		// called for each data element that needs to be bound to a particular view
@@ -85,6 +87,16 @@ public class BrowseActivity extends Activity {
 		uploadButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {		// when upload button is clicked
 			    startActivity(new Intent(BrowseActivity.this, UploadFoodItemActivity.class));
+			}
+		});
+		logoutButton = (Button)findViewById(R.id.buttonLogout);
+		logoutButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {		// when logout button is clicked
+				delivery.setServiceRunning(false);
+				stopService(new Intent(BrowseActivity.this, UpdateService.class));
+				delivery.getWebAccessor().delete();
+				Intent intent = new Intent(BrowseActivity.this, LoginActivity.class);
+				startActivity(intent);
 			}
 		});
 		itemListView.setOnItemClickListener(new OnItemClickListener() {
@@ -143,6 +155,15 @@ public class BrowseActivity extends Activity {
 		super.unregisterReceiver(receiver);
 		super.onPause();
 	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+	
 	
 	/**
 	 * Refresh entire list view in screen

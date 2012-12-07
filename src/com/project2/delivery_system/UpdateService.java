@@ -14,7 +14,7 @@ import com.project2.delivery_system.DeliveryApplication.Identity;
  */
 public class UpdateService extends Service {
 	
-	private static int DELAY = 60000;	// 1min period
+	private static int DELAY = 30000;	// 1min period
 	private DeliveryApplication delivery;
 	private Updater updater;
 	
@@ -60,8 +60,8 @@ public class UpdateService extends Service {
 		
 		@Override
 		public void run() {		
-			while (delivery.isServiceRunning()) {
-				try {
+			try {
+				while (delivery.isServiceRunning()) {					
 					// Get all food items, and all orders of current user. Callee methods
 					// will update database and list view if needed.
 					delivery.getWebAccessor().getAllFoodItems();
@@ -71,9 +71,9 @@ public class UpdateService extends Service {
 						delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
 					
 					Thread.sleep(DELAY);
-				} catch (InterruptedException ex) {
-					delivery.setServiceRunning(false);
 				}
+			} catch (InterruptedException ex) {
+					delivery.setServiceRunning(false);
 			}
 		}
 	}

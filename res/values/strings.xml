@@ -44,6 +44,8 @@
     <string name="cam_view">View</string>
     <string name="cam_shoot">Shoot</string>
     <string name="cam_switch">Switch</string>
+    
+    <string name="button_logout">Logout</string>
 
     <string-array name="identity">
         <item>Provider</item>
