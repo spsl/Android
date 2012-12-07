@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="15dp"
         android:text="@string/hello_world"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageViewFood"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
         android:gravity="right"
         android:textSize="20sp"
         android:text="@string/hello_world" />
