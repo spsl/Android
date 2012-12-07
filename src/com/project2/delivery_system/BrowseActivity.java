@@ -1,11 +1,11 @@
 package com.project2.delivery_system;
 
-import com.project2.delivery_system.DeliveryApplication.Identity;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
+
+import com.project2.delivery_system.DeliveryApplication.Identity;
 
 /**
  * This is the browse activity of our application. 
@@ -51,7 +53,6 @@ public class BrowseActivity extends Activity {
 	private ListView itemListView;	// item list view
 	private ListView orderListView;	// order list view
 	private Button uploadButton;	// update a food item
-	private Button logoutButton;	
 	private ProgressDialog progressDialog;
 	private ViewBinder VIEW_BINDER = new ViewBinder() {
 		// called for each data element that needs to be bound to a particular view
@@ -87,16 +88,6 @@ public class BrowseActivity extends Activity {
 		uploadButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {		// when upload button is clicked
 			    startActivity(new Intent(BrowseActivity.this, UploadFoodItemActivity.class));
-			}
-		});
-		logoutButton = (Button)findViewById(R.id.buttonLogout);
-		logoutButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {		// when logout button is clicked
-				delivery.setServiceRunning(false);
-				stopService(new Intent(BrowseActivity.this, UpdateService.class));
-				delivery.getWebAccessor().delete();
-				Intent intent = new Intent(BrowseActivity.this, LoginActivity.class);
-				startActivity(intent);
 			}
 		});
 		itemListView.setOnItemClickListener(new OnItemClickListener() {
@@ -159,6 +150,30 @@ public class BrowseActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(BrowseActivity.this);
+			 
+			alertDialogBuilder.setTitle("Do you want to exit?");	// set title
+			alertDialogBuilder			// set dialog message
+				.setMessage("Click Yes to exit!")
+				.setCancelable(false)
+				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						delivery.setServiceRunning(false);
+						stopService(new Intent(BrowseActivity.this, UpdateService.class));
+						delivery.getWebAccessor().delete();
+						Intent intent = new Intent(BrowseActivity.this, LoginActivity.class);
+						startActivity(intent);
+					}
+				  })
+				.setNegativeButton("No",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
+			
+			AlertDialog alertDialog = alertDialogBuilder.create();	// create alert dialog
+ 
+			alertDialog.show();			// show it
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
