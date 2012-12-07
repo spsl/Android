@@ -19,7 +19,7 @@ import android.widget.Toast;
  * @author deyuandeng
  */
 public class SignupActivity extends Activity { 
-	
+
 	Button signupButton;
 	EditText userNameEditText;
 	EditText passwordEditText;
@@ -27,7 +27,7 @@ public class SignupActivity extends Activity {
 	Spinner userIdentitySpinner;
 	DeliveryApplication delivery;
 	private boolean passwordDisplay = false;  
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,12 +46,12 @@ public class SignupActivity extends Activity {
 				String password = passwordEditText.getText().toString();
 				String passwordConfirm = passwordConfirmEditText.getText().toString();
 				String identity = (String)userIdentitySpinner.getSelectedItem();
-				
+
 				// hide password, display "."  
 				passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());  
 				passwordDisplay = !passwordDisplay;  
 				passwordEditText.postInvalidate();  
-				
+
 				if (name.equals("")) {					// no user name is entered
 					Toast.makeText(delivery, "please enter user name", Toast.LENGTH_LONG).show();
 				} else if (password.equals("")) {		// no password is entered
@@ -71,8 +71,8 @@ public class SignupActivity extends Activity {
 			}
 		});
 	}
-	
-	
+
+
 	/***
 	 * Asynchronously posts to server, avoid blocking UI thread.
 	 */
@@ -92,7 +92,7 @@ public class SignupActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			return DeliveryApplication.WEB_ERROR;
 		}
 

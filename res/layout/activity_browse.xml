@@ -22,7 +22,7 @@
         android:text="@string/title_browse"
         android:textColor="#800000"
         android:textSize="27sp"
-        android:textStyle="italic" />
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/itemlist"

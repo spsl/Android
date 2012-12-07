@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C0C0C0"
     android:gravity="bottom"
     android:orientation="vertical" >
-    
-     <ImageView
+
+    <ImageView
         android:id="@+id/jpgview"
         android:layout_width="256sp"
         android:layout_height="192sp"
         android:layout_above="@+id/textview_foodid"
-
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/hello_world" />
@@ -55,7 +55,7 @@
         android:layout_above="@+id/textview_itemPrice"
         android:layout_alignLeft="@+id/editItemID"
         android:ems="10" />
-    
+
     <TextView
         android:id="@+id/textview_itemPrice"
         android:layout_width="match_parent"
@@ -98,4 +98,5 @@
         android:background="@drawable/button_shape"
         android:text="@string/take_photo"
         android:textSize="15sp" />
+
 </RelativeLayout>
