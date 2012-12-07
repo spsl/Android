@@ -6,9 +6,9 @@
 
     <SurfaceView
         android:id="@+id/surfaceView_cam"
-        android:layout_weight="10"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_weight="10" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,22 +20,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/cam_view" />
+            android:text="@string/cam_view"
+            android:typeface="serif" />
 
         <Button
             android:id="@+id/button_cam_shot"
-            android:layout_weight="2" 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/cam_shoot" />
+            android:layout_weight="2"
+            android:text="@string/cam_shoot"
+            android:typeface="serif" />
 
         <Button
             android:id="@+id/button_cam_switch"
-            android:layout_weight="1" 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/cam_switch" />
-
+            android:layout_weight="1"
+            android:text="@string/cam_switch"
+            android:typeface="serif" />
     </LinearLayout>
 
 </LinearLayout>

@@ -14,8 +14,8 @@
     <string name="title_browse">Listing Food Items</string>
 
     <!-- order function -->
-    <string name="order_action_button">Action</string>
-    <string name="order_action_trace">Trace</string>
+    <string name="order_action_button">Transaction</string>
+    <string name="order_action_trace">Trace Your Order</string>
     <string name="order_action_confirm">Confirm</string>
     <string name="order_action_transaction">Transaction</string>
 

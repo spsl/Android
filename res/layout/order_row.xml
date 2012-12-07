@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
+        android:typeface="serif"
         android:text="@string/hello_world"
         android:textStyle="bold" />
 
@@ -17,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
+        android:typeface="serif" 
+        android:textStyle="bold"
         android:text="@string/hello_world" />
 
 </RelativeLayout>

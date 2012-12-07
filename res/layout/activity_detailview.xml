@@ -26,7 +26,8 @@
         android:text="Food Detail"
         android:textColor="#800000"
         android:textSize="30sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:typeface="serif" />
 
     <ImageView
         android:id="@+id/titlelogo2"
@@ -44,10 +45,10 @@
         android:layout_below="@+id/titlelogo"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="75dp"
-     
         android:layout_toRightOf="@+id/titlelogo2"
         android:text="@string/hello_world"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <TextView
         android:id="@+id/textView_item_name"
@@ -57,7 +58,8 @@
         android:layout_below="@+id/textView_item_id"
         android:layout_marginTop="23dp"
         android:text="@string/hello_world"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <TextView
         android:id="@+id/textView_item_price"
@@ -67,7 +69,8 @@
         android:layout_below="@+id/textView_item_name"
         android:layout_marginTop="23dp"
         android:text="@string/hello_world"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:typeface="serif" />
 
     <Button
         android:id="@+id/buttonOrder"
@@ -79,6 +82,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/button_shape"
         android:text="@string/item_action_order"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:typeface="serif" />
 
 </RelativeLayout>
