@@ -3,14 +3,15 @@
     <string name="app_name">DeLiWei Food Factory</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_browse">Browse</string>
-    <string name="title_activity_detailview">Detail View</string>
-    <string name="title_activity_login">DeLiWei Food Factory-Login</string>
-    <string name="title_activity_signup">DeLiWei Food Factory-Signup</string>
-    <string name="title_activity_orderview">DeLiWei Food Factory-Detail View</string>
-    <string name="title_activity_uploadfooditem">Upload Food Item</string>
+    <string name="title_activity_browse">DeLiWei Food Factory</string>
+    <string name="title_activity_detailview">DeLiWei Food Factory</string>
+    <string name="title_activity_login">DeLiWei Food Factory</string>
+    <string name="title_activity_signup">DeLiWei Food Factory</string>
+    <string name="title_activity_orderview">DeLiWei Food Factory</string>
+    <string name="title_activity_uploadfooditem">DeLiWei Food Factory</string>
     <string name="order_list">Order List</string>
     <string name="order_button">Order Food</string>
+    <string name="title_browse">Listing Food Items</string>
 
     <!-- order function -->
     <string name="order_action_button">Action</string>
@@ -24,13 +25,13 @@
     <string name="item_price">Food Item Price:</string>
     <string name="item_upload">Upload</string>
     <string name="button_upload">Upload</string>
-    <string name="item_action_order">Order</string>
+    <string name="item_action_order">Order it Now</string>
     
-    <string name="title_activity_nfc">NFCActivity</string>
+    <string name="title_activity_nfc">DeLiWei Food Factory</string>
     <string name="nfc_greetings">Communicating&#8230;</string>
     <string name="gps_greetings">Welcome GPS</string>
-    <string name="title_activity_cam">CamActivity</string>
-    <string name="title_activity_gps">GPSActivity</string>
+    <string name="title_activity_cam">DeLiWei Food Factory</string>
+    <string name="title_activity_gps">DeLiWei Food Factory</string>
     <string name="cam_greetings">Welcome Camera</string>
     <string name="user_name">Username:</string>
     <string name="hint_info">Please enter here</string>

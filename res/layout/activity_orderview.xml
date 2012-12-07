@@ -2,42 +2,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/trace"
     android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/button_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"
-        android:text="@string/order_action_button" />
     
-    <Button
-        android:id="@+id/button_trace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/button_action"
-        android:layout_marginTop="10dp"
-        android:text="@string/order_action_trace" />
-
-    <TextView
-        android:id="@+id/textView_order_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp"
-        android:text="@string/hello_world" />
-
     <TextView
         android:id="@+id/textView_order_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView_order_status"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="123dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
         android:text="@string/hello_world" />
     
+    <TextView
+        android:id="@+id/textView_order_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="172dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="@string/hello_world" />
+
+      <Button
+          android:id="@+id/button_action"
+          style="@style/button_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/textView_order_status" 
+          android:background="@drawable/button_shape"
+          android:text="@string/order_action_button"
+          android:textSize="18sp" />
+
+      <Button
+          android:id="@+id/button_trace"
+          style="@style/button_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignBaseline="@+id/button_action"
+          android:layout_alignBottom="@+id/button_action"
+          android:layout_toRightOf="@+id/button_action"
+          android:background="@drawable/button_shape"
+          android:text="@string/order_action_trace"
+          android:textSize="18sp" />
 
 </RelativeLayout>

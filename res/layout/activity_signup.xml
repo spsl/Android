@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login1"
     android:gravity="center|left"
     android:orientation="vertical" >
 
@@ -12,7 +13,7 @@
         android:layout_above="@+id/editSignupName"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
-        android:gravity="left"
+        android:gravity="center"
         android:text="@string/user_name"
         android:textSize="20sp" />
 
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="280dp"
+        android:layout_marginBottom="250dp"
         android:ems="10" >
 
         <requestFocus />
@@ -33,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/editSignupPassword"
         android:layout_marginLeft="15dp"
-        android:gravity="left"
+        android:gravity="center"
         android:text="@string/user_password"
         android:textSize="20sp" />
 
@@ -43,16 +44,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="200dp"
-        android:password="true" 
-        android:ems="10" />
+        android:layout_marginBottom="180dp"
+        android:ems="10"
+        android:password="true" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/editSignupPasswordConfirm"
         android:layout_marginLeft="15dp"
-        android:gravity="left"
+        android:gravity="center"
         android:text="@string/user_password_confirm"
         android:textSize="20sp" />
 
@@ -62,9 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="120dp"
-        android:password="true" 
-        android:ems="10" />
+        android:layout_marginBottom="110dp"
+        android:ems="10"
+        android:password="true" />
 
     <TextView
         android:id="@+id/textView2"
@@ -72,17 +73,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/editSignupPasswordConfirm"
-        android:layout_marginTop="50dp"
         android:layout_marginLeft="15dp"
-        android:gravity="left"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
         android:text="@string/user_identity"
         android:textSize="20sp" />
 
     <Spinner
         android:id="@+id/spinnerIdentity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="200dip"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView2"
         android:entries="@array/identity"
         android:prompt="@string/hint_info2" />
