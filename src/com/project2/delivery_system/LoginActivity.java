@@ -3,6 +3,7 @@ package com.project2.delivery_system;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -30,7 +31,18 @@ public class LoginActivity extends Activity {
 	private Button loginButton;
 	private Button signupButton;
 	private DeliveryApplication delivery;
-	private boolean passwordDisplay = false;  
+	@Override
+    protected void onNewIntent(Intent intent) {
+        // TODO Auto-generated method stub
+	    if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())){
+	        intent.setClass(this, NFCActivity.class);
+	        startActivity(intent);
+	    }
+	    
+        super.onNewIntent(intent);
+    }
+
+    private boolean passwordDisplay = false;  
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

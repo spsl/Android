@@ -82,6 +82,7 @@ public class OrderViewActivity extends Activity {
 		        default:
 		            break; 
 			    }
+			    finish();
 			}
 		});
 		
@@ -158,11 +159,15 @@ public class OrderViewActivity extends Activity {
             }
         }break;
         case COURIER:{
-            actionButton.setText(getText(R.string.order_action_confirm));   
             if(orderStatus.contentEquals(Order.STATUS_PROV_CONFIRMED)){
+                actionButton.setText(getText(R.string.order_action_confirm));  
                 actionButton.setEnabled(true);
                 actionButton.setVisibility(View.VISIBLE);
-            }  
+            } else if(orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
+                actionButton.setText(getText(R.string.order_action_transaction));  
+                actionButton.setEnabled(true);
+                actionButton.setVisibility(View.VISIBLE);
+            }
             else{
                 actionButton.setEnabled(false);
                 actionButton.setVisibility(View.INVISIBLE);
