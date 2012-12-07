@@ -28,6 +28,8 @@ class Orders(db.Model):
     orderID = db.StringProperty(required = True)
     orderStatus = db.StringProperty(required = True)
     orderUser = db.StringProperty(required = True)
+    orderLocationX = db.StringProperty()
+    orderLocationY = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add = True)    
 
 class Users(db.Model):
@@ -48,31 +50,77 @@ class FoodItemsHandler(webapp2.RequestHandler):
                                  foodItem.itemName,
                                  foodItem.itemPrice,
                                  str(foodItem.date)]) + "\n"
-            self.response.write(response)
-
+            self.response.write(response) # return all food item's string property
+        
     def post(self):
         itemID = self.request.get("itemID")
         itemName = self.request.get("itemName")
         itemPrice = self.request.get("itemPrice")
+        itemPicture = self.request.get("itemPicture")
         # Add new food item into database (no validation is performed)
         fooditem = FoodItems(itemID=itemID,
                              itemName=itemName,
-                             itemPrice=itemPrice)
+                             itemPrice=itemPrice,
+                             itemPicture=itemPicture)
         fooditem.put()
+
+        
+class ImageHandler(webapp2.RequestHandler):
+    def get(self):
+        itemID = self.request.get("itemID")
+        foodItem = FoodItems.all().filter("itemID =", itemID).get()
+        
+        self.response.headers['Content-Type'] = 'image/jpeg'
+        self.response.write(foodItem.itemPicture) # only return picture
+        
+    def post(self):             # post is handled in FoodItemsHandler
         self.response.write(self.request)
 
+
+class LocationHandler(webapp2.RequestHandler):
+    def get(self):
+        orderID = self.request.get("orderID")
+        order = Orders.all().filter("orderID =", orderID).get()
+        
+        self.response.headers['Content-Type'] = 'text/plain'
+        if order.orderLocationX and order.orderLocationY:
+            response = ";".join([order.orderLocationX,
+                                 order.orderLocationY]) + "\n"
+        else:
+            response = "error: no position"
+        self.response.write(response)
+
+        
+    def post(self):
+        orderID = self.request.get("orderID")
+        orderLocationX = self.request.get("orderLocationX")
+        orderLocationY = self.request.get("orderLocationY")
+        
+        order = Orders.all().filter("orderID =", orderID).get()
+        order.orderLocationX = orderLocationX
+        order.orderLocationY = orderLocationY
+        order.put()
+        
         
 class OrdersHandler(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
         
         user = self.request.get('orderUser')
-        for order in Orders.all().filter('orderUser = ', user).run():
-            response = ";".join([order.orderID,
-                                 order.orderStatus,
-                                 order.orderUser,
-                                 str(order.date)]) + "\n"
-            self.response.write(response)
+        if user == "get_all_orders":
+            for order in Orders.all().run():
+                response = ";".join([order.orderID,
+                                     order.orderStatus,
+                                     order.orderUser,
+                                     str(order.date)]) + "\n"
+                self.response.write(response)
+        else:
+            for order in Orders.all().filter('orderUser = ', user).run():
+                response = ";".join([order.orderID,
+                                     order.orderStatus,
+                                     order.orderUser,
+                                     str(order.date)]) + "\n"
+                self.response.write(response)
 
     def post(self):
         orderID = self.request.get("orderID")
@@ -108,6 +156,7 @@ class UsersHandler(webapp2.RequestHandler):
     def post(self):
         name = self.request.get("name")
         password = self.request.get("password")
+        identity = self.request.get("identity")
         user = Users.all().filter('name = ', name).get()
 
         if user:
@@ -115,12 +164,14 @@ class UsersHandler(webapp2.RequestHandler):
         else:
             new_user = Users(name=name,
                              password=password,
-                             identity="customer")
+                             identity=identity)
             new_user.put()
             self.response.write("Thank for signing up!\n")
 
         
 app = webapp2.WSGIApplication([('/fooditems', FoodItemsHandler),
                                ('/orders', OrdersHandler),
-                               ('/users', UsersHandler)],
+                               ('/users', UsersHandler),
+                               ('/location', LocationHandler),
+                               ('/images', ImageHandler)],
                               debug=True)

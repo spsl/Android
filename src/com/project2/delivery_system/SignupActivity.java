@@ -76,24 +76,16 @@ public class SignupActivity extends Activity {
 	/***
 	 * Asynchronously posts to server, avoid blocking UI thread.
 	 */
-	class Uploader extends AsyncTask<String, Integer, Integer> {
+	class Uploader extends AsyncTask<String, Integer, String> {
 
 		@Override
-		protected Integer doInBackground(String... user) {
+		protected String doInBackground(String... user) {
 			try {
-				String result = delivery.getWebAccessor().signup(user[0], user[1], user[2]);
-				// Display message from server.
-				Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
-				if (result.contains("error")) {
-					return DeliveryApplication.SIGNUP_FAIL;
-				} else {
-					return DeliveryApplication.SIGNUP_SUCCESS;
-				}
+				return delivery.getWebAccessor().signup(user[0], user[1], user[2]);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			return DeliveryApplication.WEB_ERROR;
+			return "error";
 		}
 
 		// onProgressUpdate() is called whenever there�s progress in the task
@@ -107,8 +99,9 @@ public class SignupActivity extends Activity {
 		// callback method to update the user interface and tell the user 
 		// that the task is done.
 		@Override
-		protected void onPostExecute(Integer result) {
-			if (result == DeliveryApplication.SIGNUP_SUCCESS) {
+		protected void onPostExecute(String result) {
+			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
+			if (!result.contains("error")) {
 				startActivity(new Intent(SignupActivity.this, BrowseActivity.class));	
 			}
 		}
