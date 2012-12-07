@@ -50,7 +50,6 @@ public class GPSActivity extends MapActivity {
     
     @Override
     public void onNewIntent(Intent intent) {
-        // TODO Auto-generated method stub
         Bundle bundle = intent.getExtras();
         
         updateLocations(bundle);

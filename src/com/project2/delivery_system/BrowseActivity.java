@@ -31,22 +31,22 @@ import android.widget.SimpleCursorAdapter.ViewBinder;
 public class BrowseActivity extends Activity {
 	
 	// `ITEM_FROM` and `ITEM_TO` map database to list view for listAdapter
-	private static final String[] ITEM_FROM = 
+	private static final String[] ITEM_FROM =  
 		{ MySQLiteHelper.COLUMN_ITEMNAME, MySQLiteHelper.COLUMN_ITEMPRICE, MySQLiteHelper.COLUMN_ITEMPRICE };
-	private static final int[] ITEM_TO = 
-		{ R.id.textName, R.id.textPrice, R.id.imageViewFood };
+	private static final int[] ITEM_TO =  { R.id.textName, R.id.textPrice, R.id.imageViewFood };
 	// `ORDER_FROM` and `ORDER_TO` map database to list view for orderAdapter
-	private static final String[] ORDER_FROM = 
-		{ MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_ORDERSTATUS };
-	private static final int[] ORDER_TO = 
-		{ R.id.textOrderID, R.id.textStatus };
+	private static final String[] ORDER_FROM =  { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_ORDERSTATUS };
+	private static final int[] ORDER_TO =  { R.id.textOrderID, R.id.textStatus };
+	
 	private DeliveryApplication delivery;
 	private IntentFilter filter = new IntentFilter(WebAccessor.NEW_INFO_INTENT);
 	private BroadcastReceiver receiver = new BrowseReceiver();
+	
 	private SimpleCursorAdapter listAdapter;
 	private SimpleCursorAdapter orderAdapter;
 	private Cursor listCursor;		// cursor that manage item list
 	private Cursor orderCursor;		// cursor that manage order list
+	
 	private ListView itemListView;	// item list view
 	private ListView orderListView;	// order list view
 	private Button uploadButton;	// update a food item
@@ -101,6 +101,7 @@ public class BrowseActivity extends Activity {
 	        	  startActivity(intent);
 			}
 	     });
+		
 		orderListView.setOnItemClickListener(new OnItemClickListener() {
 	          public void onItemClick(AdapterView<?> parent, View view,
 	                  int position, long id) {	// when order is clicked
@@ -119,10 +120,6 @@ public class BrowseActivity extends Activity {
 		progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
 				"Loading...", true, false);
 		new Uploader().execute();
-
-	    // Start service to fetch new food items from web server
-	    if (delivery.isServiceRunning() == false)
-	    	startService(new Intent(this, UpdateService.class));
 	}
 	
 	/**
@@ -165,6 +162,22 @@ public class BrowseActivity extends Activity {
 		orderListView.setAdapter(orderAdapter);
 	}
 	
+    // set up interfaces according to user identity
+	private void setupComponentsAccordingToIdentity(){
+	    if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER){
+            uploadButton.setEnabled(true);
+            uploadButton.setVisibility(View.VISIBLE);
+	    }
+	    else{
+	        uploadButton.setEnabled(false);
+            uploadButton.setVisibility(View.INVISIBLE);
+	    } 
+	    
+	    // Start service to fetch new food items from web server
+	    if (delivery.isServiceRunning() == false)
+	    	startService(new Intent(this, UpdateService.class));
+	}
+	
 	/**
 	 * Helper class, onReceive() is called whenever there is new food item or new order
 	 * @author deyuandeng
@@ -184,27 +197,34 @@ public class BrowseActivity extends Activity {
 	}
 	
 	/***
-	 * Asynchronously posts to server, avoid blocking UI thread. The first data
-	 * type is used by doInBackground, the second by onProgressUpdate, and the
-	 * third by onPostExecute.
+	 * Asynchronously posts to server, avoid blocking UI thread.
 	 */
-	class Uploader extends AsyncTask<String, Integer, String> {
+	class Uploader extends AsyncTask<String, Integer, Integer> {
 
 		// doInBackground() is the callback that specifies the actual work to be
 		// done on the separate thread, as if it's executing in the background.
 		@Override
-		protected String doInBackground(String... user) {
+		protected Integer doInBackground(String... user) {
 			try {
-				delivery.getWebAccessor().getAllFoodItems();
+				// Get all food items for current user
+				if (delivery.getWebAccessor().getAllFoodItems() != DeliveryApplication.GET_ALL_FOODITEMS_SUCCESS) {
+					 return DeliveryApplication.GET_ALL_FOODITEMS_FAIL;
+				}
+				// Get all orders if current user is courier or provider; otherwise, get the orders of
+				// a specified customer.
 				if (delivery.getIdentity() == Identity.COURIER || delivery.getIdentity() == Identity.PROVIDER)
-					delivery.getWebAccessor().getAllWebOrders("get_all_orders");
+					if (delivery.getWebAccessor().getAllWebOrders(DeliveryApplication.GET_ALL_ORDERS) != 
+							DeliveryApplication.GET_ALL_ORDERS_SUCCESS)
+							return DeliveryApplication.GET_ALL_ORDERS_FAIL;
 				else
-					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
+					if (delivery.getWebAccessor().getAllWebOrders(delivery.getUser()) != 
+							DeliveryApplication.GET_ALL_ORDERS_SUCCESS)
+						return DeliveryApplication.GET_ALL_ORDERS_FAIL;
 				return null;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null; 	
+			return DeliveryApplication.WEB_ERROR;
 		}
 
 		// onProgressUpdate() is called whenever there's progress in the task
@@ -218,20 +238,8 @@ public class BrowseActivity extends Activity {
 		// callback method to update the user interface and tell the user 
 		// that the task is done.
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(Integer result) {
 			progressDialog.dismiss();
 		}
-	}
-	
-    // set up interfaces according to user identity
-	private void setupComponentsAccordingToIdentity(){
-	    if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER){
-            uploadButton.setEnabled(true);
-            uploadButton.setVisibility(View.VISIBLE);
-	    }
-	    else{
-	        uploadButton.setEnabled(false);
-            uploadButton.setVisibility(View.INVISIBLE);
-	    } 
 	}
 }

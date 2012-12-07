@@ -34,7 +34,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			COLUMN_ID + " text primary key, " +
 			COLUMN_ORDERSTATUS + " text not null, " + 
 			COLUMN_ORDERUSER + " text not null);";
-
+	
 	
 	public MySQLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
