@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C0C0C0"
+    android:background="@drawable/trace"
     android:orientation="vertical" >
     
     <TextView
@@ -13,6 +13,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="123dp"
         android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
         android:text="@string/hello_world" />
     
     <TextView
@@ -22,6 +24,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="172dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
         android:textSize="20sp"
         android:text="@string/hello_world" />
 
