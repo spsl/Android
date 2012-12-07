@@ -2,19 +2,13 @@ package com.project2.delivery_system;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewParent;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.project2.delivery_system.DeliveryApplication.Identity;
@@ -30,7 +24,7 @@ public class LoginActivity extends Activity {
 	private Button loginButton;
 	private Button signupButton;
 	private DeliveryApplication delivery;
-	private boolean passwordDisplay = false;  
+	private boolean passwordDisplay = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +47,7 @@ public class LoginActivity extends Activity {
 				passwordEditText.postInvalidate();  
 				delivery.setUser(name);		// if login fail, name will be reset next time
 				new Uploader().execute(name, password);		// internet connection in background
-			}			
+			}
 		});
 		signupButton = (Button)findViewById(R.id.buttonSignup);
 		signupButton.setOnClickListener(new OnClickListener() {
@@ -71,21 +65,37 @@ public class LoginActivity extends Activity {
 		delivery.getWebAccessor().delete();
 	};
 
+	
 	/***
 	 * Asynchronously login to server, avoid blocking UI thread.
 	 */
-	class Uploader extends AsyncTask<String, Integer, String> {
+	class Uploader extends AsyncTask<String, Integer, Integer> {
 
 		// doInBackground() is the callback that specifies the actual work to be
 		// done on the separate thread, as if it's executing in the background.
 		@Override
-		protected String doInBackground(String... user) {
+		protected Integer doInBackground(String... user) {
 			try {
-				return delivery.getWebAccessor().login(user[0], user[1]);
+				String result = delivery.getWebAccessor().login(user[0], user[1]);
+				if (result.contains("error")) {
+					// Display error message from server.
+					Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
+					return DeliveryApplication.LOGIN_FAIL;
+				}
+				else {
+					if (result.equalsIgnoreCase("customer"))
+						delivery.setIdentity(Identity.CUSTOMER);
+					else if (result.equalsIgnoreCase("provider"))
+						delivery.setIdentity(Identity.PROVIDER);
+					else if (result.equalsIgnoreCase("courier"))
+						delivery.setIdentity(Identity.COURIER);
+					return DeliveryApplication.LOGIN_SUCCESS;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "None";
 			}
+			
+			return DeliveryApplication.WEB_ERROR;
 		}
 
 		// onProgressUpdate() is called whenever there's progress in the task
@@ -99,16 +109,9 @@ public class LoginActivity extends Activity {
 		// callback method to update the user interface and tell the user 
 		// that the task is done.
 		@Override
-		protected void onPostExecute(String result) {
-			if (result.contains("error")) {		// stay in login page if something wrong
-				Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
-			} else {	// login succeed, set identity and start browse activity
-				if (result.equalsIgnoreCase("customer"))
-					delivery.setIdentity(Identity.CUSTOMER);
-				else if (result.equalsIgnoreCase("provider"))
-					delivery.setIdentity(Identity.PROVIDER);
-				else if (result.equalsIgnoreCase("courier"))
-					delivery.setIdentity(Identity.COURIER);
+		protected void onPostExecute(Integer result) {
+			// login succeed, set identity and start browse activity
+			if (result == DeliveryApplication.LOGIN_SUCCESS) {
 				startActivity(new Intent(LoginActivity.this, BrowseActivity.class));
 			}
 		}

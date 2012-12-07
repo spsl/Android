@@ -49,51 +49,13 @@ public class DetailViewActivity extends Activity {
         setupComponentsAccordingToIdentity();
 	}
 	
-	/***
-	 * Asynchronously posts to server, avoid blocking UI thread. The first data
-	 * type is used by doInBackground, the second by onProgressUpdate, and the
-	 * third by onPostExecute.
-	 */
-	class Uploader extends AsyncTask<String, Integer, String> {
-
-		// doInBackground() is the callback that specifies the actual work to be
-		// done on the separate thread, as if it�s executing in the background.
-		@Override
-		protected String doInBackground(String... order) {
-			try {
-				delivery.getWebAccessor().addOrder(delivery.getUser());
-			} catch (Exception e) {
-				e.printStackTrace();
-				return "Failed to order";
-			}
-			return "Successfully ordered";
-		}
-
-		// onProgressUpdate() is called whenever there�s progress in the task
-		// execution. The progress should be reported from the doInBackground() call.
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-		}
-
-		// onPostExecute() is called when our task completes. This is our
-		// callback method to update the user interface and tell the user 
-		// that the task is done.
-		@Override
-		protected void onPostExecute(String result) {
-			// using a Toast feature of the Android UI to display a quick
-			// message on the screen.
-			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
-		}
-	}
-	
 	// set up interfaces according to user identity
     private void setupComponentsAccordingToIdentity(){
         switch(delivery.getIdentity()) {
         case CUSTOMER:{
             orderButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
-                    new Uploader().execute();
+                    new Uploader().execute();	// place order
                     finish();
                 }
             });
@@ -112,4 +74,44 @@ public class DetailViewActivity extends Activity {
             break;
         }
     }
+    
+	
+	/***
+	 * Asynchronously posts to server, avoid blocking UI thread.
+	 */
+	class Uploader extends AsyncTask<String, Integer, Integer> {
+
+		// doInBackground() is the callback that specifies the actual work to be
+		// done on the separate thread, as if it�s executing in the background.
+		@Override
+		protected Integer doInBackground(String... order) {
+			try {
+				return delivery.getWebAccessor().addOrder(delivery.getUser());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return DeliveryApplication.ADD_ORDER_FAIL;
+		}
+
+		// onProgressUpdate() is called whenever there�s progress in the task
+		// execution. The progress should be reported from the doInBackground() call.
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+
+		// onPostExecute() is called when our task completes. This is our
+		// callback method to update the user interface and tell the user 
+		// that the task is done.
+		@Override
+		protected void onPostExecute(Integer result) {
+			// using a Toast feature of the Android UI to display a quick
+			// message on the screen.
+			if (result == DeliveryApplication.ADD_ORDER_SUCCESS)
+				Toast.makeText(delivery, "Successfully ordered", Toast.LENGTH_LONG).show();
+			else
+				Toast.makeText(delivery, "Failed to order", Toast.LENGTH_LONG).show();
+		}
+	}
 }

@@ -1,7 +1,5 @@
 package com.project2.delivery_system;
 
-import com.project2.delivery_system.DeliveryApplication.Identity;
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.content.Intent;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * View details of an order. 
@@ -23,6 +22,10 @@ public class OrderViewActivity extends Activity {
 	private Button actionButton;
 	private Button traceButton;
 	private DeliveryApplication delivery;
+	
+    Intent intent;
+    int[] trace_location;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,25 +90,8 @@ public class OrderViewActivity extends Activity {
 		
 		traceButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                
-                // start GPS activity showing the location of the courier
-                Intent intent;
-                intent = new Intent(OrderViewActivity.this, GPSActivity.class);
-               
-                int trace_location_x, trace_location_y;
-                
-                // dummy location: 
-                trace_location_x = 19240000;
-                trace_location_y = -99120000;
-                Bundle bundle = new Bundle();
-                bundle.putString("orderID", orderID);
-                bundle.putString("orderStatus", orderStatus);
-                bundle.putString("orderUser", orderUser);
-                bundle.putInt("locX", trace_location_x);
-                bundle.putInt("locY", trace_location_y);
-                intent.putExtras(bundle);
-                
-                startActivity(intent);
+                // start GPS activity showing the location of the courier                
+                new Uploader().execute("Order Trace", orderID);
             }
         });
 		
@@ -185,11 +171,13 @@ public class OrderViewActivity extends Activity {
 		@Override
 		protected String doInBackground(String... in) {
 			try {
-				if (in[0].equals(Order.STATUS_PENDING))
+				if (in[0].equals(Order.STATUS_PENDING)) 
 					delivery.getWebAccessor().orderProviderConfirm(orderID);
 				else if (in[0].equals(Order.STATUS_PROV_CONFIRMED))
 					delivery.getWebAccessor().orderDeliveryConfirm(orderID);
-				return null;
+				else if (in[0].equals("Order Trace"))
+					trace_location = delivery.getWebAccessor().getOrderLocation(orderID);
+				return in[0];
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -208,6 +196,24 @@ public class OrderViewActivity extends Activity {
 		// that the task is done.
 		@Override
 		protected void onPostExecute(String result) {
+            // dummy location: 
+			if (result.equals("Order Trace")) {
+				intent = new Intent(OrderViewActivity.this, GPSActivity.class);
+				
+				if (trace_location == null) {
+					Toast.makeText(delivery, "No tracing information", Toast.LENGTH_LONG).show();
+					return;
+				}
+				Bundle bundle = new Bundle();
+				bundle.putString("orderID", orderID);
+				bundle.putString("orderStatus", orderStatus);
+				bundle.putString("orderUser", orderUser);
+				bundle.putInt("locX", trace_location[0]);
+				bundle.putInt("locY", trace_location[1]);
+				intent.putExtras(bundle);
+            
+				startActivity(intent);
+			}
 		}
 	}
 }

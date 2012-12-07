@@ -20,6 +20,8 @@ public class Order {
 	private String user;
 	private String status;
 	private String itemID;
+	private String location_x;
+	private String location_y;
 
 	public Order() {
 		
@@ -62,5 +64,21 @@ public class Order {
 
 	public void setItemID(String itemID) {
 		this.itemID = itemID;
+	}
+	
+	public String getLocationX() {
+		return location_x;
+	}
+
+	public void setLocationX(String location_x) {
+		this.location_x = location_x;
+	}
+	
+	public String getLocationY() {
+		return location_y;
+	}
+
+	public void setLocationY(String location_y) {
+		this.location_y = location_y;
 	}
 }

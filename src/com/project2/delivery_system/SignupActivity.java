@@ -51,7 +51,7 @@ public class SignupActivity extends Activity {
 				passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());  
 				passwordDisplay = !passwordDisplay;  
 				passwordEditText.postInvalidate();  
-								
+				
 				if (name.equals("")) {					// no user name is entered
 					Toast.makeText(delivery, "please enter user name", Toast.LENGTH_LONG).show();
 				} else if (password.equals("")) {		// no password is entered
@@ -74,22 +74,26 @@ public class SignupActivity extends Activity {
 	
 	
 	/***
-	 * Asynchronously posts to server, avoid blocking UI thread. The first data
-	 * type is used by doInBackground, the second by onProgressUpdate, and the
-	 * third by onPostExecute.
+	 * Asynchronously posts to server, avoid blocking UI thread.
 	 */
-	class Uploader extends AsyncTask<String, Integer, String> {
+	class Uploader extends AsyncTask<String, Integer, Integer> {
 
-		// doInBackground() is the callback that specifies the actual work to be
-		// done on the separate thread, as if it�s executing in the background.
 		@Override
-		protected String doInBackground(String... userStrings) {
+		protected Integer doInBackground(String... user) {
 			try {
-				return delivery.getWebAccessor().signup(userStrings[0], userStrings[1], userStrings[2]);
+				String result = delivery.getWebAccessor().signup(user[0], user[1], user[2]);
+				// Display message from server.
+				Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
+				if (result.contains("error")) {
+					return DeliveryApplication.SIGNUP_FAIL;
+				} else {
+					return DeliveryApplication.SIGNUP_SUCCESS;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				return "error: failed to sign up";
 			}
+			
+			return DeliveryApplication.WEB_ERROR;
 		}
 
 		// onProgressUpdate() is called whenever there�s progress in the task
@@ -103,9 +107,8 @@ public class SignupActivity extends Activity {
 		// callback method to update the user interface and tell the user 
 		// that the task is done.
 		@Override
-		protected void onPostExecute(String result) {
-			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
-			if (!result.contains("error")) {	// error may occur when user name exists
+		protected void onPostExecute(Integer result) {
+			if (result == DeliveryApplication.SIGNUP_SUCCESS) {
 				startActivity(new Intent(SignupActivity.this, BrowseActivity.class));	
 			}
 		}

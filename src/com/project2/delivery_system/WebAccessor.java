@@ -57,6 +57,7 @@ public class WebAccessor {
 	private static String ORDER_URI = "http://18641datastore.appspot.com/orders";
 	private static String USER_URI = "http://18641datastore.appspot.com/users";
 	private static String IMAGE_URI = "http://18641datastore.appspot.com/images";
+	private static String LOCATION_URI = "http://18641datastore.appspot.com/location";
 	
 	
 	public WebAccessor(Context context) {
@@ -81,7 +82,7 @@ public class WebAccessor {
 	/**
 	 * Get all web food items from server, update local database, then list view
 	 */
-	public void getAllFoodItems() {
+	public int getAllFoodItems() {
 		try {
 			String line;
 			int newFoodItems = 0;
@@ -123,19 +124,23 @@ public class WebAccessor {
                 context.sendBroadcast(intent);	// send broadcast message to browse activity
             }
 			reader.close();
+			
+			return DeliveryApplication.GET_ALL_FOODITEMS_SUCCESS;
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return DeliveryApplication.GET_ALL_FOODITEMS_FAIL;
 	}
 
 	/**
 	 * Get all orders of current user from web, update local database, then
 	 * update order view
 	 */
-	public void getAllWebOrders(String orderUser) {		
+	public int getAllWebOrders(String orderUser) {		
 		try {
 			String line;
 			int newOrders = 0;
@@ -163,12 +168,16 @@ public class WebAccessor {
                 context.sendBroadcast(intent);
             }
 			reader.close();
+			
+			return DeliveryApplication.GET_ALL_ORDERS_SUCCESS;
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return DeliveryApplication.GET_ALL_ORDERS_FAIL;
 	}
 
 	/**
@@ -211,7 +220,7 @@ public class WebAccessor {
 	/**
 	 * Add a new order to server, update local database, then list view
 	 */
-	public void addOrder(String orderUser) {
+	public int addOrder(String orderUser) {
 		// Create a new HttpClient and Post Header
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(ORDER_URI);
@@ -238,11 +247,16 @@ public class WebAccessor {
             Intent intent = new Intent(NEW_INFO_INTENT);
             intent.putExtra(NEW_INFO_EXTRA, NEW_ORDER);
             context.sendBroadcast(intent);
+            
+            return DeliveryApplication.ADD_ORDER_SUCCESS;
+            
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		return DeliveryApplication.ADD_ORDER_FAIL;
 	}
 
     /**
@@ -445,5 +459,66 @@ public class WebAccessor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 0;}
+		return 0;
+	}
+	
+	/**
+     *  Used for courier to update location
+     * @param order
+     */
+	public int uploadOrderLocation(String orderID, String location_x, String location_y) {
+		
+		// Create a new HttpClient and Post Header
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(LOCATION_URI);
+
+		try {
+			// Post to server
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+			nameValuePairs.add(new BasicNameValuePair("orderID", orderID));
+			nameValuePairs.add(new BasicNameValuePair("location_x", location_x));
+			nameValuePairs.add(new BasicNameValuePair("location_y", location_y));
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			httpclient.execute(httppost);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @param orderID
+	 * @return return location array
+	 */
+	public int[] getOrderLocation(String orderID) {
+		int[] location = new int[2];
+		
+		try {
+			String line;
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(LOCATION_URI + "?orderID=" + orderID);			
+			HttpResponse response = httpClient.execute(httpGet);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					response.getEntity().getContent()));
+
+			line = reader.readLine();
+			if (line.contains("error"))
+				return null;
+			String[] locationStrings = line.split(";");
+			location[0] = Integer.valueOf(locationStrings[0]);
+			location[1] = Integer.valueOf(locationStrings[1]);
+
+			reader.close();
+
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		
+		return location;
+	}
 }
