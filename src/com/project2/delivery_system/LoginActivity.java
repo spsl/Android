@@ -2,11 +2,6 @@ package com.project2.delivery_system;
 
 import android.app.Activity;
 import android.content.Intent;
-<<<<<<< HEAD
-import android.graphics.Color;
-import android.nfc.NfcAdapter;
-=======
->>>>>>> 6056e1f5d8f00de281e0e064ac4506043d5cafe5
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -29,22 +24,7 @@ public class LoginActivity extends Activity {
 	private Button loginButton;
 	private Button signupButton;
 	private DeliveryApplication delivery;
-<<<<<<< HEAD
-	@Override
-    protected void onNewIntent(Intent intent) {
-        // TODO Auto-generated method stub
-	    if(NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())){
-	        intent.setClass(this, NFCActivity.class);
-	        startActivity(intent);
-	    }
-	    
-        super.onNewIntent(intent);
-    }
-
-    private boolean passwordDisplay = false;  
-=======
 	private boolean passwordDisplay = false;
->>>>>>> 6056e1f5d8f00de281e0e064ac4506043d5cafe5
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

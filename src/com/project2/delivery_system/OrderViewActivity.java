@@ -163,6 +163,14 @@ public class OrderViewActivity extends Activity {
         default:
             break;
         }
+	    
+	    if(orderStatus.contentEquals(Order.STATUS_COUR_CONFIRMED)){
+            traceButton.setEnabled(true);
+            traceButton.setVisibility(View.VISIBLE);
+        }else{
+            traceButton.setEnabled(false);
+            traceButton.setVisibility(View.INVISIBLE);
+        }
 	};
 	
 	/***
