@@ -27,11 +27,11 @@
     <string name="button_upload">Upload</string>
     <string name="item_action_order">Order it Now</string>
     
-    <string name="title_activity_nfc">NFCActivity</string>
+    <string name="title_activity_nfc">DeLiWei Food Factory</string>
     <string name="nfc_greetings">Communicating&#8230;</string>
     <string name="gps_greetings">Welcome GPS</string>
-    <string name="title_activity_cam">CamActivity</string>
-    <string name="title_activity_gps">GPSActivity</string>
+    <string name="title_activity_cam">DeLiWei Food Factory</string>
+    <string name="title_activity_gps">DeLiWei Food Factory</string>
     <string name="cam_greetings">Welcome Camera</string>
     <string name="user_name">Username:</string>
     <string name="hint_info">Please enter here</string>

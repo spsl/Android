@@ -23,7 +23,7 @@
         android:layout_marginBottom="320dp"
         android:layout_marginTop="25dp"
         android:layout_toRightOf="@+id/titlelogo"
-        android:text="Order Detail"
+        android:text="Food Detail"
         android:textColor="#800000"
         android:textSize="30sp"
         android:textStyle="bold" />
