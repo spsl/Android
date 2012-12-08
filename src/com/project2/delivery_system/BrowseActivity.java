@@ -13,8 +13,11 @@ import android.database.sqlite.SQLiteCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Binder;
+import android.os.IBinder;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,6 +59,8 @@ public class BrowseActivity extends Activity {
 	private ListView orderListView;	// order list view
 	private Button uploadButton;	// update a food item
 	private ProgressDialog progressDialog;
+
+	
 	private ViewBinder VIEW_BINDER = new ViewBinder() {
 		// called for each data element that needs to be bound to a particular view
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -122,12 +127,15 @@ public class BrowseActivity extends Activity {
 			}
 	     });
 		
+		
+		Intent intent = new Intent(this, PositionUploadService.class);
+        startService(intent);
+		
 		progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
 				"Loading...", true, false);
 		new Uploader().execute();
 	}
-	
-	/**
+    /**
 	 * Called when browse activity is resumed, every path
 	 * to running state will go through onResume()
 	 */
