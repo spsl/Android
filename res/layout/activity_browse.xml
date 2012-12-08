@@ -38,14 +38,14 @@
         android:dividerHeight="1dp"
         android:text="@string/hello_world" />
 
-        <ImageView
+    <ImageView
         android:id="@+id/titlelogo2"
         android:layout_width="66sp"
         android:layout_height="66sp"
         android:layout_alignBottom="@+id/textStatic1"
         android:layout_alignTop="@+id/textStatic1"
         android:contentDescription="@string/hello_world"
-        android:src="@drawable/titlelogo2" />
+        android:src="@drawable/orderlist1" />
 
     <ListView
         android:id="@+id/orderlist"
