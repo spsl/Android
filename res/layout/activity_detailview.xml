@@ -10,9 +10,8 @@
         android:id="@+id/titlelogo"
         android:layout_width="66sp"
         android:layout_height="66sp"
-        android:layout_alignBottom="@+id/title_browse"
-        android:layout_alignTop="@+id/title_browse"
-        android:layout_marginLeft="37dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="1dp"
         android:contentDescription="@string/hello_world"
         android:src="@drawable/titlelogo" />
 
@@ -23,7 +22,7 @@
         android:layout_marginBottom="320dp"
         android:layout_marginTop="25dp"
         android:layout_toRightOf="@+id/titlelogo"
-        android:text="Food Detail"
+        android:text="@string/food_detail"
         android:textColor="#800000"
         android:textSize="30sp"
         android:textStyle="bold"

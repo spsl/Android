@@ -47,6 +47,7 @@
     <string name="cam_switch">Switch</string>
     
     <string name="button_logout">Logout</string>
+    <string name="food_detail">Food Detail</string>
 
     <string-array name="identity">
         <item>Provider</item>

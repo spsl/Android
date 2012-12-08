@@ -44,7 +44,6 @@
         
         <activity
             android:name=".CamActivity"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_cam"
             android:screenOrientation="portrait" >
             <meta-data

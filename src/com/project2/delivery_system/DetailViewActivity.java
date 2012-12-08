@@ -56,11 +56,11 @@ public class DetailViewActivity extends Activity {
 		// Display item details for user
 		TextView text;
 		text = (TextView)findViewById(R.id.textView_item_id);
-		text.setText(itemID);
+		text.setText("Item ID:\n\t" + itemID);
 		text = (TextView)findViewById(R.id.textView_item_name);
-		text.setText(itemName);
+		text.setText("Item Name:\n\t" + itemName);
 		text = (TextView)findViewById(R.id.textView_item_price);
-		text.setText(itemPrice);
+		text.setText("Item Price:\n\t" + itemPrice + "$");
 
 		// Set order button only for customer
 		orderButton = (Button)findViewById(R.id.buttonOrder);
