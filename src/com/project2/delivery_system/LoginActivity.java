@@ -68,33 +68,18 @@ public class LoginActivity extends Activity {
 	/***
 	 * Asynchronously login to server, avoid blocking UI thread.
 	 */
-	class Uploader extends AsyncTask<String, Integer, Integer> {
+	class Uploader extends AsyncTask<String, Integer, String> {
 
 		// doInBackground() is the callback that specifies the actual work to be
 		// done on the separate thread, as if it's executing in the background.
 		@Override
-		protected Integer doInBackground(String... user) {
+		protected String doInBackground(String... user) {
 			try {
-				String result = delivery.getWebAccessor().login(user[0], user[1]);
-				if (result.contains("error")) {
-					// Display error message from server.
-					Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
-					return DeliveryApplication.LOGIN_FAIL;
-				}
-				else {
-					if (result.equalsIgnoreCase("customer"))
-						delivery.setIdentity(Identity.CUSTOMER);
-					else if (result.equalsIgnoreCase("provider"))
-						delivery.setIdentity(Identity.PROVIDER);
-					else if (result.equalsIgnoreCase("courier"))
-						delivery.setIdentity(Identity.COURIER);
-					return DeliveryApplication.LOGIN_SUCCESS;
-				}
+				return delivery.getWebAccessor().login(user[0], user[1]);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			return DeliveryApplication.WEB_ERROR;
+			return "error";
 		}
 
 		// onProgressUpdate() is called whenever there's progress in the task
@@ -108,11 +93,18 @@ public class LoginActivity extends Activity {
 		// callback method to update the user interface and tell the user 
 		// that the task is done.
 		@Override
-		protected void onPostExecute(Integer result) {
+		protected void onPostExecute(String result) {
 			// login succeed, set identity and start browse activity
-			if (result == DeliveryApplication.LOGIN_SUCCESS) {
+			Toast.makeText(delivery, result, Toast.LENGTH_LONG).show();
+			if (!result.contains("error")) {
+				if (result.equalsIgnoreCase("customer"))
+					delivery.setIdentity(Identity.CUSTOMER);
+				else if (result.equalsIgnoreCase("provider"))
+					delivery.setIdentity(Identity.PROVIDER);
+				else if (result.equalsIgnoreCase("courier"))
+					delivery.setIdentity(Identity.COURIER);
 				startActivity(new Intent(LoginActivity.this, BrowseActivity.class));
-			}
+			}				
 		}
 	}
 }

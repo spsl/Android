@@ -1,16 +1,18 @@
 package com.project2.delivery_system;
 
-import android.os.Bundle;
-import android.view.MenuItem;
+import java.util.List;
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import java.util.List;
+import android.os.Bundle;
+import android.view.MenuItem;
+
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MyLocationOverlay;
 
 /**
  * GPS activity for our application.

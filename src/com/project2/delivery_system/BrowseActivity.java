@@ -121,6 +121,12 @@ public class BrowseActivity extends Activity {
 	              startActivity(intent);
 			}
 	     });
+		
+		if (delivery.getIdentity() == Identity.COURIER) {
+			Intent intent = new Intent(this, PositionUploadService.class);
+			startService(intent);
+		}
+		
 
 
 		Intent intent = new Intent(this, PositionUploadService.class);
@@ -164,6 +170,8 @@ public class BrowseActivity extends Activity {
 					public void onClick(DialogInterface dialog,int id) {
 						delivery.setServiceRunning(false);	// stop service, delete data cache
 						stopService(new Intent(BrowseActivity.this, UpdateService.class));
+						if (delivery.getIdentity() == Identity.COURIER)
+							stopService(new Intent(BrowseActivity.this, PositionUploadService.class));
 						delivery.getWebAccessor().delete();
 						Intent intent = new Intent(BrowseActivity.this, LoginActivity.class);
 						startActivity(intent);
