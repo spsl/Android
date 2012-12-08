@@ -29,22 +29,6 @@ public class DetailViewActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detailview);
 		
-		// set underline for textview
-//		TextView textView1;
-//		TextView textView2;
-//		TextView textView3;
-//		
-//		textView1 = (TextView) findViewById(R.id.textView_item_id);
-//		textView1.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-//		textView1.getPaint().setAntiAlias(true);
-//
-//		textView2 = (TextView) findViewById(R.id.textView_item_name);
-//		textView2.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-//		textView2.getPaint().setAntiAlias(true);
-//		
-//		textView2 = (TextView) findViewById(R.id.textView_item_price);
-//		textView2.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-//		textView2.getPaint().setAntiAlias(true);
 		
 		// Instantiate all variables
 		delivery = (DeliveryApplication) getApplication();
