@@ -40,7 +40,7 @@
     <string name="user_password_confirm">Confirm Password:</string>
     <string name="user_login">Login</string>
     <string name="user_signup">Signup</string>
-    <string name="user_identity">Your identity</string>
+    <string name="user_identity">Your Identity</string>
     <string name="take_photo">Take a Photo</string>
     <string name="cam_view">View</string>
     <string name="cam_shoot">Shoot</string>
