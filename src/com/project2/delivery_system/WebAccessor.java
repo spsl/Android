@@ -24,13 +24,15 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.project2.delivery_system.DeliveryApplication.Identity;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+
+import com.project2.delivery_system.DeliveryApplication.Identity;
 
 	
 public class WebAccessor {
@@ -160,7 +162,6 @@ public class WebAccessor {
 				if (database.insertWithOnConflict(MySQLiteHelper.TABLE_ORDERS,
 						null, values, SQLiteDatabase.CONFLICT_REPLACE) != 0)
 					newOrders++;
-				
 			}
 			
             if (newOrders > 0) {
@@ -508,9 +509,9 @@ public class WebAccessor {
 			line = reader.readLine();
 			if (line.contains("error"))
 				return null;
-			String[] locationStrings = line.split(";");
-			location[0] = Integer.valueOf(locationStrings[0]);
-			location[1] = Integer.valueOf(locationStrings[1]);
+			String[] locationStrings = line.split(";");			
+			location[0] = Double.valueOf(locationStrings[0]).intValue();
+			location[1] = Double.valueOf(locationStrings[1]).intValue();
 
 			reader.close();
 

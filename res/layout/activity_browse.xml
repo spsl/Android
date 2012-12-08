@@ -29,27 +29,16 @@
         android:id="@+id/itemlist"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_above="@+id/buttonUpload"
         android:layout_below="@+id/title_browse"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="11dp"
         android:divider="@drawable/line_color"
-        android:dividerHeight="1px"
+        android:dividerHeight="1dp"
         android:text="@string/hello_world" />
 
-    <Button
-        android:id="@+id/buttonUpload"
-        style="@style/button_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/itemlist"
-        android:layout_centerHorizontal="true"
-         android:typeface="serif" 
-        android:background="@drawable/button_shape"
-        android:text="@string/button_upload"
-        android:textSize="18sp" />
-
-    <ImageView
+        <ImageView
         android:id="@+id/titlelogo2"
         android:layout_width="66sp"
         android:layout_height="66sp"
@@ -58,31 +47,40 @@
         android:contentDescription="@string/hello_world"
         android:src="@drawable/titlelogo2" />
 
-    <TextView
-        android:id="@+id/textStatic1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonUpload"
-        android:layout_marginTop="15dp"
-        android:layout_toRightOf="@+id/titlelogo2"
-        android:text="@string/order_list"
-        android:textColor="#800000"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:typeface="serif" >
-    </TextView>
-
     <ListView
         android:id="@+id/orderlist"
         android:layout_width="match_parent"
-        android:layout_height="142dp"
-        android:layout_below="@+id/textStatic1"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="11dp"
         android:divider="@drawable/line_color"
         android:dividerHeight="1px"
         android:text="@string/hello_world" >
     </ListView>
+
+    <TextView
+        android:id="@+id/textStatic1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/orderlist"
+        android:layout_alignLeft="@+id/title_browse"
+        android:text="@string/order_list"
+        android:textColor="#800000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+    <Button
+        android:id="@+id/buttonUpload"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textStatic1"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_shape"
+        android:text="@string/button_upload"
+        android:textSize="18sp"
+        android:typeface="serif" />
 
 </RelativeLayout>

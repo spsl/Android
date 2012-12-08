@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/textView_order_id"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView_order_status"
@@ -20,6 +21,7 @@
 
     <TextView
         android:id="@+id/textView_order_status"
+		android:gravity="center"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

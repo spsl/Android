@@ -96,7 +96,7 @@ public class GPSActivity extends MapActivity {
             orderID = bundle.getString("orderID");
             orderStatus = bundle.getString("orderStatus");
             orderUser = bundle.getString("orderUser");
-                        
+            
             GeoPoint point = new GeoPoint(bundle.getInt("locX"), bundle.getInt("locY"));
             OverlayItem overlayitem = new OverlayItem(point, "Courier", "Order ID:"+orderID);
             
