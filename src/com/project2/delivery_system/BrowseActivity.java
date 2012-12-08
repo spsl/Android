@@ -32,7 +32,7 @@ import com.project2.delivery_system.DeliveryApplication.Identity;
  * @author deyuandeng
  */
 public class BrowseActivity extends Activity {
-	
+
 	// `ITEM_FROM` and `ITEM_TO` map database to list view for listAdapter
 	private static final String[] ITEM_FROM =  
 		{ MySQLiteHelper.COLUMN_ITEMNAME, MySQLiteHelper.COLUMN_ITEMPRICE, MySQLiteHelper.COLUMN_ITEMPRICE };
@@ -40,22 +40,22 @@ public class BrowseActivity extends Activity {
 	// `ORDER_FROM` and `ORDER_TO` map database to list view for orderAdapter
 	private static final String[] ORDER_FROM =  { MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_ORDERSTATUS };
 	private static final int[] ORDER_TO =  { R.id.textOrderID, R.id.textStatus };
-	
+
 	private DeliveryApplication delivery;
 	private IntentFilter filter = new IntentFilter(WebAccessor.NEW_INFO_INTENT);
 	private BroadcastReceiver receiver = new BrowseReceiver();
-	
+
 	private SimpleCursorAdapter listAdapter;
 	private SimpleCursorAdapter orderAdapter;
 	private Cursor listCursor;		// cursor that manage item list
 	private Cursor orderCursor;		// cursor that manage order list
-	
+
 	private ListView itemListView;	// item list view
 	private ListView orderListView;	// order list view
 	private Button uploadButton;	// update a food item
 	private ProgressDialog progressDialog;
 
-	
+
 	private ViewBinder VIEW_BINDER = new ViewBinder() {
 		// called for each data element that needs to be bound to a particular view
 		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
@@ -73,7 +73,7 @@ public class BrowseActivity extends Activity {
 			return false;
 		}
 	};
-	
+
 	/**
 	 * Called when browse activity is created
 	 */
@@ -96,7 +96,7 @@ public class BrowseActivity extends Activity {
 	          public void onItemClick(AdapterView<?> parent, View view,
 	                  int position, long id) {	// when food item is clicked
 	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)itemListView.getItemAtPosition(position);
-	        	  
+
 	        	  Intent intent = new Intent(BrowseActivity.this, DetailViewActivity.class);
 	        	  Bundle bundle = new Bundle();
 	        	  bundle.putString("itemID", sqLiteCursor.getString(0));
@@ -106,12 +106,12 @@ public class BrowseActivity extends Activity {
 	        	  startActivity(intent);
 			}
 	     });
-		
+
 		orderListView.setOnItemClickListener(new OnItemClickListener() {
 	          public void onItemClick(AdapterView<?> parent, View view,
 	                  int position, long id) {	// when order is clicked
  	        	  SQLiteCursor sqLiteCursor = (SQLiteCursor)orderListView.getItemAtPosition(position);
-	              
+
 	              Intent intent = new Intent(BrowseActivity.this, OrderViewActivity.class );
 	              Bundle bundle = new Bundle();
                   bundle.putString("orderID", sqLiteCursor.getString(0));
@@ -127,6 +127,11 @@ public class BrowseActivity extends Activity {
 			startService(intent);
 		}
 		
+
+
+		Intent intent = new Intent(this, PositionUploadService.class);
+        startService(intent);
+
 		progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
 				"Loading...", true, false);
 		new Uploader().execute();
@@ -152,12 +157,12 @@ public class BrowseActivity extends Activity {
 		super.unregisterReceiver(receiver);
 		super.onPause();
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK) {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(BrowseActivity.this);
-			 
+
 			alertDialogBuilder.setTitle("Do you want to exit?");	// set title
 			alertDialogBuilder			// set dialog message
 				.setCancelable(false)
@@ -177,15 +182,15 @@ public class BrowseActivity extends Activity {
 						dialog.cancel();
 					}
 				});
-			
+
 			AlertDialog alertDialog = alertDialogBuilder.create();	// create alert dialog
 			alertDialog.show();
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
 	}
-	
-	
+
+
 	/**
 	 * Refresh entire list view in screen
 	 */
@@ -197,13 +202,13 @@ public class BrowseActivity extends Activity {
 		listAdapter = new SimpleCursorAdapter(this, R.layout.list_row, listCursor, ITEM_FROM, ITEM_TO);
 		listAdapter.setViewBinder(VIEW_BINDER);
 		itemListView.setAdapter(listAdapter);
-		
+
 		orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser(), delivery.getIdentity());
 		startManagingCursor(orderCursor);
 		orderAdapter = new SimpleCursorAdapter(this, R.layout.order_row, orderCursor, ORDER_FROM, ORDER_TO);
 		orderListView.setAdapter(orderAdapter);
 	}
-	
+
     // set up interfaces according to user identity
 	private void setupComponentsAccordingToIdentity(){
 	    if(delivery.getIdentity() == DeliveryApplication.Identity.PROVIDER){
@@ -214,12 +219,12 @@ public class BrowseActivity extends Activity {
 	        uploadButton.setEnabled(false);
             uploadButton.setVisibility(View.INVISIBLE);
 	    } 
-	    
+
 	    // Start service to fetch new food items from web server
 	    if (delivery.isServiceRunning() == false)
 	    	startService(new Intent(this, UpdateService.class));
 	}
-	
+
 	/**
 	 * Helper class, onReceive() is called whenever there is new food item or new order
 	 * @author deyuandeng
@@ -227,17 +232,17 @@ public class BrowseActivity extends Activity {
 	class BrowseReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			
+
 			// re-query ITEM_TO refresh listCursor
 			listCursor.requery();
 			// notify listAdapter that underlying data has changed
 			listAdapter.notifyDataSetChanged();
-				
+
 			orderCursor.requery();
 			orderAdapter.notifyDataSetChanged();
 		}
 	}
-	
+
 	/***
 	 * Asynchronously posts to server, avoid blocking UI thread.
 	 */
@@ -255,7 +260,7 @@ public class BrowseActivity extends Activity {
 					delivery.getWebAccessor().getAllWebOrders(DeliveryApplication.GET_ALL_ORDERS); 
 				else if (delivery.getIdentity() == Identity.CUSTOMER)
 					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
-				
+
 				return DeliveryApplication.GET_ALL_ORDERS_SUCCESS;
 			} catch (Exception e) {
 				e.printStackTrace();
