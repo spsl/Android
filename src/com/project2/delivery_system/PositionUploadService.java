@@ -33,8 +33,6 @@ public class PositionUploadService extends Service {
         
         delivery = (DeliveryApplication)getApplication();
         locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        
-        
     }
 
     @Override
@@ -42,15 +40,6 @@ public class PositionUploadService extends Service {
         if(orderCursor!=null){
             orderCursor.close();
         }
-        
-        orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser(), delivery.getIdentity());
-        
-        if(orderCursor==null){
-            // cannot connect to data base
-            // print some error message
-            popViewMessage("No data base cursor!");
-        }
-        
         // only courier upload position data
         if(delivery.getIdentity()==DeliveryApplication.Identity.COURIER){
         
@@ -70,7 +59,17 @@ public class PositionUploadService extends Service {
                     new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
-                            updateOrderLocations(recentLocation,orderCursor);
+                            orderCursor = delivery.getWebAccessor().getOrderCursor(delivery.getUser(), delivery.getIdentity());
+                            
+                            if(orderCursor==null){
+                                // cannot connect to data base
+                                // print some error message
+                                popViewMessage("No data base cursor!");
+                            }
+                            else
+                                updateOrderLocations(recentLocation,orderCursor);
+                            
+                            popViewMessage("Location update");
                         }
                         @Override
                         public void onProviderDisabled(String provider) {
@@ -128,7 +127,7 @@ public class PositionUploadService extends Service {
     }
     
     private void popViewMessage(String message){
-        Toast.makeText(delivery, "No tracing information", Toast.LENGTH_LONG).show();
+        Toast.makeText(delivery, message, Toast.LENGTH_LONG).show();
         return;
     }
     
