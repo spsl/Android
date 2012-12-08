@@ -19,7 +19,7 @@
         android:id="@+id/title_browse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="320dp"
+        android:layout_marginBottom="360dp"
         android:layout_marginTop="25dp"
         android:layout_toRightOf="@+id/titlelogo"
         android:text="@string/food_detail"
@@ -29,25 +29,42 @@
         android:typeface="serif" />
 
     <ImageView
+        android:id="@+id/jpgview"
+        android:layout_width="250sp"
+        android:layout_height="150sp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/titlelogo"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/hello_world" />
+
+    <ImageView
         android:id="@+id/titlelogo2"
         android:layout_width="66sp"
         android:layout_height="66sp"
         android:layout_alignBottom="@+id/textView_item_id"
         android:layout_alignTop="@+id/textView_item_id"
         android:contentDescription="@string/hello_world"
-        android:src="@drawable/titlelogo2" />
+        android:src="@drawable/mark" />
 
     <TextView
         android:id="@+id/textView_item_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/titlelogo"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="75dp"
-        android:layout_toRightOf="@+id/titlelogo2"
+        android:layout_below="@+id/jpgview"
+        android:layout_marginTop="36dp"
+        android:layout_toRightOf="@+id/titlelogo"
         android:text="@string/hello_world"
         android:textSize="20sp"
         android:typeface="serif" />
+
+    <ImageView
+        android:id="@+id/titlelogo3"
+        android:layout_width="66sp"
+        android:layout_height="66sp"
+        android:layout_alignBottom="@+id/textView_item_name"
+        android:layout_alignTop="@+id/textView_item_name"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/mark" />
 
     <TextView
         android:id="@+id/textView_item_name"
@@ -59,6 +76,15 @@
         android:text="@string/hello_world"
         android:textSize="20sp"
         android:typeface="serif" />
+
+    <ImageView
+        android:id="@+id/titlelogo4"
+        android:layout_width="66sp"
+        android:layout_height="66sp"
+        android:layout_alignBottom="@+id/textView_item_price"
+        android:layout_alignTop="@+id/textView_item_price"
+        android:contentDescription="@string/hello_world"
+        android:src="@drawable/mark" />
 
     <TextView
         android:id="@+id/textView_item_price"
@@ -76,9 +102,8 @@
         style="@style/button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/textView_item_price"
-        android:layout_marginTop="24dp"
+        android:layout_toRightOf="@+id/titlelogo4"
         android:background="@drawable/button_shape"
         android:text="@string/item_action_order"
         android:textSize="18sp"
