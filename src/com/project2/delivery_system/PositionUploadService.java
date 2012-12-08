@@ -25,7 +25,6 @@ public class PositionUploadService extends Service {
     private DeliveryApplication delivery;
     private LocationManager locManager;
     private Location recentLocation;
-        
     private Cursor orderCursor;     // cursor that manage order list
     
     @Override
@@ -33,8 +32,6 @@ public class PositionUploadService extends Service {
         
         delivery = (DeliveryApplication)getApplication();
         locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
-        
-        
     }
 
     @Override

@@ -29,8 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 
 import com.project2.delivery_system.DeliveryApplication.Identity;
 
