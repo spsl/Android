@@ -509,9 +509,9 @@ public class WebAccessor {
 			line = reader.readLine();
 			if (line.contains("error"))
 				return null;
-			String[] locationStrings = line.split(";");
-			location[0] = Integer.valueOf(locationStrings[0]);
-			location[1] = Integer.valueOf(locationStrings[1]);
+			String[] locationStrings = line.split(";");			
+			location[0] = Double.valueOf(locationStrings[0]).intValue();
+			location[1] = Double.valueOf(locationStrings[1]).intValue();
 
 			reader.close();
 
