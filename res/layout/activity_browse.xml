@@ -67,7 +67,7 @@
         android:layout_alignLeft="@+id/title_browse"
         android:text="@string/order_list"
         android:textColor="#800000"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:typeface="serif" />
 
