@@ -29,7 +29,7 @@
         android:typeface="serif" />
 
     <ImageView
-        android:id="@+id/jpgview"
+        android:id="@+id/jpgview_detail"
         android:layout_width="250sp"
         android:layout_height="150sp"
         android:layout_alignParentLeft="true"
@@ -50,7 +50,7 @@
         android:id="@+id/textView_item_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/jpgview"
+        android:layout_below="@+id/jpgview_detail"
         android:layout_marginTop="36dp"
         android:layout_toRightOf="@+id/titlelogo"
         android:text="@string/hello_world"

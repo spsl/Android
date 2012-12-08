@@ -1,12 +1,13 @@
 package com.project2.delivery_system;
 
 import android.app.Activity;
-import android.graphics.Paint;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class DetailViewActivity extends Activity {
 	private String itemID;
 	private String itemName;
 	private String itemPrice;
+	private byte[] itemPicture;
 	private Button orderButton;
 	private DeliveryApplication delivery;
 
@@ -36,6 +38,7 @@ public class DetailViewActivity extends Activity {
 		itemID = bundle.getString("itemID");
 		itemName = bundle.getString("itemName");
 		itemPrice = bundle.getString("itemPrice");
+		itemPicture = bundle.getByteArray("itemPicture");
 
 		// Display item details for user
 		TextView text;
@@ -45,6 +48,8 @@ public class DetailViewActivity extends Activity {
 		text.setText("Item Name:   " + itemName);
 		text = (TextView)findViewById(R.id.textView_item_price);
 		text.setText("Item Price:  " + "$" + itemPrice );
+		ImageView imageView = (ImageView)findViewById(R.id.jpgview_detail);;
+		imageView.setImageBitmap(BitmapFactory.decodeByteArray(itemPicture, 0, itemPicture.length));
 
 		// Set order button only for customer
 		orderButton = (Button)findViewById(R.id.buttonOrder);

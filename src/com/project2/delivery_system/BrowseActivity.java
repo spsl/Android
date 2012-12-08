@@ -102,6 +102,7 @@ public class BrowseActivity extends Activity {
 	        	  bundle.putString("itemID", sqLiteCursor.getString(0));
 	        	  bundle.putString("itemName", sqLiteCursor.getString(1));
 	        	  bundle.putString("itemPrice", sqLiteCursor.getString(2));
+	        	  bundle.putByteArray("itemPicture", sqLiteCursor.getBlob(3));
 	        	  intent.putExtras(bundle);
 	        	  startActivity(intent);
 			}
