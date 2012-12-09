@@ -28,6 +28,7 @@ class Orders(db.Model):
     orderID = db.StringProperty(required = True)
     orderStatus = db.StringProperty(required = True)
     orderUser = db.StringProperty(required = True)
+    orderItem = db.StringProperty(required = True)
     orderLocationX = db.StringProperty()
     orderLocationY = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add = True)    
@@ -93,8 +94,8 @@ class LocationHandler(webapp2.RequestHandler):
         
     def post(self):
         orderID = self.request.get("orderID")
-        orderLocationX = self.request.get("orderLocationX")
-        orderLocationY = self.request.get("orderLocationY")
+        orderLocationX = self.request.get("location_x")
+        orderLocationY = self.request.get("location_y")
         
         order = Orders.all().filter("orderID =", orderID).get()
         order.orderLocationX = orderLocationX
@@ -112,6 +113,7 @@ class OrdersHandler(webapp2.RequestHandler):
                 response = ";".join([order.orderID,
                                      order.orderStatus,
                                      order.orderUser,
+                                     order.orderItem,
                                      str(order.date)]) + "\n"
                 self.response.write(response)
         else:
@@ -119,6 +121,7 @@ class OrdersHandler(webapp2.RequestHandler):
                 response = ";".join([order.orderID,
                                      order.orderStatus,
                                      order.orderUser,
+                                     order.orderItem,
                                      str(order.date)]) + "\n"
                 self.response.write(response)
 
@@ -126,11 +129,13 @@ class OrdersHandler(webapp2.RequestHandler):
         orderID = self.request.get("orderID")
         orderStatus = self.request.get("orderStatus")
         orderUser = self.request.get("orderUser")
+        orderItem = self.request.get("orderItem")
         # Add new food item into database (no validation is performed)
         if orderStatus == STATUS_PENDING:
             order = Orders(orderID=orderID,
                            orderStatus=orderStatus,
-                           orderUser=orderUser)
+                           orderUser=orderUser,
+                           orderItem=orderItem)
             order.put()
         else:
             order = Orders.all().filter("orderID =", orderID).get()
