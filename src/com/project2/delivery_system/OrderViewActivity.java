@@ -1,14 +1,19 @@
 package com.project2.delivery_system;
 
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.content.Intent;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.project2.hardware.GPSActivity;
+import com.project2.hardware.NFCActivity;
+import com.project2.utilities.Order;
 
 /**
  * View details of an order. 
@@ -18,6 +23,7 @@ public class OrderViewActivity extends Activity {
 	private String orderID;
 	private String orderStatus;
 	private String orderUser;
+	private String orderItem;
 	
 	private Button actionButton;
 	private Button traceButton;
@@ -32,18 +38,24 @@ public class OrderViewActivity extends Activity {
 		setContentView(R.layout.activity_orderview);
 		
 		delivery = (DeliveryApplication) getApplication();
+		setTitle("DeLiWei Food Factory for: " + delivery.getUser());
 		Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
+        if (bundle != null) {
             orderID = bundle.getString("orderID");
             orderStatus = bundle.getString("orderStatus");
             orderUser = bundle.getString("orderUser");
+            orderItem = bundle.getString("orderItem");
         }
         // Display details for user.
         TextView text;
         text = (TextView)findViewById(R.id.textView_order_id);
-        text.setText(orderID);
+        text.setText("Order ID: " + orderID);
+        text = (TextView)findViewById(R.id.textView_order_item);
+        text.setText("Order Item: " + orderItem);
         text = (TextView)findViewById(R.id.textView_order_status);
         text.setText(orderStatus);
+        text = (TextView)findViewById(R.id.textView_order_user);
+        text.setText("Order User: " + orderUser);        
 		
         // Set up action button for different user.
 		actionButton = (Button)findViewById(R.id.button_action);
@@ -62,6 +74,7 @@ public class OrderViewActivity extends Activity {
                         bundle.putString("orderID", orderID);
                         bundle.putString("orderStatus", orderStatus);
                         bundle.putString("orderUser", orderUser);
+                        bundle.putString("orderItem", orderItem);
                         intent.putExtras(bundle);
 		                startActivity(intent);
                     }

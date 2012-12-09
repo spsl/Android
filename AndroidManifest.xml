@@ -11,96 +11,93 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
-    <uses-feature android:name="android.hardware.nfc"   
-                        android:required="true" />  
-    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
     <application
         android:name=".DeliveryApplication"
         android:icon="@drawable/androidmarker"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
-        <uses-library android:required="true" android:name="com.google.android.maps" />
-        
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true" />
+
         <activity
             android:name=".BrowseActivity"
-            android:launchMode="singleTask"
             android:label="@string/title_activity_browse" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project2.delivery_system.LoginActivity" />
         </activity>
         <activity
-            android:name=".NFCActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_nfc" > 
+            android:name="com.project2.hardware.NFCActivity"
+            android:label="@string/title_activity_nfc"
+            android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.project2.delivery_system.LoginActivity" /> 
+                android:value="com.project2.delivery_system.LoginActivity" />
         </activity>
-        
         <activity
-            android:name=".CamActivity"
+            android:name="com.project2.hardware.CamActivity"
             android:label="@string/title_activity_cam"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project2.delivery_system.LoginActivity" />
         </activity>
-        
         <activity
-            android:name=".GPSActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_gps" >
+            android:name="com.project2.hardware.GPSActivity"
+            android:label="@string/title_activity_gps"
+            android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project2.delivery_system.LoginActivity" />
-              
         </activity>
         <activity
             android:name=".OrderViewActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_gps" >
+            android:label="@string/title_activity_gps"
+            android:launchMode="singleTask" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project2.delivery_system.LoginActivity" />
         </activity>
         <activity
             android:name=".UploadFoodItemActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_uploadfooditem" >            
+            android:label="@string/title_activity_uploadfooditem"
+            android:launchMode="singleTask" >
         </activity>
-        
         <activity
             android:name=".LoginActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".SignupActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_signup" >
-        </activity>        
-        
+            android:label="@string/title_activity_signup"
+            android:launchMode="singleTask" >
+        </activity>
         <activity
             android:name=".DetailViewActivity"
-            android:launchMode="singleTask"
-            android:label="@string/title_activity_detailview" >
-        </activity>        
-        
-        <service 
-            android:name=".UpdateService" >
+            android:label="@string/title_activity_detailview"
+            android:launchMode="singleTask" >
+        </activity>
+
+        <service android:name="com.project2.services.UpdateService" >
         </service>
-        <service android:name=".PositionUploadService" 
-                 android:exported="false"/>
+        
+        <service
+            android:name="com.project2.services.PositionUploadService"
+            android:exported="false" />
     </application>
 
 </manifest>

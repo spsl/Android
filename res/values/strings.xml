@@ -24,8 +24,10 @@
     <string name="item_name">Food Item Name:</string>
     <string name="item_price">Food Item Price:</string>
     <string name="item_upload">Upload</string>
+    <string name="item_no_image">No image taken</string>
     <string name="button_upload">Upload</string>
     <string name="item_action_order">Order it Now</string>
+    <string name="upload_hint">enter</string>
     
     <string name="title_activity_nfc">DeLiWei Food Factory</string>
     <string name="nfc_greetings">Communicating&#8230;</string>
@@ -48,6 +50,7 @@
     
     <string name="button_logout">Logout</string>
     <string name="food_detail">Food Detail</string>
+    <string name="back">Back</string>
 
     <string-array name="identity">
         <item>Provider</item>

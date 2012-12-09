@@ -1,5 +1,10 @@
 package com.project2.delivery_system;
 
+
+import com.project2.delivery_system.R;
+import com.project2.hardware.CamActivity;
+import com.project2.utilities.FoodItem;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class UploadFoodItemActivity extends Activity { 
@@ -29,6 +35,7 @@ public class UploadFoodItemActivity extends Activity {
 		setContentView(R.layout.activity_upload);
 
 		delivery = (DeliveryApplication)getApplication();
+		setTitle("DeLiWei Food Factory for: " + delivery.getUser());
 		itemIDEditText = (EditText)findViewById(R.id.editItemID);
 		itemNameEditText = (EditText)findViewById(R.id.editItemName);
 		itemPriceEditText = (EditText)findViewById(R.id.editItemPrice);
@@ -39,9 +46,15 @@ public class UploadFoodItemActivity extends Activity {
 				String itemID = itemIDEditText.getText().toString();
 				String itemName = itemNameEditText.getText().toString();
 				String itemPrice = itemPriceEditText.getText().toString();
+				
+				// Input validation test
 				if (itemID.equals("") || itemName.equals("") || itemPrice.equals("") ||
 						itemID == null || itemName == null || itemPrice == null || image == null) {
 					Toast.makeText(delivery, "Please provide enough information", Toast.LENGTH_LONG).show();
+				} else if (itemID.matches("\\d+\\.?\\d*") == false) {
+					Toast.makeText(delivery, "Item ID should be number", Toast.LENGTH_LONG).show();
+				} else if (itemPrice.matches("\\d+\\.?\\d*") == false) {
+					Toast.makeText(delivery, "Item Price should be number", Toast.LENGTH_LONG).show();
 				} else {
 					// Upload in background
 					new Uploader().execute(itemID, itemName, itemPrice, filePath);
@@ -63,10 +76,12 @@ public class UploadFoodItemActivity extends Activity {
 			if (resultCode == RESULT_OK) {
 		        // Use Data to get string
 				ImageView jpgView = (ImageView)findViewById(R.id.jpgview);
+				TextView txtView = (TextView)findViewById(R.id.textViewNoImage);
 		        filePath = data.getStringExtra("RESULT_STRING");
 		        image = data.getByteArrayExtra("RESULT_IMG");
 		        
 		        BitmapDrawable d = new BitmapDrawable(getResources(), filePath);
+		        txtView.setVisibility(View.INVISIBLE);
 		        jpgView.setImageDrawable(d);
 			}
 		}

@@ -1,6 +1,10 @@
 package com.project2.delivery_system;
 
+import com.project2.utilities.WebAccessor;
+
 import android.app.Application;
+import android.content.Context;
+import android.location.LocationManager;
 
 public class DeliveryApplication extends Application {
 
@@ -20,9 +24,11 @@ public class DeliveryApplication extends Application {
 	private String user;			// user of current application
 	private Identity identity;		// user identity of current application
 	private boolean serviceRunning;	// indicate whether update is running
+	private boolean locationUpdateRunning;
 	private WebAccessor webAccessor;
+	private LocationManager locManager;
 	
-	enum Identity {
+	public enum Identity {
 		CUSTOMER,
 		PROVIDER,
 		COURIER,
@@ -31,6 +37,7 @@ public class DeliveryApplication extends Application {
 	@Override
 	public void onCreate() {
 		webAccessor = new WebAccessor(this);
+		locManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
 	}
 	
 	// Getter of user
@@ -63,8 +70,21 @@ public class DeliveryApplication extends Application {
 		this.serviceRunning = serviceRunning;
 	}
 	
+	public void setLocationUpdateRunning(boolean locationUpdateRunning) {
+		this.locationUpdateRunning = locationUpdateRunning;
+	}
+	
+	// Getter of serviceRunning
+	public boolean isLocationUpdateRunning() {
+		return locationUpdateRunning;
+	}
+	
 	// Getter of webAccessor
 	public WebAccessor getWebAccessor() {
 		return webAccessor;
+	}
+	
+	public LocationManager getLocationManager() {
+		return locManager;
 	}
 }

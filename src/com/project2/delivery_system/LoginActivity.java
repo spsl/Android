@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.project2.delivery_system.R;
 import com.project2.delivery_system.DeliveryApplication.Identity;
 
 /**

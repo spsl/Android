@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.graphics.Bitmap;
@@ -24,8 +26,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.ViewBinder;
+import android.widget.TextView;
 
 import com.project2.delivery_system.DeliveryApplication.Identity;
+import com.project2.services.PositionUploadService;
+import com.project2.services.UpdateService;
+import com.project2.utilities.MySQLiteHelper;
+import com.project2.utilities.WebAccessor;
 
 /**
  * This is the browse activity of our application. 
@@ -69,6 +76,9 @@ public class BrowseActivity extends Activity {
 				} else {
 					return false;
 				}
+			} else if (view.getId() == R.id.textPrice) {
+				((TextView) view).setText("$" + cursor.getString((cursor.getColumnIndex(MySQLiteHelper.COLUMN_ITEMPRICE))));
+				return true;
 			}
 			return false;
 		}
@@ -83,6 +93,7 @@ public class BrowseActivity extends Activity {
 		setContentView(R.layout.activity_browse);
 
 		delivery = (DeliveryApplication)getApplication();
+		setTitle("DeLiWei Food Factory for: " + delivery.getUser());
 		itemListView = (ListView)findViewById(R.id.itemlist);
 		orderListView = (ListView)findViewById(R.id.orderlist);
 
@@ -118,21 +129,12 @@ public class BrowseActivity extends Activity {
                   bundle.putString("orderID", sqLiteCursor.getString(0));
                   bundle.putString("orderStatus", sqLiteCursor.getString(1));
                   bundle.putString("orderUser", sqLiteCursor.getString(2));
+                  bundle.putString("orderItem", sqLiteCursor.getString(3));
                   intent.putExtras(bundle);
 	              startActivity(intent);
 			}
 	     });
 		
-		if (delivery.getIdentity() == Identity.COURIER) {
-			Intent intent = new Intent(this, PositionUploadService.class);
-			startService(intent);
-		}
-		
-
-
-		Intent intent = new Intent(this, PositionUploadService.class);
-        startService(intent);
-
 		progressDialog = ProgressDialog.show(BrowseActivity.this, "Processing...", 
 				"Loading...", true, false);
 		new Uploader().execute();
@@ -155,6 +157,11 @@ public class BrowseActivity extends Activity {
 	 */
 	@Override
 	protected void onPause() {
+	    SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
+	    Editor editor = prefs.edit();
+	    editor.putString("lastActivity", getClass().getName());
+	    editor.commit();
+		
 		super.unregisterReceiver(receiver);
 		super.onPause();
 	}
@@ -171,8 +178,10 @@ public class BrowseActivity extends Activity {
 					public void onClick(DialogInterface dialog,int id) {
 						delivery.setServiceRunning(false);	// stop service, delete data cache
 						stopService(new Intent(BrowseActivity.this, UpdateService.class));
-						if (delivery.getIdentity() == Identity.COURIER)
+						if (delivery.getIdentity() == Identity.COURIER) {	// if courier, stop location service
 							stopService(new Intent(BrowseActivity.this, PositionUploadService.class));
+							delivery.setLocationUpdateRunning(false);
+						}
 						delivery.getWebAccessor().delete();
 						Intent intent = new Intent(BrowseActivity.this, LoginActivity.class);
 						startActivity(intent);
@@ -219,11 +228,7 @@ public class BrowseActivity extends Activity {
 	    else{
 	        uploadButton.setEnabled(false);
             uploadButton.setVisibility(View.INVISIBLE);
-	    } 
-
-	    // Start service to fetch new food items from web server
-	    if (delivery.isServiceRunning() == false)
-	    	startService(new Intent(this, UpdateService.class));
+	    }
 	}
 
 	/**
@@ -258,9 +263,12 @@ public class BrowseActivity extends Activity {
 				delivery.getWebAccessor().getAllFoodItems();
 				// Get all orders if current user is courier or provider; otherwise, get the orders of a specified customer.
 				if (delivery.getIdentity() == Identity.COURIER || delivery.getIdentity() == Identity.PROVIDER)
-					delivery.getWebAccessor().getAllWebOrders(DeliveryApplication.GET_ALL_ORDERS); 
+					delivery.getWebAccessor().getAllWebOrders(
+							DeliveryApplication.GET_ALL_ORDERS, 
+							delivery.getIdentity());
 				else if (delivery.getIdentity() == Identity.CUSTOMER)
-					delivery.getWebAccessor().getAllWebOrders(delivery.getUser());
+					delivery.getWebAccessor().getAllWebOrders(delivery.getUser(),
+							delivery.getIdentity());
 
 				return DeliveryApplication.GET_ALL_ORDERS_SUCCESS;
 			} catch (Exception e) {
@@ -282,6 +290,16 @@ public class BrowseActivity extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			progressDialog.dismiss();
+			
+		    // Start service to fetch new food items from web server
+		    if (delivery.isServiceRunning() == false)
+		    	startService(new Intent(BrowseActivity.this, UpdateService.class));
+		    
+			if (delivery.getIdentity() == Identity.COURIER && delivery.isLocationUpdateRunning() == false) {
+				Intent intent = new Intent(BrowseActivity.this, PositionUploadService.class);
+				delivery.setLocationUpdateRunning(true);
+				startService(intent);
+			}
 		}
 	}
 }

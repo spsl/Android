@@ -1,5 +1,8 @@
 package com.project2.delivery_system;
 
+
+import com.project2.delivery_system.R;
+
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -34,6 +37,7 @@ public class DetailViewActivity extends Activity {
 		
 		// Instantiate all variables
 		delivery = (DeliveryApplication) getApplication();
+		setTitle("DeLiWei Food Factory for: " + delivery.getUser());
 		Bundle bundle = getIntent().getExtras();
 		itemID = bundle.getString("itemID");
 		itemName = bundle.getString("itemName");
@@ -43,11 +47,11 @@ public class DetailViewActivity extends Activity {
 		// Display item details for user
 		TextView text;
 		text = (TextView)findViewById(R.id.textView_item_id);
-		text.setText("Item ID:     " + itemID);
+		text.setText("ID: " + itemID);
 		text = (TextView)findViewById(R.id.textView_item_name);
-		text.setText("Item Name:   " + itemName);
+		text.setText("Name: " + itemName);
 		text = (TextView)findViewById(R.id.textView_item_price);
-		text.setText("Item Price:  " + "$" + itemPrice );
+		text.setText("Price: $" + itemPrice);
 		ImageView imageView = (ImageView)findViewById(R.id.jpgview_detail);;
 		imageView.setImageBitmap(BitmapFactory.decodeByteArray(itemPicture, 0, itemPicture.length));
 
@@ -88,12 +92,10 @@ public class DetailViewActivity extends Activity {
 	 */
 	class Uploader extends AsyncTask<String, Integer, Integer> {
 
-		// doInBackground() is the callback that specifies the actual work to be
-		// done on the separate thread, as if it���s executing in the background.
 		@Override
 		protected Integer doInBackground(String... order) {
 			try {
-				return delivery.getWebAccessor().addOrder(delivery.getUser());
+				return delivery.getWebAccessor().addOrder(delivery.getUser(), itemName);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -101,16 +103,11 @@ public class DetailViewActivity extends Activity {
 			return DeliveryApplication.ADD_ORDER_FAIL;
 		}
 
-		// onProgressUpdate() is called whenever there���s progress in the task
-		// execution. The progress should be reported from the doInBackground() call.
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			super.onProgressUpdate(values);
 		}
 
-		// onPostExecute() is called when our task completes. This is our
-		// callback method to update the user interface and tell the user 
-		// that the task is done.
 		@Override
 		protected void onPostExecute(Integer result) {
 			// using a Toast feature of the Android UI to display a quick

@@ -24,9 +24,18 @@
         android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/itemID"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:typeface="serif" />
 
+    <TextView
+        android:id="@+id/textViewNoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/item_no_image" />
+    
     <EditText
         android:id="@+id/editItemID"
         android:layout_width="wrap_content"
@@ -34,7 +43,8 @@
         android:layout_above="@+id/textview_itemName"
         android:layout_centerHorizontal="true"
         android:hint="@string/upload_hint"
-        android:ems="10" >
+        android:ems="10"
+        android:textSize="30sp" >
 
         <requestFocus />
     </EditText>
@@ -48,7 +58,7 @@
         android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/item_name"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:typeface="serif" />
 
     <EditText
@@ -57,8 +67,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textview_itemPrice"
         android:layout_alignLeft="@+id/editItemID"
+        android:ems="10"
         android:hint="@string/upload_hint"
-        android:ems="10" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/textview_itemPrice"
@@ -69,7 +80,7 @@
         android:layout_marginLeft="15dp"
         android:gravity="left"
         android:text="@string/item_price"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:typeface="serif" />
 
     <EditText
@@ -78,8 +89,9 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/button_take_photo"
         android:layout_alignLeft="@+id/editItemName"
+        android:ems="10"
         android:hint="@string/upload_hint"
-        android:ems="10" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/buttonUpdate"
@@ -106,14 +118,5 @@
         android:text="@string/take_photo"
         android:textSize="15sp"
         android:typeface="serif" />
-
-    <TextView
-        android:id="@+id/textViewNoImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/item_no_image" />
 
 </RelativeLayout>

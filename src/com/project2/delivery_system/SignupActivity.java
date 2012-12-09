@@ -1,5 +1,7 @@
 package com.project2.delivery_system;
 
+
+import com.project2.delivery_system.R;
 import com.project2.delivery_system.DeliveryApplication.Identity;
 
 import android.app.Activity;
@@ -26,7 +28,7 @@ public class SignupActivity extends Activity {
 	EditText passwordConfirmEditText;
 	Spinner userIdentitySpinner;
 	DeliveryApplication delivery;
-	private boolean passwordDisplay = false;  
+	private boolean passwordDisplay = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
