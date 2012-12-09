@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
 import android.graphics.Bitmap;
@@ -157,11 +155,6 @@ public class BrowseActivity extends Activity {
 	 */
 	@Override
 	protected void onPause() {
-	    SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-	    Editor editor = prefs.edit();
-	    editor.putString("lastActivity", getClass().getName());
-	    editor.commit();
-		
 		super.unregisterReceiver(receiver);
 		super.onPause();
 	}
